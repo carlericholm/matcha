@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Matcha</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/signup.css">
+</head>
+<body>
+
+
+<div id="topRightDiv">
+	<p>Already have a Matcha account?<br/><a href="#">I forgot my User ID or Password</a></p>
+	<button type="submit" class="btn btn-primary"><img src="img/lock_icon.png" class="lock_icon"><label id="signInLabel">Sign In</label></button>
+</div>
+<div id="matchaTitle">MATCHA</div>
+<div id="divContainer">
+	<h3>MATCHA</h3>
+	<div id="divForm">
+		<form method="post" action="/register">
+			<div class="form-group"><label for="firstname">Prenom</label><input type="text" name="firstname" id="firstname" class="form-control"></div>
+			<div class="form-group"><label for="name">Nom</label><input type="text" name="name" id="name" class="form-control"></div>
+			<div class="form-group"><label for="email">Adresse email</label><input type="email" name="email" id="email" class="form-control"></div>
+			<p class="error"><% if (locals.flash && locals.flash.mail) { %><%= flash.mail %><%} if (locals.flash && locals.flash.mailUsed){%><%= locals.flash.mailUsed %><%}%></p>
+			<div class="form-group"><label for="login">Login</label><input type="text" name="login" id="login" class="form-control"></div>
+			<p class="error"><% if (locals.flash && locals.flash.loginUsed) { %><%= flash.loginUsed%><%}%></p>
+			<div class="form-group"><label for="password">Mot de passe </label><input type="password" name="password" id="password" class="form-control"></div>
+			<p class="error"><% if (locals.flash && locals.flash.passDiff) { %><%= flash.passDiff %><%} if (locals.flash && locals.flash.passRequire) {%><%= locals.flash.passRequire %><%}%></p>
+			<div class="form-group"><label for="passConfirm">Confirmez votre mot de passe </label><input type="password" name="passConfirm" id="passConfirm" class="form-control"></div>
+			<p class="error"><% if (locals.flash && locals.flash.passDiff) { %><%= flash.passDiff %><%}%></p>
+			<button type="submit" class="btn btn-primary"><img src="img/lock_icon.png" class="lock_icon">Create account</button>
+			<p class="success"><% if (locals.flash && locals.flash.success) { %><%= flash.success %><%}%></p>
+			<p class="error"><% if (locals.flash && locals.flash.fill) { %><%= flash.fill %><%}%></p>
+		</form>
+	</div>
+</div>
+<p>
+	<% if (locals.flash && locals.flash.error) { %>
+	<%= flash.error %>
+	<%}%>
+</p>
+
+
+</body>
+</html>
