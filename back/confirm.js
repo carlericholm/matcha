@@ -8,7 +8,6 @@ var con = require('../config/database');
 
 router.get('/', function(req, res) {
 	var params = querystring.parse(url.parse(req.url).query);
-	console.log(params.login + " / " + params.key);
 	var login = params.login;
 	var key = params.key;
 

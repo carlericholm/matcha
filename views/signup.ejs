@@ -11,10 +11,10 @@
 
 
 <div id="topRightDiv">
-	<p>Already have a Matcha account?<br/><a href="#">I forgot my User ID or Password</a></p>
-	<button type="submit" class="btn btn-primary"><img src="img/lock_icon.png" class="lock_icon"><label id="signInLabel">Sign In</label></button>
+	<p>Already have a Matcha account?<br/><a href="resetPass">I forgot my User ID or Password</a></p>
+	<a href="signIn"><button type="submit" class="btn btn-primary"><img src="img/lock_icon.png" class="lock_icon"><label id="signInLabel"><a href="signIn" style="color: white; text-decoration: none;">Sign In</label></a></button></a>
 </div>
-<div id="matchaTitle">MATCHA</div>
+<div id="matchaTitle"><a href="/" style="text-decoration: none; color: rgb(141, 144, 150);">MATCHA</a></div>
 <div id="divContainer">
 	<h3>MATCHA</h3>
 	<div id="divForm">
@@ -35,11 +35,11 @@
 		</form>
 	</div>
 </div>
-<p>
+<!-- <p>
 	<% if (locals.flash && locals.flash.error) { %>
 	<%= flash.error %>
 	<%}%>
-</p>
+</p> -->
 
 
 </body>

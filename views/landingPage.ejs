@@ -12,7 +12,7 @@
 <div id="topBar">
 		<div class="whiteFont" id="matchaName"><img src="img/match_icon.png" id="match_icon">MATCHA</div>
 		<div id="sign">
-			<div id="link1" class="whiteFont"><img src="img/lock_icon.png" id="lock_icon"><a href="#">Log In</a></div>
+			<div id="link1" class="whiteFont"><img src="img/lock_icon.png" id="lock_icon"><a href="signIn">Log In</a></div>
 			<div id="link2" class="whiteFont"><img src="img/lock_icon.png" id="lock_icon"><span style="font-size: 0.9em;"><a href="signup">SIGN UP</a></span></div>
 		</div>
 </div>
@@ -24,5 +24,11 @@
 
 
 
+<script type="text/javascript">
+	var log = document.getElementById("link1");
+	log.addEventListener("click", function(){
+		console.log("salut");
+	})
+</script>
 </body>
 </html>

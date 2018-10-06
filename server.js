@@ -13,6 +13,8 @@ var app = express();
 
 var register = require('./back/register');
 var confirm = require('./back/confirm');
+var signin = require('./back/signin');
+var resetPass = require('./back/resetPass');
 
 
 //Moteur de template
@@ -33,6 +35,7 @@ app.use(session({
 app.use(helmet());
 
 app.use(require('./Middlewares/flash'))
+app.use(require('./Middlewares/user'))
 
 
 //routes
@@ -46,13 +49,24 @@ app.get('/signup', function(req, res) {
 	res.render('signup');
 });
 
-// app.get('/confirmView', function(req, res) {
-// 	res.render('confirmView');
-// });
+app.get('/signIn', function(req, res) {
+	res.render('signIn');
+});
+
+app.get('/resetPass', function(req, res) {
+	res.render('resetPass');
+});
+
+
+app.get('/index', function(req, res) {
+	res.render('index');
+});
 
 
 app.use('/register', register);
 app.use('/confirm', confirm);
+app.use('/resetPass', resetPass);
+app.use('/signin', signin);
 
 
 
