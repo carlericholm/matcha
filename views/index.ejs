@@ -3,12 +3,64 @@
 <head>
 	<meta charset="utf-8">
 	<title>Matcha</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+
 </head>
 <body>
 
-<h1>Bonjour <% if (typeof login !== 'undefined' && login) { %><%= login %><%}%> et bienvenue sur matcha</h1>
-<p>salut <% if (locals.log) { %><%= locals.log %><%}%></p>
+<div id="blackBanner">
+	<h1>MATCHA</h1>
+</div>
+<div id="blueBanner">
+	<p id="loginWelcome">Bonjour <% if (locals.log) { %><%= locals.log %><%}%></p>
+	<div id="containerNav">
+		<div class="topnav">
+  			<a class="active" href="#home">Profile</a>
+  			<a href="#news">Tchat</a>
+  			<a href="#contact">match</a>
+		</div>
+		<div class="topnavBis">
+			<a href="/signout">Sign out</a>
+		</div>
+	</div>
+</div>
 
 
+<div id="bodyContainer">
+	<h1>Welcome <% if (locals.log) { %><%= locals.log %><%}%></h1>
+	<div>
+		<div id="containerImage">
+			<img src="img/<% if (typeof pic !== 'undefined') {%><%= pic%> <%}%>" id="profile_image" class="img-thumbnail">
+			<form method="post" action="/profil">
+				<label for="avatar">Profile picture:</label>
+        		<input type="file" id="file_profil" name="file_profil" accept="image/png, image/jpeg" />
+        		<input type="submit" name="envoyer" value="envoyer">
+        	</form>
+		</div>
+	</div>
+
+
+
+
+
+
+<script>
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+
+var test = document.getElementById("profile_icon");
+test.addEventListener("click", function(){
+	var 
+})
+
+</script>
 </body>
 </html>

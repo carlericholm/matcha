@@ -15,6 +15,8 @@ var register = require('./back/register');
 var confirm = require('./back/confirm');
 var signin = require('./back/signin');
 var resetPass = require('./back/resetPass');
+var signout = require('./back/signout');
+var profil = require('./back/profil');
 
 
 //Moteur de template
@@ -42,7 +44,14 @@ app.use(require('./Middlewares/user'))
 
 app.get('/', function(req, res) {
 	console.log(req.session);
-	res.render('landingPage');
+	if (req.session.log !== undefined)
+	{
+		res.render('index');
+	}
+	else
+	{
+		res.render('landingPage');
+	}
 });
 
 app.get('/signup', function(req, res) {
@@ -67,6 +76,8 @@ app.use('/register', register);
 app.use('/confirm', confirm);
 app.use('/resetPass', resetPass);
 app.use('/signin', signin);
+app.use('/signout', signout);
+app.use('/profil', profil);
 
 
 

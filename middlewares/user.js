@@ -12,5 +12,13 @@ module.exports = function (req, res, next) {
 			console.log(req.session);
 		// }
 	}
+
+	req.signout = function () {
+		// if (req.session.log == undefined)
+		// {
+			req.session.log = undefined;
+			console.log(req.session);
+		// }
+	}
 	next();
 }
