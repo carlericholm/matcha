@@ -34,17 +34,22 @@
 
 <div id="bodyContainer">
 	<h1>Welcome <% if (locals.log) { %><%= locals.log %><%}%></h1>
-	<div>
-		<div id="containerImage">
-			<img src="img/<% if (typeof pic !== 'undefined') {%><%= pic%> <%}%>" id="profile_image" class="img-thumbnail">
-			<form method="post" action="/profil">
-				<label for="avatar">Profile picture:</label>
-        		<input type="file" id="file_profil" name="file_profil" accept="image/png, image/jpeg" />
-        		<input type="submit" name="envoyer" value="envoyer">
-        	</form>
-		</div>
-	</div>
 
+<div id="containerImage">
+	<% for(var i = 0; i <5; i++) {%><img src="img/users/<% if (typeof pic !== 'undefined') {%><%= pic%> <%} else {%>profile_image.png<%}%>" id="profile_image_<%=i%>" class="img-thumbnail" onclick="document.getElementById('<%=i%>').style.display='block'" style="width: 19%;">
+	<div id="<%= i %>" class="modal">
+    	<form ref='uploadForm' class="modal-content animate" method="post" action="/profil" encType="multipart/form-data">
+    		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+    			<img src="img/<% if (typeof pic !== 'undefined') {%><%= pic%> <%} else {%>profile_image.png<%}%>" style="width: 30%;">
+    			<input type="hidden" name="hidden" value="<%-i%>">
+        		<input type="file" id="<%=i%>" name="file_profil" accept="image/png, image/jpeg" />
+        		<input type="submit" name="envoyer" value="envoyer">
+        </form>
+	</div>
+<% }%>
+
+
+</div>
 
 
 
@@ -52,15 +57,23 @@
 
 <script>
 
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-});
+// Get the modal
+var modal = document.getElementById('id01');
 
-var test = document.getElementById("profile_icon");
-test.addEventListener("click", function(){
-	var 
-})
 
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 </script>
 </body>
 </html>
+
+
+
+
+
+
+

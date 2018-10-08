@@ -20,6 +20,8 @@ router.get('/', function(req, res) {
 				if (key == result[0].cle)
 				{
 					res.render('confirm', {success: "Votre compte à été activé !"});
+					var sql = "INSERT INTO pics set login = ?";
+					con.query(sql, [login], function(err, result) { if (err) { throw err };})
 					var sql = "UPDATE users set active = 1 WHERE login = ?";
 					con.query(sql, [login], function(err, result) { if (err) { throw err };})
 				}

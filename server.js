@@ -5,6 +5,7 @@ var session = require('express-session');
 var helmet = require('helmet');
 var nodemailer = require('nodemailer');
 var path = require('path');
+var fileUpload = require('express-fileupload');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use(session({
   cookie: { secure: false }
 }));
 app.use(helmet());
+app.use(fileUpload());
 
 app.use(require('./Middlewares/flash'))
 app.use(require('./Middlewares/user'))
