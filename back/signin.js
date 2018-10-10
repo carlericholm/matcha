@@ -16,9 +16,16 @@ router.post("/", function(req, res) {
 			if (hash.verify(password, result[0].password) == true)
 			{
 				//initialiser variable de session pour le login
-				console.log("On est dans le bon");
 				req.log(login);
-				res.redirect("index");
+				var sql = "SELECT * FROM pics WHERE login = ?";
+				con.query(sql, [req.session.log], function(err, result) {
+					var pics = result;
+					var sql = "SELECT * FROM users WHERE login = ?";
+					con.query(sql, [req.session.log], function(err, result) {
+						console.log(result);
+						res.render("index", {result: pics[0], info: result[0]});
+					})
+				})
 			}
 			else
 			{

@@ -30,10 +30,10 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
-  secret: 'karlsecret',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+	secret: 'karlsecret',
+	resave: false,
+	saveUninitialized: true,
+	cookie: { secure: false }
 }));
 app.use(helmet());
 app.use(fileUpload());
@@ -48,7 +48,15 @@ app.get('/', function(req, res) {
 	console.log(req.session);
 	if (req.session.log !== undefined)
 	{
-		res.render('index');
+		var sql = "SELECT * FROM pics WHERE login = ?";
+		con.query(sql, [req.session.log], function(err, result) {
+			var pics = result;
+			var sql = "SELECT * FROM users WHERE login = ?";
+			con.query(sql, [req.session.log], function(err, result) {
+				console.log(result);
+				res.render("index", {result: pics[0], info: result[0]});
+			})
+		})
 	}
 	else
 	{

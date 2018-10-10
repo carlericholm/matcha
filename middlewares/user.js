@@ -9,6 +9,7 @@ module.exports = function (req, res, next) {
 		// if (req.session.log == undefined)
 		// {
 			req.session.log = user;
+			res.locals.log = req.session.log;
 			console.log(req.session);
 		// }
 	}
