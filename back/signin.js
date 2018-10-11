@@ -22,8 +22,13 @@ router.post("/", function(req, res) {
 					var pics = result;
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
-						console.log(result);
-						res.render("index", {result: pics[0], info: result[0]});
+						var users = result;
+						var sql = "SELECT * FROM tags WHERE login = ?";
+						con.query(sql, [req.session.log], function(err, result) {
+							var tags = result;
+							console.log(tags);
+							res.render("index", {result: pics[0], info: users[0], tags: tags});
+						})
 					})
 				})
 			}

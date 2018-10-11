@@ -79,7 +79,7 @@
 
 #bodyContainer
 {
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	width: 70%;
 	margin: auto;
 	margin-top: 30px;
@@ -90,7 +90,7 @@
 {
 	color: rgb(22, 79, 159);
 	margin: auto;
-	border: 1px solid red;
+	/*border: 1px solid red;*/
 	text-align: center;
 }
 #containerBioImg
@@ -100,7 +100,7 @@
 
 #containerImage
 {
-	border: 3px solid green;
+	/*border: 3px solid green;*/
 	margin-top: 15px;
 	text-align: center;
     width: 50%;
@@ -179,7 +179,7 @@
 
 #containerBioProfil
 {
-    border: 3px solid orange;
+    /*border: 3px solid orange;*/
     margin-top: 15px;
     width: 100%;
 }
@@ -192,7 +192,7 @@
 
 .col
 {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 label
@@ -219,7 +219,31 @@ label
     text-align: center;
 }
 
+#divTags
+{
+    margin-top: 10px;
+}
 
+.spanDiv
+{
+    background-color: rgb(251, 189, 8);
+    padding: 3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    border: 1px solid green;
+    border-radius: 3px;
+    color: white;
+    font-size: 0.9em;
+    
+}
+
+.cross_icon_white
+{
+    width: 2%;
+    height: 2%;
+    margin-left: 3px;
+    margin-bottom: 2px;
+}
 
 
 

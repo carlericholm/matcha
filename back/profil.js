@@ -12,7 +12,7 @@ router.get("/", function(req, res) {
 	if (req.session.log !== undefined)
 	{
 		var sql = "SELECT * FROM pics WHERE login = ?";
-		con.query(sql, [req.session.log], function(err, result) { res.render("index", {result: result[0]});})
+		con.query(sql, [req.session.log], function(err, result) { redirect('/');})
 	}
 	else
 	{
@@ -45,7 +45,8 @@ router.post("/", function(req, res) {
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
 						console.log(result);
-						res.render("index", {result: pics[0], info: result[0]});
+						// res.render("index", {result: pics[0], info: result[0]});
+						res.redirect('/');
 					})
 				})
 			});
@@ -63,7 +64,8 @@ router.post("/", function(req, res) {
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
 						console.log(result);
-						res.render("index", {result: pics[0], info: result[0]});
+						// res.render("index", {result: pics[0], info: result[0]});
+						res.redirect('/');
 					})
 				})
 			});	
@@ -80,7 +82,8 @@ router.post("/", function(req, res) {
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
 						console.log(result);
-						res.render("index", {result: pics[0], info: result[0]});
+						// res.render("index", {result: pics[0], info: result[0]});
+						res.redirect('/');
 					})
 				})
 			});	
@@ -127,14 +130,14 @@ router.post("/", function(req, res) {
 					// res.redirect('/');
 				}
 			}
-			if (req.body.password !== '')
+			if (req.body.password !== '' || (req.body.password == '' && req.body.passwordConfirm !== ''))
 			{
-				console.log(req.body.password)
 				if (req.body.password == req.body.passwordConfirm)
 				{
 					if (password.search(regUp) !== -1 && password.search(regLow) !== -1 && password.search(regNumber) !== -1 && password.length > 5)
 					{
 						con.query('UPDATE users set password = ? WHERE login = ?', [hash.generate(password), req.session.log]);
+						var verif = 1;
 					}
 					else
 					{
@@ -144,29 +147,45 @@ router.post("/", function(req, res) {
 				else
 				{
 					req.flash("passDiff", "Les mots de passes ne sont pas identiques");
+
 				}
 			}
-			if (req.body.firstname)
+			if ((req.body.password == '' && req.body.passwordConfirm == '') || verif == 1)
 			{
-				if (req.body.name)
+				if (req.body.firstname)
 				{
-					var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
-					con.query(sql, [name, firstname, req.body.age, req.body.sexe, req.body.orientation, bio, req.session.log]);
-					req.flash("success", "Vos informations ont été mises à jour");
+				
+					if (req.body.name)
+					{
+						var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
+						con.query(sql, [name, firstname, req.body.age, req.body.sexe, req.body.orientation, bio, req.session.log]);
+						req.flash("success", "Vos informations ont été mises à jour");
+					}
+					else
+					{
+						req.flash("emptyName", "Veuillez ne pas laisser ce champ vide");
+						console.log("champ vide");
+					}
 				}
 				else
 				{
-					req.flash("emptyName", "Veuillez ne pas laisser ce champ vide");
+					req.flash("emptyFirstname", "Veuillez ne pas laisser ce champ vide");
 					console.log("champ vide");
 				}
 			}
-			else
-			{
-				req.flash("emptyFirstname", "Veuillez ne pas laisser ce champ vide");
-				console.log("champ vide");
-			}
+
 			res.redirect('/');
 		})
+	}
+	if (req.body.saveTag)
+	{
+		var tag = eschtml(req.body.tags);
+		var noSpace = tag.split(' ').join('');
+		if (tag !== '')
+		{
+			con.query("INSERT into tags SET login = ?, tag = ?", [req.session.log, noSpace]);
+		}
+		res.redirect('/');
 	}
 })
 // })

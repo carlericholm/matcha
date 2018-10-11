@@ -16,6 +16,8 @@ con.connect(function(err) {
   con.query(sql, function (err, result) { if (err) throw err; console.log("Table users created"); });
   var sql = "CREATE TABLE IF NOT EXISTS pics (id INT PRIMARY KEY AUTO_INCREMENT, login VARCHAR(255), img0 VARCHAR(255) DEFAULT 'empty', img1 VARCHAR(255) DEFAULT 'empty', img2 VARCHAR(255) DEFAULT 'empty', img3 VARCHAR(255) DEFAULT 'empty', img4 VARCHAR(255) DEFAULT 'empty')";
   con.query(sql, function (err, result) { if (err) throw err; console.log("Table pics created"); });
+  var sql = "CREATE TABLE IF NOT EXISTS tags (id INT PRIMARY KEY AUTO_INCREMENT, login VARCHAR(255), tag VARCHAR(255))";
+  con.query(sql, function (err, result) { if (err) throw err; console.log("Table tags created"); });
 });
 
 module.exports = con;

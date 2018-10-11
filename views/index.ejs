@@ -61,30 +61,30 @@
    <div class="row">
      <div class="col">
       <label for="prenom">First name</label>
-      <input type="text" class="form-control" name="firstname" value="<%= info.firstname %>" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+      <input type="text" class="form-control" name="firstname" value="<%= info.firstname %>" style=" border: none; border-bottom: 1px solid grey; border-radius: 0px;">
       <p class="error"><% if (locals.flash && locals.flash.emptyFirstname) { %><%= flash.emptyFirstname %><%}%></p>
     </div>
     <div class="col">
       <label for="nom">Last name</label>
-      <input type="text" class="form-control" name="name" value="<%= info.name %>" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+      <input type="text" class="form-control" name="name" value="<%= info.name %>" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
       <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
     </div>
   </div>
   <div class="row">
    <div class="col">
     <label for="email">email</label>
-    <input type="email" class="form-control" name="email" value="<%= info.email%>" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+    <input type="email" class="form-control" name="email" value="<%= info.email%>" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
     <p class="error"><% if (locals.flash && locals.flash.mail) { %><%= flash.mail %><%} if (locals.flash && locals.flash.mailUsed){%><%= locals.flash.mailUsed %><%}%></p>
   </div>
   <div class="col">
     <label for="nom">Age</label>
-    <input type="number" class="form-control" name="age" value="<%= info.age %>" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+    <input type="number" class="form-control" name="age" value="<%= info.age %>" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
   </div>
 </div>
 <div class="row">
  <div class="col">
   <label for="sel1">Sexe</label>
-  <select class="form-control" id="sel1" name="sexe" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+  <select class="form-control" id="sel1" name="sexe" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
     <option value="Autre" <%= info.sexe == 'Autre' ? 'selected' : ''%>>Autre</option>
     <option value="Masculin" <%= info.sexe == 'Masculin' ? 'selected' : ''%>>Masculin</option>
     <option value="Feminin" <%= info.sexe == 'Feminin' ? 'selected' : ''%>>Feminin</option>
@@ -94,37 +94,64 @@
 <div class="row">
  <div class="col">
   <label for="sel1">Orientation sexuelle:</label>
-  <select class="form-control" id="sel1" name="orientation" style="border: none; border-bottom: 1px solid grey; border-radius: none;" value="<% if (info.orientation !== 'NULL') {%><%= info.orientation %><%}%>">
+  <select class="form-control" id="sel1" name="orientation" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;" value="<% if (info.orientation !== 'NULL') {%><%= info.orientation %><%}%>">
    <option value="Bisexuel" <%= info.orientation == 'Bisexuel' ? 'selected' : ''%>>Bisexuel</option>
    <option value="Héterosexuel" <%= info.orientation == 'Héterosexuel' ? 'selected' : ''%>>Héterosexuel</option>
    <option value="Homosexuel" <%= info.orientation == 'Homosexuel' ? 'selected' : ''%>>Homosexuel</option>
  </select>
 </div>
 </div>
-<div class="form-group" style="margin-top: 30px;">
+<div class="form-group" style="margin-top: 25px;">
   <label for="comment">Bio</label>
-  <textarea class="form-control" rows="5" id="comment" name="bio" style="border: none; border-bottom: 1px solid grey; border-radius: none; height: 50px;"><% if (info.bio !== 'NULL') {%><%= info.bio %><%}%></textarea>
+  <textarea class="form-control" rows="5" id="comment" name="bio" style="border: none; border-bottom: 1px solid grey; border-radius: 0px; height: 50px;"><% if (info.bio !== 'NULL') {%><%= info.bio %><%}%></textarea>
 </div>
-<div class="form-group" style="margin-top: 30px;">
+<div class="form-group" style="margin-top: 25px;">
   <label for="comment">Tags</label>
-  <textarea class="form-control" rows="5" id="comment" placeholder="Tags" style="border: none; border-bottom: 1px solid grey; border-radius: none; height: 50px;"></textarea>
+  <textarea class="form-control" rows="5" id="comment" placeholder="Tags" style="border: none; border-bottom: 1px solid grey; border-radius: 0px; height: 50px;"></textarea>
 </div>
 <div class="row">
-     <div class="col">
-      <label for="password">Nouveau mot de passe</label>
-      <input type="password" class="form-control" name="password" placeholder="Changer de mot de passe" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
-      <p class="error"><% if (locals.flash && locals.flash.passDiff) { %><%= flash.passDiff %><%} if (locals.flash && locals.flash.passRequire) {%><%= locals.flash.passRequire %><%}%></p>
-    </div>
-    <div class="col">
-      <label for="passwordConfirm">Confirmer le mot de passe</label>
-      <input type="password" class="form-control" name="passwordConfirm" placeholder="Changer de mot de passe" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
-      <p class="error"><% if (locals.flash && locals.flash.passDiff) { %><%= flash.passDiff %><%}%></p>
-    </div>
-  </div>
+ <div class="col">
+  <label for="password">Nouveau mot de passe</label>
+  <input type="password" class="form-control" name="password" placeholder="Changer de mot de passe" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+  <p class="error"><% if (locals.flash && locals.flash.passDiff) { %><%= flash.passDiff %><%} if (locals.flash && locals.flash.passRequire) {%><%= locals.flash.passRequire %><%}%></p>
+</div>
+<div class="col">
+  <label for="passwordConfirm">Confirmer le mot de passe</label>
+  <input type="password" class="form-control" name="passwordConfirm" placeholder="Changer de mot de passe" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+  <p class="error"><% if (locals.flash && locals.flash.passDiff) { %><%= flash.passDiff %><%}%></p>
+</div>
+</div>
 
-<input type="submit" name="save" value="SAVE" class="btn btn-primary btn-block">
+<input type="submit" name="save" value="SAVE" class="btn btn-primary btn-block" style="margin-top: 15px;">
 <p class="success"><% if (locals.flash && locals.flash.success) { %><%= flash.success %><%}%></p>
 </form>
+<div id="divTags">
+  <form method="post" action="/profil">
+    <div class="row">
+     <div class="col">
+      <label for="tags">Tags</label>
+      <input type="text" class="form-control" name="tags" placeholder="Tag" style=" border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+      <input type="submit" name="saveTag" value="Ajouter tag" class="btn btn-primary btn-block" style="margin-top: 15px;">
+      <div style="margin-top: 5px; width: 100%; display: flex; flex-wrap: wrap; justify-content: center;">
+        <%if (typeof tags !== 'undefined') {%>
+        <% for (var i = 0; i < tags.length ; i++) { %>
+        <p class="spanDiv"><% if (typeof tags && tags[i].tag) {%>
+          <%= tags[i].tag %><a href="#" style="color: white; margin-left: 3px; margin-right: 3px; font-size: 1.2em;">x</a><!-- <img src="img/cross_icon_white.png" class="cross_icon_white"> --> </p>
+          <%}%>
+          <%}%>
+          <%}%></div>
+          <p class="tags"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
+        </div>
+        <div class="col">
+          <div>localisation</div>
+          <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
 </div>
 </div>
 
