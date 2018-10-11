@@ -2,6 +2,7 @@ var express = require('express');
 var fileUpload = require('express-fileupload');
 var validator = require('validator');
 var eschtml = require('htmlspecialchars');
+var hash = require('password-hash');
 
 var router = express.Router();
 var con = require('../config/database');
@@ -94,7 +95,8 @@ router.post("/", function(req, res) {
 		var name = eschtml(req.body.name);
 		var firstname = eschtml(req.body.firstname);
 		var email = eschtml(req.body.email);
-		// var password = eschtml(req.body.password);
+		var bio = eschtml(req.body.bio);
+		var password = eschtml(req.body.password);
 		var regUp = /[A-Z]+/;
 		var regLow = /[a-z]+/;
 		var regNumber = /[0-9]+/;
@@ -102,7 +104,6 @@ router.post("/", function(req, res) {
 
 		var sql = "SELECT email FROM users WHERE login = ?";
 		con.query(sql, [req.session.log], function(err, result) {
-			console.log(result[0].email);
 			if (req.body.email !== result[0].email)
 			{
 				if (email.search(regMail) !== -1)
@@ -112,22 +113,59 @@ router.post("/", function(req, res) {
 						if (result.length > 0)
 						{
 							req.flash("mailUsed", "Désolé, cette adresse email est déja prise par un autre utilisateur");
-							console.log("mail deja utilise")
-							res.redirect('/');
+							// res.redirect('/');
+						}
+						else
+						{
+							con.query('UPDATE users SET email = ? WHERE login = ? ', [email, req.session.log]);	
 						}
 					})
 				}
 				else
 				{
-					console.log("mail invalide")
 					req.flash("mail", "Veuillez entrer une adresse mail valide");
-					res.redirect('/');
+					// res.redirect('/');
+				}
+			}
+			if (req.body.password !== '')
+			{
+				console.log(req.body.password)
+				if (req.body.password == req.body.passwordConfirm)
+				{
+					if (password.search(regUp) !== -1 && password.search(regLow) !== -1 && password.search(regNumber) !== -1 && password.length > 5)
+					{
+						con.query('UPDATE users set password = ? WHERE login = ?', [hash.generate(password), req.session.log]);
+					}
+					else
+					{
+						req.flash("passRequire", "Votre mot de passe doit contenir au moins une minuscule, une majuscule, un nombre, et contenir minimum 5 caractères");
+					}
+				}
+				else
+				{
+					req.flash("passDiff", "Les mots de passes ne sont pas identiques");
+				}
+			}
+			if (req.body.firstname)
+			{
+				if (req.body.name)
+				{
+					var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
+					con.query(sql, [name, firstname, req.body.age, req.body.sexe, req.body.orientation, bio, req.session.log]);
+					req.flash("success", "Vos informations ont été mises à jour");
+				}
+				else
+				{
+					req.flash("emptyName", "Veuillez ne pas laisser ce champ vide");
+					console.log("champ vide");
 				}
 			}
 			else
 			{
-				res.redirect('/');
+				req.flash("emptyFirstname", "Veuillez ne pas laisser ce champ vide");
+				console.log("champ vide");
 			}
+			res.redirect('/');
 		})
 	}
 })

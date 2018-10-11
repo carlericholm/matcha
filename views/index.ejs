@@ -62,10 +62,12 @@
      <div class="col">
       <label for="prenom">First name</label>
       <input type="text" class="form-control" name="firstname" value="<%= info.firstname %>" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+      <p class="error"><% if (locals.flash && locals.flash.emptyFirstname) { %><%= flash.emptyFirstname %><%}%></p>
     </div>
     <div class="col">
       <label for="nom">Last name</label>
       <input type="text" class="form-control" name="name" value="<%= info.name %>" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+      <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
     </div>
   </div>
   <div class="row">
@@ -82,10 +84,10 @@
 <div class="row">
  <div class="col">
   <label for="sel1">Sexe</label>
-  <select class="form-control" id="sel1" name="sexe" style="border: none; border-bottom: 1px solid grey; border-radius: none;" value="<% if (info.sexe !== 'NULL') {%><%= info.sexe %><%}%>">
-    <option>Autre</option>
-    <option>Masculin</option>
-    <option>Feminin</option>
+  <select class="form-control" id="sel1" name="sexe" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+    <option value="Autre" <%= info.sexe == 'Autre' ? 'selected' : ''%>>Autre</option>
+    <option value="Masculin" <%= info.sexe == 'Masculin' ? 'selected' : ''%>>Masculin</option>
+    <option value="Feminin" <%= info.sexe == 'Feminin' ? 'selected' : ''%>>Feminin</option>
   </select>
 </div>
 </div>
@@ -93,21 +95,35 @@
  <div class="col">
   <label for="sel1">Orientation sexuelle:</label>
   <select class="form-control" id="sel1" name="orientation" style="border: none; border-bottom: 1px solid grey; border-radius: none;" value="<% if (info.orientation !== 'NULL') {%><%= info.orientation %><%}%>">
-   <option>Bi</option>
-   <option>Héterosexuel</option>
-   <option>Gay</option>
+   <option value="Bisexuel" <%= info.orientation == 'Bisexuel' ? 'selected' : ''%>>Bisexuel</option>
+   <option value="Héterosexuel" <%= info.orientation == 'Héterosexuel' ? 'selected' : ''%>>Héterosexuel</option>
+   <option value="Homosexuel" <%= info.orientation == 'Homosexuel' ? 'selected' : ''%>>Homosexuel</option>
  </select>
 </div>
 </div>
 <div class="form-group" style="margin-top: 30px;">
   <label for="comment">Bio</label>
-  <textarea class="form-control" rows="5" id="comment" name="bio" style="border: none; border-bottom: 1px solid grey; border-radius: none; height: 50px;" value="<% if (info.bio !== 'NULL') {%><%= info.bio %><%}%>"></textarea>
+  <textarea class="form-control" rows="5" id="comment" name="bio" style="border: none; border-bottom: 1px solid grey; border-radius: none; height: 50px;"><% if (info.bio !== 'NULL') {%><%= info.bio %><%}%></textarea>
 </div>
 <div class="form-group" style="margin-top: 30px;">
   <label for="comment">Tags</label>
   <textarea class="form-control" rows="5" id="comment" placeholder="Tags" style="border: none; border-bottom: 1px solid grey; border-radius: none; height: 50px;"></textarea>
 </div>
+<div class="row">
+     <div class="col">
+      <label for="password">Nouveau mot de passe</label>
+      <input type="password" class="form-control" name="password" placeholder="Changer de mot de passe" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+      <p class="error"><% if (locals.flash && locals.flash.passDiff) { %><%= flash.passDiff %><%} if (locals.flash && locals.flash.passRequire) {%><%= locals.flash.passRequire %><%}%></p>
+    </div>
+    <div class="col">
+      <label for="passwordConfirm">Confirmer le mot de passe</label>
+      <input type="password" class="form-control" name="passwordConfirm" placeholder="Changer de mot de passe" style="border: none; border-bottom: 1px solid grey; border-radius: none;">
+      <p class="error"><% if (locals.flash && locals.flash.passDiff) { %><%= flash.passDiff %><%}%></p>
+    </div>
+  </div>
+
 <input type="submit" name="save" value="SAVE" class="btn btn-primary btn-block">
+<p class="success"><% if (locals.flash && locals.flash.success) { %><%= flash.success %><%}%></p>
 </form>
 </div>
 </div>

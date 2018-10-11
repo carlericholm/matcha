@@ -160,7 +160,7 @@
     from {-webkit-transform: scale(0)} 
     to {-webkit-transform: scale(1)}
 }
-    
+
 @keyframes animatezoom {
     from {transform: scale(0)} 
     to {transform: scale(1)}
@@ -169,12 +169,12 @@
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
     span.psw {
-       display: block;
-       float: none;
-    }
-    .cancelbtn {
-       width: 100%;
-    }
+     display: block;
+     float: none;
+ }
+ .cancelbtn {
+     width: 100%;
+ }
 }
 
 #containerBioProfil
@@ -206,6 +206,17 @@ label
     color: red;
     font-size: 0.8em;
     font-style: italic;
+}
+
+.success
+{
+    color: green;
+    font-size: 0.8em;
+    font-style: italic;
+    width: 50%;
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
 }
 
 
