@@ -18,6 +18,9 @@ var signin = require('./back/signin');
 var resetPass = require('./back/resetPass');
 var signout = require('./back/signout');
 var profil = require('./back/profil');
+var tags = require('./back/tags');
+var images = require('./back/images');
+var match = require('./back/match');
 
 
 //Moteur de template
@@ -93,6 +96,9 @@ app.use('/resetPass', resetPass);
 app.use('/signin', signin);
 app.use('/signout', signout);
 app.use('/profil', profil);
+app.use('/tags', tags);
+app.use('/images', images);
+app.use('/match', match);
 
 
 

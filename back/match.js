@@ -1,0 +1,128 @@
+var express = require('express');
+
+
+var router = express.Router();
+var con = require('../config/database');
+
+
+router.get("/", function(req, res) {
+	if (req.session.log !== undefined)
+	{
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [req.session.log], function(err, result) {
+			var users = result;
+			var sql = "SELECT * FROM tags WHERE login = ?";
+			con.query(sql, [req.session.log], function(err, result) {
+				var tags = result;
+				if (users[0].age !== 0 && users[0].sexe !== 'NULL' && users[0].orientation !== 'NULL' && users[0].bio !== 'NULL')
+				{
+					if (users[0].sexe == 'Masculin')
+					{
+						if (users[0].orientation == 'Héterosexuel')
+						{
+							// var sql = "SELECT * FROM users WHERE sexe = 'Feminin' AND orientation = 'Héterosexuel'";
+							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Feminin' AND orientation = 'Héterosexuel'";
+							con.query(sql, function(err, result) {
+								console.log(result);
+								res.render("match", {info: users[0], tags: tags, suggestions: result});
+							})
+						}
+						if (users[0].orientation == 'Homosexuel')
+						{
+							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Feminin' AND orientation = 'Homosexuel'";
+							con.query(sql, function(err, result) {
+								console.log(result);
+								res.render("match", {info: users[0], tags: tags, suggestions: result});
+							})
+						}
+						if (users[0].orientation == 'Bisexuel')
+						{
+							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE orientation = 'Bisexuel'";
+							con.query(sql, function(err, result) {
+								console.log(result);
+								res.render("match", {info: users[0], tags: tags, suggestions: result});
+							})
+						}
+
+					}
+					if (users[0].sexe == 'Feminin')
+					{
+						if (users[0].orientation == 'Héterosexuel')
+						{
+							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Masculin' AND orientation = 'Héterosexuel'";
+							con.query(sql, function(err, result) {
+								res.render("match", {info: users[0], tags: tags, suggestions: result});
+							})
+						}
+						if (users[0].orientation == 'Homosexuel')
+						{
+							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Feminin' AND orientation = 'Homosexuel'";
+							con.query(sql, function(err, result) {
+								res.render("match", {info: users[0], tags: tags, suggestions: result});
+							})
+						}
+						if (users[0].orientation == 'Bisexuel')
+						{
+							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE orientation = 'Bisexuel'";
+							con.query(sql, function(err, result) {
+								res.render("match", {info: users[0], tags: tags, suggestions: result});
+							})
+						}
+
+					}
+				}
+				else
+				{
+					res.render("match", {info: users[0], tags: tags, fillProfile: "Veuillez completer votre profil avant de recevoir des suggestions"});
+				}
+			})
+		})
+	}
+})
+
+router.post("/", function(req, res) {
+	var sql = "SELECT * FROM users WHERE login = ?";
+	con.query(sql, [req.session.log], function (err, result) {
+		if (result[0].age !== 0 && result[0].sexe !== 'NULL' && result[0].orientation !== 'NULL' && result[0].bio !== 'NULL')
+		{
+			console.log("ok");
+		}
+		else
+		{
+			req.flash("fillProfile", "Veuillez completer votre profil avant de recevoir des suggestions");
+		}
+	})
+})
+
+
+module.exports = router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

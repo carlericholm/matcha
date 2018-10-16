@@ -23,7 +23,7 @@
     <div class="topnav">
      <a class="active" href="#home">Profile</a>
      <a href="#news">Tchat</a>
-     <a href="#contact">match</a>
+     <a href="/match">match</a>
    </div>
    <div class="topnavBis">
      <a href="/signout">Sign out</a>
@@ -38,10 +38,10 @@
   <div id="containerBioImg">
    <div id="containerImage">
     <% for(var i = 0; i <5; i++) {
-     var img = "img" + i;
-     %><img src="img/users/<% if (typeof result !== 'undefined' && result[img] !== 'empty') {%><%= result[img] %> <%} else {%>profile_image.png<%}%>" id="profile_image_<%=i%>" class="img-thumbnail" onclick="document.getElementById('<%=i%>').style.display='block'" style="width: 50%; margin-top: 15px;">
-     <div id="<%= i %>" class="modal">
-      <form ref='uploadForm' class="modal-content animate" method="post" action="/profil" encType="multipart/form-data">
+    var img = "img" + i;
+    %><img src="img/users/<% if (typeof result !== 'undefined' && result[img] !== 'empty') {%><%= result[img] %> <%} else {%>profile_image.png<%}%>" id="profile_image_<%=i%>" class="img-thumbnail" onclick="document.getElementById('<%=i%>').style.display='block'" style="width: 50%; margin-top: 15px;">
+    <div id="<%= i %>" class="modal">
+      <form ref='uploadForm' class="modal-content animate" method="post" action="/images" encType="multipart/form-data">
        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
        <img src="img/users/<% if (typeof result !== 'undefined' && result[img] !== 'empty') {%><%= result[img] %> <%} else {%>profile_image.png<%}%>" style="width: 55%; margin: auto;">
        <div  style="margin: auto; margin-bottom: 15px;"><label>Changer de photo: </label><input type="hidden" name="hidden" value="<%-i%>"></div>
@@ -105,10 +105,6 @@
   <label for="comment">Bio</label>
   <textarea class="form-control" rows="5" id="comment" name="bio" style="border: none; border-bottom: 1px solid grey; border-radius: 0px; height: 50px;"><% if (info.bio !== 'NULL') {%><%= info.bio %><%}%></textarea>
 </div>
-<div class="form-group" style="margin-top: 25px;">
-  <label for="comment">Tags</label>
-  <textarea class="form-control" rows="5" id="comment" placeholder="Tags" style="border: none; border-bottom: 1px solid grey; border-radius: 0px; height: 50px;"></textarea>
-</div>
 <div class="row">
  <div class="col">
   <label for="password">Nouveau mot de passe</label>
@@ -126,7 +122,7 @@
 <p class="success"><% if (locals.flash && locals.flash.success) { %><%= flash.success %><%}%></p>
 </form>
 <div id="divTags">
-  <form method="post" action="/profil">
+  <form method="post" action="/tags">
     <div class="row">
      <div class="col">
       <label for="tags">Tags</label>
@@ -136,34 +132,46 @@
         <%if (typeof tags !== 'undefined') {%>
         <% for (var i = 0; i < tags.length ; i++) { %>
         <p class="spanDiv"><% if (typeof tags && tags[i].tag) {%>
-          <%= tags[i].tag %><a href="#" style="color: white; margin-left: 3px; margin-right: 3px; font-size: 1.2em;">x</a><!-- <img src="img/cross_icon_white.png" class="cross_icon_white"> --> </p>
+          <%= tags[i].tag %><a id="<%= tags[i].id%>" class="link" style="color: white; margin-left: 3px; margin-right: 3px; font-size: 1.2em;">x</a> </p>
           <%}%>
           <%}%>
           <%}%></div>
-          <p class="tags"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
+          <p class="success"><% if (locals.flash && locals.flash.exists) { %><%= flash.exists %><%}%></p>
         </div>
+  </form>
         <div class="col">
-          <div>localisation</div>
-          <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
-        </div>
+          <form method="post" action="/profil">
+            <label for="tags">Localisation</label>
+            <input type="text" class="form-control" name="localisation" value="<% if (info.showFakeLocation == 0) {%><%= info.trueLocation %><%} else {%><%= info.fakeLocation%><%} %>" style=" border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+            <input type="submit" name="fakeLocation" value="Changer ma localisation" class="btn btn-primary btn-block"  style="margin-top: 15px;">
+            <input type="submit" name="trueLocation" value="Me géolocaliser" class="btn btn-primary btn-block" style="background-color: rgb(251, 189, 8); border: 1px solid rgb(251, 189, 8);">
+            <!-- <div id="test">localisation</div> -->
+            <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
+          </div>
+        </form>
       </div>
-    </form>
   </div>
-
-
-
+</div>
+</div>
+</form>
 </div>
 </div>
 
-
-
-
-
-<script>
+<div id="footer">footer</div>
+<script type="text/javascript">
+  $.ajax({
+    url: 'http://api.ipstack.com/check?access_key=97307c73fbc24738033ecab287ad0a82',   
+    dataType: 'jsonp',
+    success: function(json) {
+      var httpPost = new XMLHttpRequest();
+      httpPost.open("POST", "/profil");
+      httpPost.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      httpPost.send('tableau=' +  encodeURIComponent(JSON.stringify(json)));
+    } 
+  }); 
 
 // Get the modal
 var modal = document.getElementById('id01');
-
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
@@ -171,6 +179,31 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+var tags = document.getElementsByClassName("link");
+
+for (var i = 0; i < tags.length; i++) {
+  tags[i].addEventListener('click', function(e) {
+    console.log(e.target.id);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttp.open("POST", "/tags", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("tagId="+ encodeURIComponent(e.target.id));
+  e.target.parentNode.remove();
+});
+}
+
+var close = document.getElementsByClassName("close");
+
+for (var i = 0; i < close.length; i++) {
+  close[i].addEventListener('click', function(e) {
+    e.target.parentNode.parentNode.style.display = 'none';
+  })
+}
+
 </script>
 </body>
 </html>

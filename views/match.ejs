@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Matcha</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <link rel="stylesheet" type="text/css" href="css/match.css">
+
+</head>
+<body>
+
+  <div id="blackBanner">
+   <h1>MATCHA</h1>
+ </div>
+ <div id="blueBanner">
+   <p id="loginWelcome">Bonjour <% if (locals.log) { %><%= locals.log %><%}%></p>
+   <div id="containerNav">
+    <div class="topnav">
+     <a class="active" href="/">Profile</a>
+     <a href="#news">Tchat</a>
+     <a href="/match">match</a>
+   </div>
+   <div class="topnavBis">
+     <a href="/signout">Sign out</a>
+   </div>
+ </div>
+</div>
+
+
+<div id="bodyContainer">
+
+  <div id="filterSortContainer">
+    <div id="filterContainer">
+      <h1>Filter</h1>
+      <div id="ageContainer" class="divFilters">
+        <label for="amount">Filtrer par age:</label>
+        <input type="text" id="age" readonly style="border:0; font-weight:bold;">
+        <div id="slider-range1" class="removeSlider"></div>
+      </div>
+      <div id="distanceContainer" class="divFilters">
+        <label for="amount">Filtrer par distance (km):</label>
+        <input type="text" id="distance" readonly style="border:0; font-weight:bold;">
+        <div id="slider-range2" class="removeSlider"></div>
+      </div>
+      <div id="popularityContainer" class="divFilters">
+        <label for="amount">Filtrer par score de popularité:</label>
+        <input type="text" id="popularite" readonly style="border:0; font-weight:bold;">
+        <div id="slider-range3" class="removeSlider"></div>
+      </div>
+      <div id="tagContainer" class="divFilters">
+        <div style="margin-top: 5px; width: 100%; display: flex; flex-wrap: wrap; justify-content: center;">
+          <%if (typeof tags !== 'undefined') {%>
+          <% for (var i = 0; i < tags.length ; i++) { %>
+          <p class="spanDiv"><% if (typeof tags && tags[i].tag) {%>
+            <%= tags[i].tag %><a id="<%= tags[i].id%>" class="link" style="color: white; margin-left: 3px; margin-right: 3px; font-size: 1.2em;">x</a> </p>
+            <%}%>
+            <%}%>
+            <%}%>
+          </div>
+        </div>
+        <input type="submit" name="filterButton" id="filterButton" value="FILTER" class="btn btn-primary btn-block" style="margin-top: 30px;">
+      </div>
+      <div id="sortContainer">
+        <h1>Sort</h1>
+        <div class="row" style="margin-top: 40px;">
+         <div class="col">
+          <label for="sel1">Sort by:</label>
+          <select class="form-control" id="sel1" name="sort" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;" value="<% if (info.orientation !== 'NULL') {%><%= info.orientation %><%}%>">
+           <option value="Age" <%= info.orientation == 'Bisexuel' ? 'selected' : ''%>>Age</option>
+           <option value="localisation" <%= info.orientation == 'Héterosexuel' ? 'selected' : ''%>>Localisation</option>
+           <option value="popularite" <%= info.orientation == 'Homosexuel' ? 'selected' : ''%>>Popularité</option>
+           <option value="tags" <%= info.orientation == 'Homosexuel' ? 'selected' : ''%>>Tags</option>
+         </select>
+         <input type="submit" name="sortButton" value="SORT" class="btn btn-primary btn-block"  style="margin-top: 30px;">
+       </div>
+     </div>
+   </div>
+ </div>
+ <div id="greyLine"></div>
+ <div id="suggestionsDiv">
+  <p class="error"><% if (typeof fillProfile !== 'undefined') { %><%= fillProfile %><%}%></p>
+  <div id="suggestions" style="display: flex; flex-wrap: wrap; text-align: center;">
+    <%if (typeof suggestions !== 'undefined') {%>
+    <% for (var i = 0; i < suggestions.length ; i++) { %>
+    <div class="suggestionsUserDiv" style="margin: auto; margin-top: 15px; box-shadow: 0 10px 6px -6px #777; width: 12vw;"><% if (typeof suggestions && suggestions[i]) {%>
+      <div class="overlay" style="display: flex; justify-content: center; align-items: center;"><div class="text" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'">More infos</div></div>
+      <div id="user<%= i %>" class="modal">
+        <div class="modal-content">
+          <span class="close" title="Close Modal">&times;</span>
+        </div>
+      </div>
+      <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img0 !== 'empty') {%><%= suggestions[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
+      <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact';"><%= suggestions[i].name %></p>
+    </div>
+    <%}%>
+    <%}%>
+    <%}%>
+  </div>
+</div>
+</div>
+
+
+
+
+<div id="footer">footer</div>
+
+
+<script>
+
+
+
+  var modal = document.getElementsByClassName('modal');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+
+
+$( function() {
+  $( "#slider-range1" ).slider({
+    range: true,
+    min: 0,
+    max: 100,
+    values: [ 0, 100 ],
+    slide: function( event, ui ) {
+      $( "#age" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+    }
+  });
+  $( "#age" ).val($( "#slider-range1" ).slider( "values", 0 ) +
+    " - " + $( "#slider-range1" ).slider( "values", 1 ) );
+} );
+
+$( function() {
+  $( "#slider-range2" ).slider({
+    range: true,
+    min: 0,
+    max: 100,
+    values: [ 0, 100 ],
+    slide: function( event, ui ) {
+      $( "#distance" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+    }
+  });
+  $( "#distance" ).val($( "#slider-range2" ).slider( "values", 0 ) +
+    " - " + $( "#slider-range2" ).slider( "values", 1 ) );
+} );
+
+$( function() {
+  $( "#slider-range3" ).slider({
+    range: true,
+    min: 0,
+    max: 1000,
+    values: [ 0, 1000 ],
+    slide: function( event, ui ) {
+      $( "#popularite" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+    }
+  });
+  $( "#popularite" ).val($( "#slider-range3" ).slider( "values", 0 ) +
+    " - " + $( "#slider-range3" ).slider( "values", 1 ) );
+} );
+
+var tags = document.getElementsByClassName("link");
+
+for (var i = 0; i < tags.length; i++) {
+  tags[i].addEventListener('click', function(e) {
+    console.log(e.target.id);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttp.open("POST", "/tags", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("tagId="+ encodeURIComponent(e.target.id));
+  e.target.parentNode.remove();
+});
+}
+
+var tags = document.getElementsByClassName("suggestionsUserDiv");
+
+for (var i = 0; i < tags.length; i++) {
+  tags[i].addEventListener('click', function(e) {
+
+  });
+}
+
+function getInfo() {
+  var text = document.getElementsByClassName("text");
+
+  for (var i = 0; i < tags.length; i++) {
+    tags[i].addEventListener('click', function(e) {
+      var removeSlider = document.getElementsByClassName("removeSlider");
+      for (var i = 0; i < removeSlider.length; i++) {
+        removeSlider[i].style.opacity = 0;
+      }
+
+    });
+  }
+}
+
+
+var close = document.getElementsByClassName("close");
+
+for (var i = 0; i < close.length; i++) {
+  close[i].addEventListener('click', function(e) {
+    e.target.parentNode.parentNode.style.display = 'none';
+    var text = document.getElementsByClassName("text");
+
+    for (var i = 0; i < tags.length; i++) {
+      tags[i].addEventListener('click', function(e) {
+        var removeSlider = document.getElementsByClassName("removeSlider");
+        for (var i = 0; i < removeSlider.length; i++) {
+          removeSlider[i].style.opacity = 1;
+        }
+
+      });
+    }
+  })
+}
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

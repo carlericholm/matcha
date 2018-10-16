@@ -12,7 +12,7 @@ router.get("/", function(req, res) {
 	if (req.session.log !== undefined)
 	{
 		var sql = "SELECT * FROM pics WHERE login = ?";
-		con.query(sql, [req.session.log], function(err, result) { redirect('/');})
+		con.query(sql, [req.session.log], function(err, result) { redirect('');})
 	}
 	else
 	{
@@ -21,78 +21,6 @@ router.get("/", function(req, res) {
 })
 
 router.post("/", function(req, res) {
-	if (req.body.envoyer)
-	{
-	// var sql = "SELECT * FROM pics WHERE login = ?";
-	// con.query(sql, [req.session.log], function(err, result) {
-		var id = req.body.hidden;
-		var str = req.session.log + id;
-		if (!req.files)
-		{
-			console.log("okokoko");
-			console.log(req.files);
-			res.render("index");
-		}
-		else if (req.files && req.files.file_profil.mimetype == 'image/png')
-		{
-			var png = ".png";
-			var result = str + png;
-			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv('/Users/cholm/projects/matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
-				var sql = "SELECT * FROM pics WHERE login = ?";
-				con.query(sql, [req.session.log], function(err, result) {
-					var pics = result;
-					var sql = "SELECT * FROM users WHERE login = ?";
-					con.query(sql, [req.session.log], function(err, result) {
-						console.log(result);
-						// res.render("index", {result: pics[0], info: result[0]});
-						res.redirect('/');
-					})
-				})
-			});
-
-		}
-		else if (req.files && req.files.file_profil.mimetype == 'image/jpg')
-		{
-			var jpg = ".jpg";
-			var result = str + jpg;
-			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv('/Users/cholm/projects/matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
-				var sql = "SELECT * FROM pics WHERE login = ?";
-				con.query(sql, [req.session.log], function(err, result) {
-					var pics = result;
-					var sql = "SELECT * FROM users WHERE login = ?";
-					con.query(sql, [req.session.log], function(err, result) {
-						console.log(result);
-						// res.render("index", {result: pics[0], info: result[0]});
-						res.redirect('/');
-					})
-				})
-			});	
-		}
-		else if (req.files && req.files.file_profil.mimetype == 'image/jpeg')
-		{
-			var jpg = ".jpeg";
-			var result = str + jpg;
-			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv('/Users/cholm/projects/matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
-				var sql = "SELECT * FROM pics WHERE login = ?";
-				con.query(sql, [req.session.log], function(err, result) {
-					var pics = result;
-					var sql = "SELECT * FROM users WHERE login = ?";
-					con.query(sql, [req.session.log], function(err, result) {
-						console.log(result);
-						// res.render("index", {result: pics[0], info: result[0]});
-						res.redirect('/');
-					})
-				})
-			});	
-		}
-		// else
-		// {
-		// 	res.render("index");
-		// }
-	}
 	if (req.body.save)
 	{
 		var name = eschtml(req.body.name);
@@ -154,7 +82,7 @@ router.post("/", function(req, res) {
 			{
 				if (req.body.firstname)
 				{
-				
+
 					if (req.body.name)
 					{
 						var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
@@ -177,18 +105,23 @@ router.post("/", function(req, res) {
 			res.redirect('/');
 		})
 	}
-	if (req.body.saveTag)
+	if (req.body.tableau)
 	{
-		var tag = eschtml(req.body.tags);
-		var noSpace = tag.split(' ').join('');
-		if (tag !== '')
-		{
-			con.query("INSERT into tags SET login = ?, tag = ?", [req.session.log, noSpace]);
-		}
+		var localisation = JSON.parse(req.body.tableau);
+		con.query("UPDATE users SET trueLocation = ? WHERE login = ?", [localisation.city, req.session.log]);
+		res.redirect('/');
+	}
+	if (req.body.fakeLocation)
+	{
+		con.query("UPDATE users SET fakeLocation = ?, showFakeLocation = ? WHERE login = ?", [req.body.localisation, 1, req.session.log]);
+		res.redirect('/');
+	}
+	if (req.body.trueLocation)
+	{
+		con.query("UPDATE users SET showFakeLocation = ? WHERE login = ?", [0, req.session.log]);
 		res.redirect('/');
 	}
 })
-// })
 
 
 module.exports = router
