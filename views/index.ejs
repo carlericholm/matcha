@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
 	<title>Matcha</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -160,15 +160,15 @@
 <div id="footer">footer</div>
 <script type="text/javascript">
   $.ajax({
-    url: 'http://api.ipstack.com/check?access_key=97307c73fbc24738033ecab287ad0a82',   
+    url: 'http://api.ipstack.com/check?access_key=97307c73fbc24738033ecab287ad0a82',
     dataType: 'jsonp',
     success: function(json) {
       var httpPost = new XMLHttpRequest();
       httpPost.open("POST", "/profil");
       httpPost.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       httpPost.send('tableau=' +  encodeURIComponent(JSON.stringify(json)));
-    } 
-  }); 
+    }
+  });
 
 // Get the modal
 var modal = document.getElementById('id01');
@@ -207,10 +207,3 @@ for (var i = 0; i < close.length; i++) {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-

@@ -6,11 +6,12 @@ var helmet = require('helmet');
 var nodemailer = require('nodemailer');
 var path = require('path');
 var fileUpload = require('express-fileupload');
+const favicon = require('express-favicon');
 
 var app = express();
 
 
-// Routes var 
+// Routes var
 
 var register = require('./back/register');
 var confirm = require('./back/confirm');
@@ -32,6 +33,8 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(favicon(__dirname + '/public/favicon.png'));
+
 app.use(session({
 	secret: 'karlsecret',
 	resave: false,
