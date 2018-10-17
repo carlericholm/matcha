@@ -35,7 +35,7 @@ router.post("/", function(req, res) {
 			var png = ".png";
 			var result = str + png;
 			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv('/Users/cholm/projects/matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
+			req.files.file_profil.mv('/Users/cholm/projects/github_matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
 				var sql = "SELECT * FROM pics WHERE login = ?";
 				con.query(sql, [req.session.log], function(err, result) {
 					var pics = result;
@@ -54,7 +54,7 @@ router.post("/", function(req, res) {
 			var jpg = ".jpg";
 			var result = str + jpg;
 			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv('/Users/cholm/projects/matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
+			req.files.file_profil.mv('/Users/cholm/projects/github_matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
 				var sql = "SELECT * FROM pics WHERE login = ?";
 				con.query(sql, [req.session.log], function(err, result) {
 					var pics = result;
@@ -72,7 +72,7 @@ router.post("/", function(req, res) {
 			var jpg = ".jpeg";
 			var result = str + jpg;
 			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv('/Users/cholm/projects/matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
+			req.files.file_profil.mv('/Users/cholm/projects/github_matcha/public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
 				var sql = "SELECT * FROM pics WHERE login = ?";
 				con.query(sql, [req.session.log], function(err, result) {
 					var pics = result;

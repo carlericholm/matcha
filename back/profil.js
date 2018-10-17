@@ -108,7 +108,7 @@ router.post("/", function(req, res) {
 	if (req.body.tableau)
 	{
 		var localisation = JSON.parse(req.body.tableau);
-		con.query("UPDATE users SET trueLocation = ? WHERE login = ?", [localisation.city, req.session.log]);
+		con.query("UPDATE users SET trueLocation = ?, latitude = ?, longitude = ? WHERE login = ?", [localisation.city, localisation.latitude, localisation.longitude, req.session.log]);
 		res.redirect('/');
 	}
 	if (req.body.fakeLocation)

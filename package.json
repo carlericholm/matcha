@@ -17,6 +17,7 @@
     "express-fileupload": "^1.0.0-alpha.1",
     "express-session": "^1.15.6",
     "express-validator": "^5.3.0",
+    "geopoint": "^1.0.1",
     "helmet": "^3.13.0",
     "htmlspecialchars": "^1.0.5",
     "md5": "^2.2.1",

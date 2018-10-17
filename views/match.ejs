@@ -86,7 +86,7 @@
  <div id="greyLine"></div>
  <div id="suggestionsDiv">
   <p class="error"><% if (typeof fillProfile !== 'undefined') { %><%= fillProfile %><%}%></p>
-  <div id="suggestions" style="display: flex; flex-wrap: wrap; text-align: center;">
+  <div id="suggestions" style="display: flex; flex-wrap: wrap;">
     <%if (typeof suggestions !== 'undefined') {%>
     <% for (var i = 0; i < suggestions.length ; i++) { %>
     <div class="suggestionsUserDiv" style="margin: auto; margin-top: 15px; box-shadow: 0 10px 6px -6px #777; width: 12vw;"><% if (typeof suggestions && suggestions[i]) {%>
@@ -94,10 +94,60 @@
       <div id="user<%= i %>" class="modal">
         <div class="modal-content">
           <span class="close" title="Close Modal">&times;</span>
+          <div style="display: flex; margin: 50px;">
+            <div style="border: 2px solid blue; width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
+              <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img0 !== 'empty') {%><%= suggestions[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+              <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img1 !== 'empty') {%><%= suggestions[i].img1 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+              <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img2 !== 'empty') {%><%= suggestions[i].img2 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+              <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img3 !== 'empty') {%><%= suggestions[i].img3 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+              <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img4 !== 'empty') {%><%= suggestions[i].img4 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+            </div>
+            <div id="infoContainer" style="border: 1px solid green; width: 50%;">
+              <h1 style="color: rgb(22, 79, 159);"><%= suggestions[i].login %></h1>
+              <div style="border: 1px solid red; display: flex; justify-content: space-around; margin-top: 20px;">
+                <div>
+                  <p style="color: grey;">Nom</p>
+                  <p style="font-style: italic;"><%= suggestions[i].name %></p>
+                  <p style="color: grey;">Sexe</p>
+                  <p style="font-style: italic;"><%= suggestions[i].sexe %></p>
+                  <p style="color: grey;">Age</p>
+                  <p style="font-style: italic;"><%= suggestions[i].age %></p>
+                </div>
+                <div>
+                  <p style="color: grey;">Prenom</p>
+                  <p style="font-style: italic;"><%= suggestions[i].firstname %></p>
+                  <p style="color: grey;">Orientation</p>
+                  <p style="font-style: italic;"><%= suggestions[i].orientation %></p>
+                  <p style="color: grey;">De</p>
+                  <p style="font-style: italic;"><% if (typeof suggestions && suggestions[i].showFakeLocation == 0) {%><%= suggestions[i].trueLocation%><%} else {%><%= suggestions[i].fakeLocation%><%}%><span> (distance: 
+                    <%
+                    var point1 = new geopoint(info.latitude, info.longitude) 
+                    point2 =  new geopoint(suggestions[i].latitude, suggestions[i].longitude)
+                    distance = point1.distanceTo(point2, true)
+                    if (!distance)
+                    distance = '0';
+                    %>
+                    <%- parseInt(distance, 10)%> km)
+                  </span></p>
+                </div>
+              </div>
+              <div style="border: 1px solid pink; text-align: center;">
+                <p style="color: grey;">Bio</p>
+                <p style="font-style: italic;"><%= suggestions[i].bio %></p>
+              </div>
+              <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
+                <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"></div>
+                <div class="bubble" style="<% if (suggestions[i].img0 == 'profile_image.png') {display: none;}%>;display: flex; justify-content: center; align-items: center;">
+                  <img src="img/like_icon.png" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="Like <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="like"></div>
+                <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
+              </div>
+              <p>en ligne / hors ligne</p>
+            </div>
+          </div>
         </div>
       </div>
       <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img0 !== 'empty') {%><%= suggestions[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
-      <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact';"><%= suggestions[i].name %></p>
+      <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center;"><%= suggestions[i].login %></p>
     </div>
     <%}%>
     <%}%>
@@ -186,6 +236,7 @@ for (var i = 0; i < tags.length; i++) {
 });
 }
 
+
 var tags = document.getElementsByClassName("suggestionsUserDiv");
 
 for (var i = 0; i < tags.length; i++) {
@@ -227,6 +278,38 @@ for (var i = 0; i < close.length; i++) {
     }
   })
 }
+
+var like = document.getElementsByClassName("like");
+
+for (var i = 0; i < tags.length; i++) {
+  like[i].addEventListener('click', function(e) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttp.open("POST", "/likes", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("likeId="+ encodeURIComponent(e.target.id));
+});
+}
+
+var block = document.getElementsByClassName("block");
+
+for (var i = 0; i < tags.length; i++) {
+  block[i].addEventListener('click', function(e) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttp.open("POST", "/block", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("blockId="+ encodeURIComponent(e.target.id));
+});
+}
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip(); 
+});
 
 
 </script>

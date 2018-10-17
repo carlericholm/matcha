@@ -7,6 +7,7 @@ var nodemailer = require('nodemailer');
 var path = require('path');
 var fileUpload = require('express-fileupload');
 const favicon = require('express-favicon');
+var geopoint = require('geopoint');
 
 var app = express();
 
@@ -22,6 +23,8 @@ var profil = require('./back/profil');
 var tags = require('./back/tags');
 var images = require('./back/images');
 var match = require('./back/match');
+var likes = require('./back/likes');
+var block = require('./back/block');
 
 
 //Moteur de template
@@ -102,6 +105,8 @@ app.use('/profil', profil);
 app.use('/tags', tags);
 app.use('/images', images);
 app.use('/match', match);
+app.use('/likes', likes);
+app.use('/block', block);
 
 
 

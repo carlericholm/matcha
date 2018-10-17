@@ -1,5 +1,5 @@
 var express = require('express');
-
+var geopoint = require('geopoint');
 
 var router = express.Router();
 var con = require('../config/database');
@@ -21,10 +21,15 @@ router.get("/", function(req, res) {
 						if (users[0].orientation == 'Héterosexuel')
 						{
 							// var sql = "SELECT * FROM users WHERE sexe = 'Feminin' AND orientation = 'Héterosexuel'";
-							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Feminin' AND orientation = 'Héterosexuel'";
+							var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE sexe = 'Feminin' AND orientation = 'Héterosexuel'";
 							con.query(sql, function(err, result) {
-								console.log(result);
-								res.render("match", {info: users[0], tags: tags, suggestions: result});
+								var suggestions = result;
+								var sql = "SELECT * FROM likes WHERE liker_id = ?";
+								con.query(sql, [users[0].id], function(err, result) {
+									var likes = result;
+									console.log(likes);
+									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+								})
 							})
 						}
 						if (users[0].orientation == 'Homosexuel')
@@ -32,7 +37,12 @@ router.get("/", function(req, res) {
 							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Feminin' AND orientation = 'Homosexuel'";
 							con.query(sql, function(err, result) {
 								console.log(result);
-								res.render("match", {info: users[0], tags: tags, suggestions: result});
+								var suggestions = result;
+								var sql = "SELECT * FROM likes WHERE liker_id = ?";
+								con.query(sql, [users[0].id], function(err, result) {
+									var likes = result[0];
+									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+								})
 							})
 						}
 						if (users[0].orientation == 'Bisexuel')
@@ -40,7 +50,12 @@ router.get("/", function(req, res) {
 							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE orientation = 'Bisexuel'";
 							con.query(sql, function(err, result) {
 								console.log(result);
-								res.render("match", {info: users[0], tags: tags, suggestions: result});
+								var suggestions = result;
+								var sql = "SELECT * FROM likes WHERE liker_id = ?";
+								con.query(sql, [users[0].id], function(err, result) {
+									var likes = result[0];
+									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+								})
 							})
 						}
 
@@ -51,21 +66,36 @@ router.get("/", function(req, res) {
 						{
 							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Masculin' AND orientation = 'Héterosexuel'";
 							con.query(sql, function(err, result) {
-								res.render("match", {info: users[0], tags: tags, suggestions: result});
+								var suggestions = result;
+								var sql = "SELECT * FROM likes WHERE liker_id = ?";
+								con.query(sql, [users[0].id], function(err, result) {
+									var likes = result[0];
+									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+								})
 							})
 						}
 						if (users[0].orientation == 'Homosexuel')
 						{
 							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Feminin' AND orientation = 'Homosexuel'";
 							con.query(sql, function(err, result) {
-								res.render("match", {info: users[0], tags: tags, suggestions: result});
+								var suggestions = result;
+								var sql = "SELECT * FROM likes WHERE liker_id = ?";
+								con.query(sql, [users[0].id], function(err, result) {
+									var likes = result[0];
+									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+								})
 							})
 						}
 						if (users[0].orientation == 'Bisexuel')
 						{
 							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE orientation = 'Bisexuel'";
 							con.query(sql, function(err, result) {
-								res.render("match", {info: users[0], tags: tags, suggestions: result});
+								var suggestions = result;
+								var sql = "SELECT * FROM likes WHERE liker_id = ?";
+								con.query(sql, [users[0].id], function(err, result) {
+									var likes = result[0];
+									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+								})
 							})
 						}
 
@@ -76,8 +106,8 @@ router.get("/", function(req, res) {
 					res.render("match", {info: users[0], tags: tags, fillProfile: "Veuillez completer votre profil avant de recevoir des suggestions"});
 				}
 			})
-		})
-	}
+})
+}
 })
 
 router.post("/", function(req, res) {
