@@ -16,6 +16,15 @@ router.post("/", function(req, res) {
 			con.query(sql, [req.body.likeId, likerId]);
 		})
 	}
+	if (req.body.unlikeId)
+	{
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [req.session.log], function(err, result) {
+			var likerId = result[0].id;
+			var sql = "DELETE FROM likes WHERE liked_id = ? AND liker_id = ?";
+			con.query(sql, [req.body.unlikeId, likerId]);
+		})
+	}
 })
 
 

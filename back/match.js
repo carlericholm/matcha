@@ -34,7 +34,7 @@ router.get("/", function(req, res) {
 						}
 						if (users[0].orientation == 'Homosexuel')
 						{
-							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Feminin' AND orientation = 'Homosexuel'";
+							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Masculin' AND orientation = 'Homosexuel'";
 							con.query(sql, function(err, result) {
 								console.log(result);
 								var suggestions = result;

@@ -138,7 +138,14 @@
               <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
                 <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"></div>
                 <div class="bubble" style="<% if (suggestions[i].img0 == 'profile_image.png') {display: none;}%>;display: flex; justify-content: center; align-items: center;">
-                  <img src="img/like_icon.png" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="Like <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="like"></div>
+                  <% var src = 'like_icon.png'%>
+                   <% for (var l = 0; l < likes.length; l++) { %>
+                   <% if (typeof likes !== 'undefined' && likes[l].liked_id == suggestions[i].id) {%>
+                   <%var src = 'liked_icon.png';%>
+                   <%break;}}%>
+                  <img src="img/<%=src%>" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=suggestions[i].id%>"
+                   class="<%if (src == 'liked_icon.png') {%>unlike<%}else{%>like<%}%>">
+                </div>
                 <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
               </div>
               <p>en ligne / hors ligne</p>
@@ -281,7 +288,7 @@ for (var i = 0; i < close.length; i++) {
 
 var like = document.getElementsByClassName("like");
 
-for (var i = 0; i < tags.length; i++) {
+for (var i = 0; i < like.length; i++) {
   like[i].addEventListener('click', function(e) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -290,12 +297,34 @@ for (var i = 0; i < tags.length; i++) {
   xhttp.open("POST", "/likes", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("likeId="+ encodeURIComponent(e.target.id));
+  e.target.src = "img/liked_icon.png";
+  e.target.className = "unlike";
+  e.target.title = "unlike";
+
+});
+}
+
+
+var unlike = document.getElementsByClassName("unlike");
+
+for (var i = 0; i < unlike.length; i++) {
+  unlike[i].addEventListener('click', function(e) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttp.open("POST", "/likes", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("unlikeId="+ encodeURIComponent(e.target.id));
+  e.target.src = "img/like_icon.png";
+  e.target.className = "like";
+  e.target.title = "like";
 });
 }
 
 var block = document.getElementsByClassName("block");
 
-for (var i = 0; i < tags.length; i++) {
+for (var i = 0; i < block.length; i++) {
   block[i].addEventListener('click', function(e) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
