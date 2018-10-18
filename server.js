@@ -25,6 +25,7 @@ var images = require('./back/images');
 var match = require('./back/match');
 var likes = require('./back/likes');
 var block = require('./back/block');
+var seed = require('./back/generateProfiles');
 
 
 //Moteur de template
