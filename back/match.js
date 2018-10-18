@@ -27,7 +27,18 @@ router.get("/", function(req, res) {
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
 									var likes = result;
-									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+									var sql = "SELECT * FROM block WHERE blocker_id = ?";
+									con.query(sql, [users[0].id], function(err, result) {
+										var block = result;
+										var sql = "SELECT * FROM report WHERE reporter_id = ?";
+										con.query(sql, [users[0].id], function(err, result) {
+											var report = result;
+											console.log(report);
+											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report});
+										})
+									})
+
+									// res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
 								})
 							})
 						}
@@ -39,7 +50,11 @@ router.get("/", function(req, res) {
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
 									var likes = result;
-									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+									var sql = "SELECT * FROM block WHERE blocker_id = ?";
+									con.query(sql, [users[0].id], function(err, result) {
+										var block = result;
+										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+									})
 								})
 							})
 						}
@@ -51,7 +66,11 @@ router.get("/", function(req, res) {
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
 									var likes = result;
-									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+									var sql = "SELECT * FROM block WHERE blocker_id = ?";
+									con.query(sql, [users[0].id], function(err, result) {
+										var block = result;
+										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+									})
 								})
 							})
 						}
@@ -67,7 +86,11 @@ router.get("/", function(req, res) {
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
 									var likes = result;
-									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+									var sql = "SELECT * FROM block WHERE blocker_id = ?";
+									con.query(sql, [users[0].id], function(err, result) {
+										var block = result;
+										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+									})
 								})
 							})
 						}
@@ -79,7 +102,11 @@ router.get("/", function(req, res) {
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
 									var likes = result;
-									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+									var sql = "SELECT * FROM block WHERE blocker_id = ?";
+									con.query(sql, [users[0].id], function(err, result) {
+										var block = result;
+										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+									})
 								})
 							})
 						}
@@ -91,7 +118,12 @@ router.get("/", function(req, res) {
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
 									var likes = result;
-									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
+									var sql = "SELECT * FROM block WHERE blocker_id = ?";
+									con.query(sql, [users[0].id], function(err, result) {
+										var block = result;
+										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+									})
+
 								})
 							})
 						}

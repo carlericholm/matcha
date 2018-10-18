@@ -15,7 +15,7 @@ var con = require('../config/database');
 
 router.post("/", function(req, res) {
 	
-	if (req.body.saveTag)
+	if (req.body.saveTag && req.body.tags !== '')
 	{
 		var tag = eschtml(req.body.tags);
 		var noSpace = tag.split(' ').join('');
@@ -47,9 +47,13 @@ router.post("/", function(req, res) {
 		}
 		// res.redirect('/');
 	}
-	if (req.body.tagId) {
+	else if (req.body.tagId) {
 		var id = req.body.tagId;
 		con.query("DELETE FROM tags WHERE id = ?", [id]);
+	}
+	else
+	{
+		res.redirect('/');
 	}
 })
 
