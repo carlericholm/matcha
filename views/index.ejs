@@ -85,7 +85,6 @@
  <div class="col">
   <label for="sel1">Sexe</label>
   <select class="form-control" id="sel1" name="sexe" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
-    <option value="Autre" <%= info.sexe == 'Autre' ? 'selected' : ''%>>Autre</option>
     <option value="Masculin" <%= info.sexe == 'Masculin' ? 'selected' : ''%>>Masculin</option>
     <option value="Feminin" <%= info.sexe == 'Feminin' ? 'selected' : ''%>>Feminin</option>
   </select>
@@ -93,8 +92,8 @@
 </div>
 <div class="row">
  <div class="col">
-  <label for="sel1">Orientation sexuelle:</label>
-  <select class="form-control" id="sel1" name="orientation" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;" value="<% if (info.orientation !== 'NULL') {%><%= info.orientation %><%}%>">
+  <label for="sel2">Orientation sexuelle:</label>
+  <select class="form-control" id="sel2" name="orientation" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;" value="<% if (info.orientation !== 'NULL') {%><%= info.orientation %><%}%>">
    <option value="Bisexuel" <%= info.orientation == 'Bisexuel' ? 'selected' : ''%>>Bisexuel</option>
    <option value="Héterosexuel" <%= info.orientation == 'Héterosexuel' ? 'selected' : ''%>>Héterosexuel</option>
    <option value="Homosexuel" <%= info.orientation == 'Homosexuel' ? 'selected' : ''%>>Homosexuel</option>

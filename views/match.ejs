@@ -24,7 +24,7 @@
    <div id="containerNav">
     <div class="topnav">
      <a class="active" href="/">Profile</a>
-     <a href="#news">Tchat</a>
+     <a href="#">Tchat</a>
      <a href="/match">match</a>
    </div>
    <div class="topnavBis">
@@ -90,7 +90,7 @@
     <%if (typeof suggestions !== 'undefined') {%>
     <% for (var i = 0; i < suggestions.length ; i++) { %>
     <div class="suggestionsUserDiv" style="margin: auto; margin-top: 15px; box-shadow: 0 10px 6px -6px #777; width: 12vw;"><% if (typeof suggestions && suggestions[i]) {%>
-      <div class="overlay" style="display: flex; justify-content: center; align-items: center;"><div class="text" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'">More infos</div></div>
+      <div class="overlay" style="display: flex; justify-content: center; align-items: center;"><div class="text" id="<%=suggestions[i].id%>" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'">More infos</div></div>
       <div id="user<%= i %>" class="modal">
         <div class="modal-content">
           <span class="close" title="Close Modal">&times;</span>
@@ -139,12 +139,13 @@
                 <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"></div>
                 <div class="bubble" style="<% if (suggestions[i].img0 == 'profile_image.png') {display: none;}%>;display: flex; justify-content: center; align-items: center;">
                   <% var src = 'like_icon.png'%>
-                   <% for (var l = 0; l < likes.length; l++) { %>
-                   <% if (typeof likes !== 'undefined' && likes[l].liked_id == suggestions[i].id) {%>
-                   <%var src = 'liked_icon.png';%>
-                   <%break;}}%>
+                  <%if (typeof likes !== 'undefined') {%>
+                  <% for (var l = 0; l < likes.length; l++) { %>
+                  <% if (typeof likes !== 'undefined' && likes[l].liked_id == suggestions[i].id) {%>
+                  <%var src = 'liked_icon.png';%>
+                  <%break;}}}%>
                   <img src="img/<%=src%>" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=suggestions[i].id%>"
-                   class="<%if (src == 'liked_icon.png') {%>unlike<%}else{%>like<%}%>">
+                  class="like"><span id="like"></span>
                 </div>
                 <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
               </div>
@@ -290,25 +291,28 @@ var like = document.getElementsByClassName("like");
 
 for (var i = 0; i < like.length; i++) {
   like[i].addEventListener('click', function(e) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {}
-    };
-  xhttp.open("POST", "/likes", true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("likeId="+ encodeURIComponent(e.target.id));
-  e.target.src = "img/liked_icon.png";
-  e.target.className = "unlike";
-  e.target.title = "unlike";
+    if (e.target.nextSibling.id == "like")
+    {
+      console.log(e.target.nextSibling);
+      e.target.src = "img/liked_icon.png";
+    e.target.className = "unlike";
+    e.target.title = "unlike";
+    e.target.nextSibling.id = "unlike";
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {}
+      };
+    xhttp.open("POST", "/likes", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("likeId="+ encodeURIComponent(e.target.id));
 
-});
-}
-
-
-var unlike = document.getElementsByClassName("unlike");
-
-for (var i = 0; i < unlike.length; i++) {
-  unlike[i].addEventListener('click', function(e) {
+  }
+  else if (e.target.nextSibling.id == "unlike")
+  {
+    e.target.src = "img/like_icon.png";
+  e.target.className = "like";
+  e.target.title = "like";
+  e.target.nextSibling.id = "like";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {}
@@ -316,11 +320,28 @@ for (var i = 0; i < unlike.length; i++) {
   xhttp.open("POST", "/likes", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("unlikeId="+ encodeURIComponent(e.target.id));
-  e.target.src = "img/like_icon.png";
-  e.target.className = "like";
-  e.target.title = "like";
+  
+}
 });
 }
+
+
+// var unlike = document.getElementsByClassName("unlike");
+
+// for (var i = 0; i < unlike.length; i++) {
+//   unlike[i].addEventListener('click', function(e) {
+//     var xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function() {
+//       if (this.readyState == 4 && this.status == 200) {}
+//     };
+//   xhttp.open("POST", "/likes", true);
+//   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//   xhttp.send("unlikeId="+ encodeURIComponent(e.target.id));
+//   e.target.src = "img/like_icon.png";
+//   e.target.className = "like";
+//   e.target.title = "like";
+// });
+// }
 
 var block = document.getElementsByClassName("block");
 
@@ -333,6 +354,20 @@ for (var i = 0; i < block.length; i++) {
   xhttp.open("POST", "/block", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("blockId="+ encodeURIComponent(e.target.id));
+});
+}
+
+var text = document.getElementsByClassName("text");
+
+for (var i = 0; i < text.length; i++) {
+  text[i].addEventListener('click', function(e) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttp.open("POST", "/likes", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("visitId="+ encodeURIComponent(e.target.id));
 });
 }
 

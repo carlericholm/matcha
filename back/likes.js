@@ -25,6 +25,15 @@ router.post("/", function(req, res) {
 			con.query(sql, [req.body.unlikeId, likerId]);
 		})
 	}
+	if (req.body.visitId)
+	{
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [req.session.log], function(err, result) {
+			var visiterId = result[0].id;
+			var sql = "INSERT INTO visits SET visited_id = ?, visiter_id = ?";
+			con.query(sql, [req.body.visitId, visiterId]);
+		})
+	}
 })
 
 

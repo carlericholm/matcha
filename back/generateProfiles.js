@@ -60,10 +60,10 @@ function maketag() {
 con.query('SELECT login FROM users where login = ?', ['FakeUser42'], function (err, result) { if (err) throw err
   if (result.length == 0) {
 
-    sql = 'INSERT INTO `users` (`login`, `name`, `firstname`, `email`, `password`, `cle`, `active`, `age`, `sexe`, `orientation`, `bio`, `trueLocation`, `fakeLocation`, `showFakeLocation`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    con.query(sql, ["admin", "admin", "admin", "admin@admin.com", hash.generate("admin"), 1, 1, 25, "Masculin", "Héterosexuel", "admin", "Paris", "Paris", 1, 55, 27], function (err, result) { if (err) throw err });
+    // sql = 'INSERT INTO `users` (`login`, `name`, `firstname`, `email`, `password`, `cle`, `active`, `age`, `sexe`, `orientation`, `bio`, `trueLocation`, `fakeLocation`, `showFakeLocation`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    // con.query(sql, ["admin", "admin", "admin", "admin@admin.com", hash.generate("admin"), 1, 1, 25, "Masculin", "Héterosexuel", "admin", "Paris", "Paris", 1, 55, 27], function (err, result) { if (err) throw err });
 
-      var i = 0
+      var i = 1;
       while (i < 600) {
           var login = 'FakeUser' + i;
           name = makename();
@@ -78,9 +78,9 @@ con.query('SELECT login FROM users where login = ?', ['FakeUser42'], function (e
       		bio = "J'aime le Sport, le Sexe, les Vacances, les Parties ou le Code" + i;
           latitude = getRandomInt(90);
           longitude = getRandomInt(90);
-          trueLocation = 'La true location du FakeUser' + i;
-          fakeLocation = 'La fake location du FakeUser' + i;
-          showFakeLocation = 0;
+          // trueLocation = 'La true location du FakeUser' + i;
+          // fakeLocation = 'La fake location du FakeUser' + i;
+          // showFakeLocation = 0;
       		// score = 5 * getRandomInt(200);
 
 
@@ -126,8 +126,8 @@ con.query('SELECT login FROM users where login = ?', ['FakeUser42'], function (e
       			img4 = 'seed/img20.png';
       	}
 
-        sql = 'INSERT INTO `users` (`login`, `name`, `firstname`, `email`, `password`, `cle`, `active`, `age`, `sexe`, `orientation`, `bio`, `trueLocation`, `fakeLocation`, `showFakeLocation`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        con.query(sql, [login, name, firstname, email, hash.generate(password), cle, active, age, sexe, orientation, bio, trueLocation, fakeLocation, showFakeLocation, latitude, longitude], function (err, result) { if (err) throw err });
+        sql = 'INSERT INTO `users` (`login`, `name`, `firstname`, `email`, `password`, `cle`, `active`, `age`, `sexe`, `orientation`, `bio`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        con.query(sql, [login, name, firstname, email, hash.generate(password), cle, active, age, sexe, orientation, bio, latitude, longitude], function (err, result) { if (err) throw err });
 
         sql = 'INSERT INTO `pics` (login, img0, img1, img2, img3, img4) VALUES (?,?,?,?,?,?)';
         con.query(sql, [login, img0, img1, img2, img3, img4], function (err, result) { if (err) throw err });

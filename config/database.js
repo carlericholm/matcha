@@ -11,6 +11,7 @@ con.connect(function(err) {
   console.log("Connected!");
   con.query("CREATE DATABASE IF NOT EXISTS matcha", function (err, result) { if (err) throw err; });
   con.query('USE `matcha`', function (err) { if (err) throw err });
+  con.query('SET NAMES utf8mb4', function (err) { if (err) throw err })
 
   var sql = "CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, login VARCHAR(255), name VARCHAR(255), firstname VARCHAR(255), email VARCHAR(255), password VARCHAR(255), cle VARCHAR(255), active INT DEFAULT 0, age INT(3) DEFAULT 0, sexe VARCHAR(255), orientation VARCHAR(255), bio TEXT, trueLocation VARCHAR(255), fakeLocation VARCHAR(255), showFakeLocation INT DEFAULT 0, latitude DOUBLE, longitude DOUBLE)";                             
   con.query(sql, function (err, result) { if (err) throw err; console.log("Table users created"); });
@@ -24,6 +25,7 @@ con.connect(function(err) {
   con.query(sql, function (err, result) { if (err) throw err; console.log("Table block created"); });
   var sql = "CREATE TABLE IF NOT EXISTS visits (id INT PRIMARY KEY AUTO_INCREMENT, visited_id INT(6) UNSIGNED NOT NULL, visiter_id INT(6) UNSIGNED NOT NULL, date DATETIME DEFAULT CURRENT_TIMESTAMP)";
   con.query(sql, function (err, result) { if (err) throw err; console.log("Table likes created"); });
+  var seed = require('../back/generateProfiles');
 });
 
 module.exports = con;

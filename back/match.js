@@ -27,20 +27,18 @@ router.get("/", function(req, res) {
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
 									var likes = result;
-									console.log(likes);
 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
 								})
 							})
 						}
 						if (users[0].orientation == 'Homosexuel')
 						{
-							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE sexe = 'Masculin' AND orientation = 'Homosexuel'";
+							var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE sexe = 'Masculin' AND orientation = 'Homosexuel'";
 							con.query(sql, function(err, result) {
-								console.log(result);
 								var suggestions = result;
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
-									var likes = result[0];
+									var likes = result;
 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
 								})
 							})
@@ -49,11 +47,10 @@ router.get("/", function(req, res) {
 						{
 							var sql = "SELECT * FROM users INNER JOIN pics on users.login = pics.login WHERE orientation = 'Bisexuel'";
 							con.query(sql, function(err, result) {
-								console.log(result);
 								var suggestions = result;
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
-									var likes = result[0];
+									var likes = result;
 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
 								})
 							})
@@ -69,7 +66,7 @@ router.get("/", function(req, res) {
 								var suggestions = result;
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
-									var likes = result[0];
+									var likes = result;
 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
 								})
 							})
@@ -81,7 +78,7 @@ router.get("/", function(req, res) {
 								var suggestions = result;
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
-									var likes = result[0];
+									var likes = result;
 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
 								})
 							})
@@ -93,7 +90,7 @@ router.get("/", function(req, res) {
 								var suggestions = result;
 								var sql = "SELECT * FROM likes WHERE liker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
-									var likes = result[0];
+									var likes = result;
 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes});
 								})
 							})
