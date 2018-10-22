@@ -25,6 +25,8 @@ var images = require('./back/images');
 var match = require('./back/match');
 var likes = require('./back/likes');
 var block = require('./back/block');
+var report = require('./back/report');
+var notifs = require('./back/notifs');
 
 
 
@@ -108,6 +110,8 @@ app.use('/images', images);
 app.use('/match', match);
 app.use('/likes', likes);
 app.use('/block', block);
+app.use('/report', report);
+app.use('/notifs', notifs);
 
 
 

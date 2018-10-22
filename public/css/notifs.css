@@ -79,18 +79,11 @@
 
 #bodyContainer
 {
-	/*border: 1px solid black;*/
+	border: 1px solid black;
 	width: 70%;
 	margin: auto;
 	margin-top: 30px;
-    border: 1px solid red;
 
-}
-
-#filterSortContainer
-{
-    display: flex;
-    justify-content: space-around;
 }
 
 #bodyContainer h1
@@ -102,23 +95,70 @@
 }
 
 
-#filterContainer
+#footer
 {
-    border: 1px solid green;
-    width: 50%;
-}
-
-#sortContainer
-{
-    border: 1px solid green;
-    width: 40%;
-
-}
-
-.divFilters
-{
+    background-color: rgb(22, 79, 159);
+    height: 80px;
+    width: 100%;
+    color: white;
     margin-top: 30px;
 }
+
+
+#likeVisitContainerDiv
+{
+    display: flex;
+    justify-content: space-around;
+}
+
+#likeDiv
+{
+    margin-top: 30px;
+    border: 1px solid green;
+    width: 50%;
+    margin-right: 1px solid grey;
+}
+
+#visitDiv
+{
+    margin-top: 30px;
+    border: 1px solid red;
+    width: 50%;
+    margin-left: 1px solid grey;
+}
+
+h3
+{
+    color: rgb(22, 79, 159);
+    margin: auto;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 label
@@ -211,6 +251,18 @@ input
 {
     cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -327,19 +379,3 @@ span.psw {
     cursor: pointer;
     text-decoration: underline;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

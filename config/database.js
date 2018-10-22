@@ -24,7 +24,9 @@ con.connect(function(err) {
   var sql = "CREATE TABLE IF NOT EXISTS block (id INT PRIMARY KEY AUTO_INCREMENT, blocked_id INT(6) UNSIGNED NOT NULL, blocker_id INT(6) UNSIGNED NOT NULL)";
   con.query(sql, function (err, result) { if (err) throw err; console.log("Table block created"); });
   var sql = "CREATE TABLE IF NOT EXISTS visits (id INT PRIMARY KEY AUTO_INCREMENT, visited_id INT(6) UNSIGNED NOT NULL, visiter_id INT(6) UNSIGNED NOT NULL, date DATETIME DEFAULT CURRENT_TIMESTAMP)";
-  con.query(sql, function (err, result) { if (err) throw err; console.log("Table likes created"); });
+  con.query(sql, function (err, result) { if (err) throw err; console.log("Table visited created"); });
+  var sql = "CREATE TABLE IF NOT EXISTS report (id INT PRIMARY KEY AUTO_INCREMENT, reported_id INT(6) UNSIGNED NOT NULL, reporter_id INT(6) UNSIGNED NOT NULL, date DATETIME DEFAULT CURRENT_TIMESTAMP)";
+  con.query(sql, function (err, result) { if (err) throw err; console.log("Table report created"); });
   var seed = require('../back/generateProfiles');
 });
 

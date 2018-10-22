@@ -53,7 +53,12 @@ router.get("/", function(req, res) {
 									var sql = "SELECT * FROM block WHERE blocker_id = ?";
 									con.query(sql, [users[0].id], function(err, result) {
 										var block = result;
-										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+										var sql = "SELECT * FROM report WHERE reporter_id = ?";
+										con.query(sql, [users[0].id], function(err, result) {
+											var report = result;
+											console.log(report);
+											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report});
+										})
 									})
 								})
 							})
@@ -69,7 +74,12 @@ router.get("/", function(req, res) {
 									var sql = "SELECT * FROM block WHERE blocker_id = ?";
 									con.query(sql, [users[0].id], function(err, result) {
 										var block = result;
-										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+										var sql = "SELECT * FROM report WHERE reporter_id = ?";
+										con.query(sql, [users[0].id], function(err, result) {
+											var report = result;
+											console.log(report);
+											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report});
+										})
 									})
 								})
 							})
@@ -89,7 +99,12 @@ router.get("/", function(req, res) {
 									var sql = "SELECT * FROM block WHERE blocker_id = ?";
 									con.query(sql, [users[0].id], function(err, result) {
 										var block = result;
-										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+										var sql = "SELECT * FROM report WHERE reporter_id = ?";
+										con.query(sql, [users[0].id], function(err, result) {
+											var report = result;
+											console.log(report);
+											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report});
+										})
 									})
 								})
 							})
@@ -105,7 +120,12 @@ router.get("/", function(req, res) {
 									var sql = "SELECT * FROM block WHERE blocker_id = ?";
 									con.query(sql, [users[0].id], function(err, result) {
 										var block = result;
-										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+										var sql = "SELECT * FROM report WHERE reporter_id = ?";
+										con.query(sql, [users[0].id], function(err, result) {
+											var report = result;
+											console.log(report);
+											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report});
+										})
 									})
 								})
 							})
@@ -121,7 +141,12 @@ router.get("/", function(req, res) {
 									var sql = "SELECT * FROM block WHERE blocker_id = ?";
 									con.query(sql, [users[0].id], function(err, result) {
 										var block = result;
-										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block});
+										var sql = "SELECT * FROM report WHERE reporter_id = ?";
+										con.query(sql, [users[0].id], function(err, result) {
+											var report = result;
+											console.log(report);
+											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report});
+										})
 									})
 
 								})

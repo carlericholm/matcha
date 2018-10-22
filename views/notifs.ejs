@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Matcha</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="css/notifs.css">
+
+</head>
+<body>
+
+  <div id="blackBanner">
+   <h1>MATCHA</h1>
+ </div>
+ <div id="blueBanner">
+   <p id="loginWelcome">Bonjour <% if (locals.log) { %><%= locals.log %><%}%></p>
+   <div id="containerNav">
+    <div class="topnav">
+     <a href="/">Profile</a>
+     <a href="#news">Tchat</a>
+     <a href="/match">Match</a>
+     <a href="/notifs">Notifs</a>
+   </div>
+   <div class="topnavBis">
+     <a href="/signout">Sign out</a>
+   </div>
+ </div>
+</div>
+
+<div id="bodyContainer">
+  <h1>Welcome <% if (locals.log) { %><%= locals.log %><%}%></h1>
+  <div id="likeVisitContainerDiv">
+    <div id="likeDiv">
+      <h3>Ils ont liké votre profil</h3>
+      <div>
+
+        <div id="suggestionsDiv">
+          <div id="suggestions" style="display: flex; flex-wrap: wrap;">
+            <%if (typeof suggestions !== 'undefined') {%>
+            <% for (var i = 0; i < suggestions.length ; i++) { %>
+            <% if (suggestions[i].login !== info.login) {%>
+            <%if (typeof block !== 'undefined') {%><%var skip = 0;%><% for (var b = 0; b < block.length ; b++) { %><% if (block[b].blocked_id == suggestions[i].id) { var skip = 1;}}}%>
+            <%if (typeof report !== 'undefined') {%><%var reportUser = 0;%><% for (var b = 0; b < report.length ; b++) { %><% if (report[b].reported_id == suggestions[i].id) { var reportUser = 1;}}}%>
+            <%var noImage = 0;if (pics[i].img0 == 'empty' && pics[i].img1 == 'empty' && pics[i].img2 == 'empty' && pics[i].img3 == 'empty' && pics[i].img4 == 'empty') {var noImage = 1;}%>
+            <%if (skip == 0) {%>
+            <div class="suggestionsUserDiv" style="margin: auto; margin-top: 15px; box-shadow: 0 10px 6px -6px #777; width: 12vw;"><% if (typeof suggestions && suggestions[i]) {%>
+              <div class="overlay" style="display: flex; justify-content: center; align-items: center;"><div class="text" id="<%=suggestions[i].id%>" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'">More infos</div></div>
+              <div id="user<%= i %>" class="modal">
+                <div class="modal-content">
+                  <span class="close" title="Close Modal">&times;</span>
+                  <div style="display: flex; margin: 50px;">
+                    <div style="border: 2px solid blue; width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
+                      <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+                      <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img1 !== 'empty') {%><%= pics[i].img1 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+                      <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img2 !== 'empty') {%><%= pics[i].img2 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+                      <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img3 !== 'empty') {%><%= pics[i].img3 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+                      <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img4 !== 'empty') {%><%= pics[i].img4 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
+                    </div>
+                    <div id="infoContainer" style="border: 1px solid green; width: 50%;">
+                      <h1 style="color: rgb(22, 79, 159);"><%= suggestions[i].login %></h1>
+                      <p class="<%if (reportUser == 1){%>reported<%}else{%>report<%}%>" style="display: flex; justify-content: center; color: red; font-style: italic;<%if (reportUser == 1){%>color: green;<%}%> font-size: 0.8em;" id="<%=suggestions[i].id%>"><%if (reportUser == 1){%>(Reported)<%}else{%>(Report user as fake user)<%}%></p>
+                      <div style="border: 1px solid red; display: flex; justify-content: space-around; margin-top: 20px;">
+                        <div>
+                          <p style="color: grey;">Nom</p>
+                          <p style="font-style: italic;"><%= suggestions[i].name %></p>
+                          <p style="color: grey;">Sexe</p>
+                          <p style="font-style: italic;"><%= suggestions[i].sexe %></p>
+                          <p style="color: grey;">Age</p>
+                          <p style="font-style: italic;"><%= suggestions[i].age %></p>
+                        </div>
+                        <div>
+                          <p style="color: grey;">Prenom</p>
+                          <p style="font-style: italic;"><%= suggestions[i].firstname %></p>
+                          <p style="color: grey;">Orientation</p>
+                          <p style="font-style: italic;"><%= suggestions[i].orientation %></p>
+                          <p style="color: grey;">De</p>
+                          <p style="font-style: italic;"><% if (typeof suggestions && suggestions[i].showFakeLocation == 0) {%><%= suggestions[i].trueLocation%><%} else {%><%= suggestions[i].fakeLocation%><%}%><span> (distance: 
+                            <%
+                            var point1 = new geopoint(info.latitude, info.longitude) 
+                            point2 =  new geopoint(suggestions[i].latitude, suggestions[i].longitude)
+                            distance = point1.distanceTo(point2, true)
+                            if (!distance)
+                            distance = '0';
+                            %>
+                            <%- parseInt(distance, 10)%> km)
+                          </span></p>
+                        </div>
+                      </div>
+                      <div style="border: 1px solid pink; text-align: center;">
+                        <p style="color: grey;">Bio</p>
+                        <p style="font-style: italic;"><%= suggestions[i].bio %></p>
+                      </div>
+                      <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
+                        <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"></div>
+                        <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
+                          <% var src = 'like_icon.png'%>
+                          <%if (typeof likes !== 'undefined') {%>
+                          <% for (var l = 0; l < likes.length; l++) { %>
+                          <% if (typeof likes !== 'undefined' && likes[l].liked_id == suggestions[i].id) {%>
+                          <%var src = 'liked_icon.png';%>
+                          <%break;}}}%>
+                          <img src="img/<%=src%>" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=suggestions[i].id%>"
+                          class="like"><span id="<%if (src == 'liked_icon.png') {%>unlike<%}else{%>like<%}%>"></span>
+                        </div>
+                        <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
+                      </div>
+                      <p>en ligne / hors ligne</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
+              <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center;"><%= suggestions[i].login %></p>
+            </div>
+            <%}%>
+            <%}%>
+            <%}%>
+            <%}%>
+            <%}%>
+          </div>
+          <!-- </div> -->
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    <div id="visitDiv">
+      <h3>Ils ont visité votre profil</h3>
+      <div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footer">footer</div>
+
+
+
+<script>
+
+
+var modal = document.getElementsByClassName('modal');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+var tags = document.getElementsByClassName("suggestionsUserDiv");
+
+// for (var i = 0; i < tags.length; i++) {
+//   tags[i].addEventListener('click', function(e) {
+
+//   });
+// }
+
+function getInfo() {
+  var text = document.getElementsByClassName("text");
+
+  for (var i = 0; i < tags.length; i++) {
+    tags[i].addEventListener('click', function(e) {
+      var removeSlider = document.getElementsByClassName("removeSlider");
+      for (var i = 0; i < removeSlider.length; i++) {
+        removeSlider[i].style.opacity = 0;
+      }
+
+    });
+  }
+}
+
+
+var close = document.getElementsByClassName("close");
+
+for (var i = 0; i < close.length; i++) {
+  close[i].addEventListener('click', function(e) {
+    e.target.parentNode.parentNode.style.display = 'none';
+    var text = document.getElementsByClassName("text");
+
+    for (var i = 0; i < tags.length; i++) {
+      tags[i].addEventListener('click', function(e) {
+        var removeSlider = document.getElementsByClassName("removeSlider");
+        for (var i = 0; i < removeSlider.length; i++) {
+          removeSlider[i].style.opacity = 1;
+        }
+
+      });
+    }
+  })
+}
+
+var like = document.getElementsByClassName("like");
+var xhttp = new XMLHttpRequest();
+for (var i = 0; i < like.length; i++) {
+  like[i].addEventListener('click', function(e) {
+    if (e.target.nextSibling.id == "like")
+    {
+      e.target.src = "img/liked_icon.png";
+      e.target.className = "unlike";
+      e.target.title = "unlike";
+      e.target.nextSibling.id = "unlike";
+      // var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {}
+      };
+    xhttp.open("POST", "/likes", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("likeId="+ encodeURIComponent(e.target.id));
+
+  }
+  else if (e.target.nextSibling.id == "unlike")
+  {
+    e.target.src = "img/like_icon.png";
+    e.target.className = "like";
+    e.target.title = "like";
+    e.target.nextSibling.id = "like";
+    // var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttp.open("POST", "/likes", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("unlikeId="+ encodeURIComponent(e.target.id));
+  
+}
+});
+}
+
+
+var block = document.getElementsByClassName("block");
+var xhttpBlock = new XMLHttpRequest();
+for (var i = 0; i < block.length; i++) {
+  block[i].addEventListener('click', function(e) {
+    e.target.parentNode.parentNode.style.color = "red";
+    e.target.parentNode.parentNode.style.textAlign = "center";
+    e.target.parentNode.parentNode.innerHTML = "Cet utilisateur à été bloqué et n'apparaitra désormais plus dans vos résultats de recherches";
+    xhttpBlock.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttpBlock.open("POST", "/block", true);
+  xhttpBlock.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttpBlock.send("blockId="+ encodeURIComponent(e.target.id));
+});
+}
+
+var text = document.getElementsByClassName("text");
+
+for (var i = 0; i < text.length; i++) {
+  text[i].addEventListener('click', function(e) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttp.open("POST", "/likes", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("visitId="+ encodeURIComponent(e.target.id));
+});
+}
+
+
+var report = document.getElementsByClassName("report");
+var xhttpReport = new XMLHttpRequest();
+for (var i = 0; i < report.length; i++) {
+  report[i].addEventListener('click', function(e) {
+    console.log(e.target);
+    e.target.style.color = "green";
+    e.target.textContent = "Reported";
+    e.target.style.cursor = "not-allowed";
+    e.target.style.textDecoration = "none";
+    setTimeout(function(){ e.target.innerHTML = ""; }, 1500);
+    xhttpBlock.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {}
+    };
+  xhttpReport.open("POST", "/report", true);
+  xhttpReport.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttpReport.send("reportId="+ encodeURIComponent(e.target.id));
+});
+}
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip(); 
+});
+
+</script>
+</body>
+</html>
