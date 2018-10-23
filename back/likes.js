@@ -30,8 +30,20 @@ router.post("/", function(req, res) {
 		var sql = "SELECT * FROM users WHERE login = ?";
 		con.query(sql, [req.session.log], function(err, result) {
 			var visiterId = result[0].id;
-			var sql = "INSERT INTO visits SET visited_id = ?, visiter_id = ?";
-			con.query(sql, [req.body.visitId, visiterId]);
+			var sql = "SELECT * FROM visits WHERE visited_id = ? AND visiter_id = ?";
+			con.query(sql, [req.body.visitId, visiterId], function (err, result) {
+				if (result.length > 0)
+				{
+					var sql = "UPDATE visits SET date = ? WHERE visited_id = ? AND visiter_id = ?";
+					var date = new Date();
+					con.query(sql, [date, req.body.visitId, visiterId]);
+				}
+				else
+				{
+					var sql = "INSERT INTO visits SET visited_id = ?, visiter_id = ?";
+					con.query(sql, [req.body.visitId, visiterId]);
+				}
+			})
 		})
 	}
 })

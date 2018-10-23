@@ -114,17 +114,17 @@
 #likeDiv
 {
     margin-top: 30px;
-    border: 1px solid green;
+    /*border: 1px solid green;*/
     width: 50%;
-    margin-right: 1px solid grey;
+    border-right: 1px solid grey;
 }
 
 #visitDiv
 {
     margin-top: 30px;
-    border: 1px solid red;
+    /*border: 1px solid red;*/
     width: 50%;
-    margin-left: 1px solid grey;
+    border-left: 1px solid grey;
 }
 
 h3
@@ -191,19 +191,7 @@ input
     cursor: pointer;
 }
 
-#greyLine
-{
-    border-top: 1px solid grey;
-    width: 80%;
-    margin: auto;
-    margin-top: 50px;
-    /*margin-bottom: 30px;*/
-}
 
-#suggestionsDiv
-{
-    border: 2px solid black;
-}
 
 
 .error
