@@ -14,6 +14,8 @@ router.post("/", function(req, res) {
 			var blockerId = result[0].id;
 			var sql = "INSERT INTO block SET blocked_id = ?, blocker_id = ?";
 			con.query(sql, [req.body.blockId, blockerId]);
+			var sql = "UPDATE users SET popularite = popularite - 5 WHERE id = ?";
+			con.query(sql, [req.body.blockId]);
 		})
 	}
 })

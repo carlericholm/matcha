@@ -14,6 +14,8 @@ router.post("/", function(req, res) {
 			var likerId = result[0].id;
 			var sql = "INSERT INTO likes SET liked_id = ?, liker_id = ?";
 			con.query(sql, [req.body.likeId, likerId]);
+			var sql = "UPDATE users SET popularite = popularite + 3 WHERE id = ?";
+			con.query(sql, [req.body.likeId]);
 		})
 	}
 	if (req.body.unlikeId)
@@ -23,6 +25,8 @@ router.post("/", function(req, res) {
 			var likerId = result[0].id;
 			var sql = "DELETE FROM likes WHERE liked_id = ? AND liker_id = ?";
 			con.query(sql, [req.body.unlikeId, likerId]);
+			var sql = "UPDATE users SET popularite = popularite - 3 WHERE id = ?";
+			con.query(sql, [req.body.unlikeId]);
 		})
 	}
 	if (req.body.visitId)
@@ -37,11 +41,15 @@ router.post("/", function(req, res) {
 					var sql = "UPDATE visits SET date = ? WHERE visited_id = ? AND visiter_id = ?";
 					var date = new Date();
 					con.query(sql, [date, req.body.visitId, visiterId]);
+					var sql = "UPDATE users SET popularite = popularite + 1 WHERE id = ?";
+					con.query(sql, [req.body.visitId]);
 				}
 				else
 				{
 					var sql = "INSERT INTO visits SET visited_id = ?, visiter_id = ?";
 					con.query(sql, [req.body.visitId, visiterId]);
+					var sql = "UPDATE users SET popularite = popularite + 1 WHERE id = ?";
+					con.query(sql, [req.body.visitId]);
 				}
 			})
 		})

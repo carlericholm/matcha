@@ -7,11 +7,7 @@ var router = express.Router();
 var con = require('../config/database');
 
 
-// router.get("/", function(req, res) {
-// 	var params = querystring.parse(url.parse(req.url).query);
-// 	console.log(params.id);
-// 	// res.redirect('/');
-// })
+
 
 router.post("/", function(req, res) {
 	
@@ -28,10 +24,8 @@ router.post("/", function(req, res) {
 					if (result[i].tag == tag)
 					{
 						block = 1;
-						console.log ("block for: " + block);
 					}
 				}
-				console.log ("block avant if: " + block);
 				if (block == 1)
 				{
 					req.flash("exists", "Tag existant");
@@ -45,7 +39,6 @@ router.post("/", function(req, res) {
 			})
 
 		}
-		// res.redirect('/');
 	}
 	else if (req.body.tagId) {
 		var id = req.body.tagId;

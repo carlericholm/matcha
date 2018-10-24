@@ -30,6 +30,7 @@ var notifs = require('./back/notifs');
 
 
 
+
 //Moteur de template
 
 // app.set('views', path.join(__dirname, 'views'))
@@ -57,7 +58,6 @@ app.use(require('./Middlewares/user'))
 //routes
 
 app.get('/', function(req, res) {
-	console.log(req.session);
 	if (req.session.log !== undefined)
 	{
 		var sql = "SELECT * FROM pics WHERE login = ?";
@@ -69,7 +69,6 @@ app.get('/', function(req, res) {
 				var sql = "SELECT * FROM tags WHERE login = ?";
 				con.query(sql, [req.session.log], function(err, result) {
 					var tags = result;
-					console.log(tags.length);
 					res.render("index", {result: pics[0], info: users[0], tags: tags});
 				})
 			})

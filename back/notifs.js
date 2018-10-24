@@ -81,7 +81,6 @@ router.get("/", function(req, res) {
 										var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
 										con.query(sql, [picsLoginVisits], function (err, result) {
 											var visitersInfoDates = result;
-											console.log(visitersInfoDates);	
 											res.render("notifs", {info: users[0], geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment});
 										})
 									})

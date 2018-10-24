@@ -41,45 +41,53 @@
     <div id="filterContainer">
       <h1>Filter</h1>
       <div id="ageContainer" class="divFilters">
-        <label for="amount">Filtrer par age:</label>
-        <input type="text" id="age" readonly style="border:0; font-weight:bold;">
-        <div id="slider-range1" class="removeSlider"></div>
-      </div>
-      <div id="distanceContainer" class="divFilters">
-        <label for="amount">Filtrer par distance (km):</label>
-        <input type="text" id="distance" readonly style="border:0; font-weight:bold;">
-        <div id="slider-range2" class="removeSlider"></div>
-      </div>
-      <div id="popularityContainer" class="divFilters">
-        <label for="amount">Filtrer par score de popularité:</label>
-        <input type="text" id="popularite" readonly style="border:0; font-weight:bold;">
-        <div id="slider-range3" class="removeSlider"></div>
-      </div>
-      <div id="tagContainer" class="divFilters">
-        <div style="margin-top: 5px; width: 100%; display: flex; flex-wrap: wrap; justify-content: center;">
-          <%if (typeof tags !== 'undefined') {%>
-          <% for (var i = 0; i < tags.length ; i++) { %>
-          <p class="spanDiv"><% if (typeof tags && tags[i].tag) {%>
-            <%= tags[i].tag %><a id="<%= tags[i].id%>" class="link" style="color: white; margin-left: 3px; margin-right: 3px; font-size: 1.2em;">&#215;</a> </p>
-            <%}%>
-            <%}%>
-            <%}%>
-          </div>
+        <form method="post" action="/match">
+          <label for="amount">Filtrer par age:</label>
+          <input type="text" id="age" name="age" readonly style="border:0; font-weight:bold;">
+          <div id="slider-range1" class="removeSlider"></div>
+          <input type="hidden" id="ageMin" value="<% if (typeof ageValues !== 'undefined') { %><%= ageValues[0] %><%} else {%>0<%}%>">
+          <input type="hidden" id="ageMax" value="<% if (typeof ageValues !== 'undefined') { %><%= ageValues[2] %><%} else {%>100<%}%>">
         </div>
-        <input type="submit" name="filterButton" id="filterButton" value="FILTER" class="btn btn-primary btn-block" style="margin-top: 30px;">
-      </div>
-      <div id="sortContainer">
-        <h1>Sort</h1>
-        <div class="row" style="margin-top: 40px;">
-         <div class="col">
-          <label for="sel1">Sort by:</label>
-          <select class="form-control" id="sel1" name="sort" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;" value="<% if (info.orientation !== 'NULL') {%><%= info.orientation %><%}%>">
-           <option value="Age" <%= info.orientation == 'Bisexuel' ? 'selected' : ''%>>Age</option>
-           <option value="localisation" <%= info.orientation == 'Héterosexuel' ? 'selected' : ''%>>Localisation</option>
-           <option value="popularite" <%= info.orientation == 'Homosexuel' ? 'selected' : ''%>>Popularité</option>
-           <option value="tags" <%= info.orientation == 'Homosexuel' ? 'selected' : ''%>>Tags</option>
-         </select>
-         <input type="submit" name="sortButton" value="SORT" class="btn btn-primary btn-block"  style="margin-top: 30px;">
+        <div id="distanceContainer" class="divFilters">
+          <label for="amount">Filtrer par distance (km):</label>
+          <input type="text" id="distance" name="distance" readonly style="border:0; font-weight:bold;">
+          <div id="slider-range2" class="removeSlider"></div>
+          <input type="hidden" id="distanceMin" value="<% if (typeof distanceValue !== 'undefined') { %><%= distanceValue[0] %><%} else {%>0<%}%>">
+          <input type="hidden" id="distanceMax" value="<% if (typeof distanceValue !== 'undefined') { %><%= distanceValue[2] %><%} else {%>100<%}%>">
+        </div>
+        <div id="popularityContainer" class="divFilters">
+          <label for="amount">Filtrer par score de popularité:</label>
+          <input type="text" id="popularite" name="popularite" readonly style="border:0; font-weight:bold;">
+          <div id="slider-range3" class="removeSlider"></div>
+          <input type="hidden" id="popMin" value="<% if (typeof popularite !== 'undefined') { %><%= popularite[0] %><%} else {%>0<%}%>">
+          <input type="hidden" id="popMax" value="<% if (typeof popularite !== 'undefined') { %><%= popularite[2] %><%} else {%>1000<%}%>">
+        </div>
+        <div id="tagContainer" class="divFilters">
+          <div style="margin-top: 5px; width: 100%; display: flex; flex-wrap: wrap; justify-content: center;">
+            <%if (typeof tags !== 'undefined') {%>
+            <% for (var i = 0; i < tags.length ; i++) { %>
+            <p class="spanDiv"><% if (typeof tags && tags[i].tag) {%>
+              <%= tags[i].tag %><a id="<%= tags[i].id%>" class="link" style="color: white; margin-left: 3px; margin-right: 3px; font-size: 1.2em;">&#215;</a> </p>
+              <%}%>
+              <%}%>
+              <%}%>
+            </div>
+          </div>
+          <input type="submit" name="filterButton" id="filterButton" value="FILTER" class="btn btn-primary btn-block" style="margin-top: 30px;">
+        </div>
+        <div id="sortContainer">
+          <h1>Sort</h1>
+          <div class="row" style="margin-top: 40px;">
+           <div class="col">
+            <label for="sel1">Sort by:</label>
+            <select class="form-control" id="sel1" name="sort" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+             <option value="age" <% if (typeof sort !== 'undefined') { %><%= sort == 'age' ? 'selected' : ''%><%}%>>Age</option>
+             <option value="localisation" <% if (typeof sort !== 'undefined') { %><%= sort == 'localisation' ? 'selected' : ''%><%}%>>Localisation</option>
+             <option value="popularite" <% if (typeof sort !== 'undefined') { %><%= sort == 'popularite' ? 'selected' : ''%><%}%>>Popularité</option>
+             <option value="tags" <% if (typeof sort !== 'undefined') { %><%= sort == 'tags' ? 'selected' : ''%><%}%>>Tags</option>
+           </select>
+           <input type="submit" name="sortButton" value="SORT" class="btn btn-primary btn-block"  style="margin-top: 30px;">
+         </form>
        </div>
      </div>
    </div>
@@ -143,7 +151,7 @@
                 <p style="font-style: italic;"><%= suggestions[i].bio %></p>
               </div>
               <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
-                <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"></div>
+                <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
                 <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                   <% var src = 'like_icon.png'%>
                   <%if (typeof likes !== 'undefined') {%>
@@ -196,11 +204,17 @@ window.onclick = function(event) {
 
 
 $( function() {
+  var ageMin = document.getElementById("ageMin");
+  var ageMax = document.getElementById("ageMax");
+  var distanceMin = document.getElementById("distanceMin");
+  var distanceMax = document.getElementById("distanceMax");
+  var popMin = document.getElementById("popMin");
+  var popMax = document.getElementById("popMax");
   $( "#slider-range1" ).slider({
     range: true,
     min: 0,
     max: 100,
-    values: [ 0, 100 ],
+    values: [ ageMin.value, ageMax.value ],
     slide: function( event, ui ) {
       $( "#age" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
     }
@@ -214,7 +228,7 @@ $( function() {
     range: true,
     min: 0,
     max: 100,
-    values: [ 0, 100 ],
+    values: [ distanceMin.value, distanceMax.value ],
     slide: function( event, ui ) {
       $( "#distance" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
     }
@@ -228,7 +242,7 @@ $( function() {
     range: true,
     min: 0,
     max: 1000,
-    values: [ 0, 1000 ],
+    values: [ popMin.value, popMax.value ],
     slide: function( event, ui ) {
       $( "#popularite" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
     }
@@ -351,10 +365,9 @@ for (var i = 0; i < block.length; i++) {
 }
 
 var text = document.getElementsByClassName("text");
-
+var xhttp = new XMLHttpRequest();
 for (var i = 0; i < text.length; i++) {
   text[i].addEventListener('click', function(e) {
-    var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {}
     };
@@ -369,7 +382,6 @@ var report = document.getElementsByClassName("report");
 var xhttpReport = new XMLHttpRequest();
 for (var i = 0; i < report.length; i++) {
   report[i].addEventListener('click', function(e) {
-    console.log(e.target);
     e.target.style.color = "green";
     e.target.textContent = "Reported";
     e.target.style.cursor = "not-allowed";

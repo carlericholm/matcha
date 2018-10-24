@@ -96,7 +96,7 @@
                         <p style="font-style: italic;"><%= suggestions[i].bio %></p>
                       </div>
                       <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
-                        <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"></div>
+                        <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                           <% var src = 'like_icon.png'%>
                           <%if (typeof likes !== 'undefined') {%>
@@ -193,7 +193,7 @@
                         <p style="font-style: italic;"><%= visiters[i].bio %></p>
                       </div>
                       <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
-                        <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"></div>
+                        <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=visiters[i].popularite%></div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                           <% var src = 'like_icon.png'%>
                           <%if (typeof likes !== 'undefined') {%>
@@ -360,10 +360,9 @@ for (var i = 0; i < block.length; i++) {
 }
 
 var text = document.getElementsByClassName("text");
-
+var xhttp = new XMLHttpRequest();
 for (var i = 0; i < text.length; i++) {
   text[i].addEventListener('click', function(e) {
-    var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {}
     };
@@ -378,7 +377,6 @@ var report = document.getElementsByClassName("report");
 var xhttpReport = new XMLHttpRequest();
 for (var i = 0; i < report.length; i++) {
   report[i].addEventListener('click', function(e) {
-    console.log(e.target);
     e.target.style.color = "green";
     e.target.textContent = "Reported";
     e.target.style.cursor = "not-allowed";
