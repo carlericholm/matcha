@@ -113,7 +113,7 @@ module.exports = {
 				nb = 0;
 				i++;
 			}
-			return callback(result.sort(function popularity(first, second)
+			return callback(result.sort(function scoreTag(first, second)
 			{
 				if (first.tagScore == second.tagScore)
 					return 0;
@@ -137,22 +137,22 @@ module.exports = {
 				result[i].distance = '0';
 			i++;
 		}
-		result.sort(function ascendingdist(first, second)
-		{
-			if (first.distance == second.distance)
-				return 0;
-			if (first.distance < second.distance)
-				return -1;
-			else
-				return 1; 
-		});
 		this.settags(users, result, function (result) {
-			console.log(result);
-			return callback(result.sort(function popularity(first, second)
+			// console.log(result);
+			result.sort(function popularity(first, second)
 			{
 				if (first.popularite == second.popularite)
 					return 0;
 				if (first.popularite > second.popularite)
+					return -1;
+				else
+					return 1; 
+			});
+			return callback(result.sort(function ascendingdist(first, second)
+			{
+				if (first.distance == second.distance)
+					return 0;
+				if (first.distance < second.distance)
 					return -1;
 				else
 					return 1; 
