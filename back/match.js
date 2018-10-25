@@ -18,14 +18,16 @@ router.get("/", function(req, res) {
 						if (users[0].orientation == 'Héterosexuel')
 						{
 
-							tools.getPicsUsersJoin('Feminin', 'Héterosexuel', function(suggestions) {
-								tools.getLikes(users[0].id, function(likes) {
-									tools.getBlock(users[0].id, function (block) {
-										tools.getReport(users[0].id, function (report) {
-											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report});
+							tools.getPicsUsersJoin('Feminin', 'Héterosexuel', function(result) {
+								tools.getSortedDistanceList(users, users[0].latitude, users[0].longitude, result, function (suggestions) {
+									// console.log(suggestions);
+									tools.getLikes(users[0].id, function(likes) {
+										tools.getBlock(users[0].id, function (block) {
+											tools.getReport(users[0].id, function (report) {
+												res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report});
+											})
 										})
 									})
-
 								})
 							})
 						}
@@ -110,7 +112,6 @@ router.post("/", function(req, res) {
 	var distance = req.body.distance.split(" ");
 	var popularite = req.body.popularite.split(" ");
 	var sort = req.body.sort;
-	console.log(sort);
 
 	if (req.session.log !== undefined)
 	{
@@ -123,7 +124,7 @@ router.post("/", function(req, res) {
 						if (users[0].orientation == 'Héterosexuel')
 						{
 
-							tools.getPicsUsersJoinFilter('Feminin', 'Héterosexuel', age[0], age[2], sort, function(suggestions) {
+							tools.getPicsUsersJoinFilter('Feminin', 'Héterosexuel', age[0], age[2], popularite[0], popularite[2], sort, function(suggestions) {
 								tools.getLikes(users[0].id, function(likes) {
 									tools.getBlock(users[0].id, function (block) {
 										tools.getReport(users[0].id, function (report) {
@@ -136,7 +137,7 @@ router.post("/", function(req, res) {
 						}
 						if (users[0].orientation == 'Homosexuel')
 						{
-							tools.getPicsUsersJoinFilter('Masculin', 'Homosexuel', age[0], age[2], sort, function(suggestions) {
+							tools.getPicsUsersJoinFilter('Masculin', 'Homosexuel', age[0], age[2], popularite[0], popularite[2], sort, function(suggestions) {
 								tools.getLikes(users[0].id, function(likes) {
 									tools.getBlock(users[0].id, function (block) {
 										tools.getReport(users[0].id, function (report) {
@@ -149,7 +150,7 @@ router.post("/", function(req, res) {
 						}
 						if (users[0].orientation == 'Bisexuel')
 						{
-							tools.getPicsUsersJoinFilter(0, 'Bisexuel', age[0], age[2], sort,  function(suggestions) {
+							tools.getPicsUsersJoinFilter(0, 'Bisexuel', age[0], age[2], popularite[0], popularite[2], sort, function(suggestions) {
 								tools.getLikes(users[0].id, function(likes) {
 									tools.getBlock(users[0].id, function (block) {
 										tools.getReport(users[0].id, function (report) {
@@ -164,7 +165,7 @@ router.post("/", function(req, res) {
 					{
 						if (users[0].orientation == 'Héterosexuel')
 						{
-							tools.getPicsUsersJoinFilter('Masculin', 'Héterosexuel', age[0], age[2], sort, function(suggestions) {
+							tools.getPicsUsersJoinFilter('Masculin', 'Héterosexuel', age[0], age[2], popularite[0], popularite[2], sort, function(suggestions) {
 								tools.getLikes(users[0].id, function(likes) {
 									tools.getBlock(users[0].id, function (block) {
 										tools.getReport(users[0].id, function (report) {
@@ -176,7 +177,7 @@ router.post("/", function(req, res) {
 						}
 						if (users[0].orientation == 'Homosexuel')
 						{
-							tools.getPicsUsersJoinFilter('Feminin', 'Homosexuel', age[0], age[2], sort, function(suggestions) {
+							tools.getPicsUsersJoinFilter('Feminin', 'Homosexuel', age[0], age[2], popularite[0], popularite[2], sort, function(suggestions) {
 								tools.getLikes(users[0].id, function(likes) {
 									tools.getBlock(users[0].id, function (block) {
 										tools.getReport(users[0].id, function (report) {
@@ -188,7 +189,7 @@ router.post("/", function(req, res) {
 						}
 						if (users[0].orientation == 'Bisexuel')
 						{
-							tools.getPicsUsersJoinFilter(0, 'Bisexuel', age[0], age[2], sort, function(suggestions) {
+							tools.getPicsUsersJoinFilter(0, 'Bisexuel', age[0], age[2], popularite[0], popularite[2], sort, function(suggestions) {
 								tools.getLikes(users[0].id, function(likes) {
 									tools.getBlock(users[0].id, function (block) {
 										tools.getReport(users[0].id, function (report) {
@@ -205,8 +206,8 @@ router.post("/", function(req, res) {
 					res.render("match", {info: users[0], tags: tags, fillProfile: "Veuillez completer votre profil avant de recevoir des suggestions"});
 				}
 			})
-		})
-	}
+})
+}
 })
 
 
