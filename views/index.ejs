@@ -181,10 +181,10 @@ window.onclick = function(event) {
 
 var tags = document.getElementsByClassName("link");
 
+var xhttp = new XMLHttpRequest();
 for (var i = 0; i < tags.length; i++) {
   tags[i].addEventListener('click', function(e) {
     console.log(e.target.id);
-    var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {}
     };

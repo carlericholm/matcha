@@ -200,7 +200,6 @@
 	{
 		if (sort == 'age')
 		{
-			console.log("ici");
 			return callback(result.sort(function sortAge(first, second)
 			{
 				if (first.age == second.age)
@@ -213,8 +212,6 @@
 		}
 		if (sort == 'localisation')
 		{
-
-			console.log("ici");
 			return callback(result.sort(function sortAge(first, second)
 			{
 				if (first.distance == second.distance)
@@ -227,7 +224,6 @@
 		}
 		if (sort == 'popularite')
 		{
-			console.log("ici");
 			return callback(result.sort(function sortAge(first, second)
 			{
 				if (first.popularite == second.popularite)
@@ -240,7 +236,6 @@
 		}
 		if (sort == 'tags')
 		{
-			console.log("ici");
 			return callback(result.sort(function sortAge(first, second)
 			{
 				if (first.tagScore == second.tagScore)
@@ -251,6 +246,8 @@
 					return 1; 
 			}));
 		}
+		else
+			return callback(result);
 	}
 }
 
