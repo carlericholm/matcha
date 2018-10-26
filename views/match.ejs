@@ -82,7 +82,7 @@
             <label for="sel1">Sort by:</label>
             <select class="form-control" id="sel1" name="sort" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
              <option value="age" <% if (typeof sort !== 'undefined') { %><%= sort == 'age' ? 'selected' : ''%><%}%>>Age</option>
-             <option value="localisation" <% if (typeof sort !== 'undefined') { %><%= sort == 'localisation' ? 'selected' : ''%><%}%>>Localisation</option>
+             <option value="localisation" <% if (typeof sort !== 'undefined') { %><%= sort == 'localisation' ? 'selected' : ''%><%}%>>Distance</option>
              <option value="popularite" <% if (typeof sort !== 'undefined') { %><%= sort == 'popularite' ? 'selected' : ''%><%}%>>Popularité</option>
              <option value="tags" <% if (typeof sort !== 'undefined') { %><%= sort == 'tags' ? 'selected' : ''%><%}%>>Tags</option>
            </select>
@@ -99,6 +99,9 @@
     <%if (typeof suggestions !== 'undefined') {%>
     <% for (var i = 0; i < suggestions.length ; i++) { %>
     <% if (suggestions[i].login !== info.login) {%>
+    <% if ((suggestions[i].age >= ageValues[0] && suggestions[i].age <= ageValues[2])) {%>
+    <% if ((suggestions[i].distance >= distanceValue[0] && suggestions[i].distance <= distanceValue[2])) {%>
+    <% if ((suggestions[i].popularite >= popularite[0] && suggestions[i].popularite <= popularite[2])) {%>
     <%if (typeof block !== 'undefined') {%><%var skip = 0;%><% for (var b = 0; b < block.length ; b++) { %><% if (block[b].blocked_id == suggestions[i].id) { var skip = 1;}}}%>
     <%if (typeof report !== 'undefined') {%><%var reportUser = 0;%><% for (var b = 0; b < report.length ; b++) { %><% if (report[b].reported_id == suggestions[i].id) { var reportUser = 1;}}}%>
     <%var noImage = 0;if (suggestions[i].img0 == 'empty' && suggestions[i].img1 == 'empty' && suggestions[i].img2 == 'empty' && suggestions[i].img3 == 'empty' && suggestions[i].img4 == 'empty') {var noImage = 1;}%>
@@ -178,6 +181,9 @@
     <%}%>
     <%}%>
     <%}%>
+    <%}%>
+    <%}%>
+    <%}%>
   </div>
 </div>
 </div>
@@ -228,7 +234,7 @@ $( function() {
   $( "#slider-range2" ).slider({
     range: true,
     min: 0,
-    max: 100,
+    max: 10000,
     values: [ distanceMin.value, distanceMax.value ],
     slide: function( event, ui ) {
       $( "#distance" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );

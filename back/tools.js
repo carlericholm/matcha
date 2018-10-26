@@ -1,87 +1,90 @@
-var con = require('../config/database');
-var geopoint = require('geopoint');
+ var con = require('../config/database');
+ var geopoint = require('geopoint');
 
-module.exports = {
-	getUser: function (login, callback)
-	{
-		var sql = "SELECT * FROM users WHERE login = ?";
-		con.query(sql, [login], function (err, result) {
-			con.query('SELECT * FROM tags', function(err, tag) { if (err) throw err; 
-				var i = 0;
-				var j = 0;
-				while (result[i])
-				{
-					result[i].tags = new Array();
-					var onetag = tag.filter(tag => tag.login == result[i].login)
-					while (onetag[j])
-					{
-						result[i].tags.push(onetag[j].tag);
-						j++;
-					}
-					j = 0;
-					i++;
-				}
-				return callback(result);
-			})
-		});
-	},
+ module.exports = {
+ 	getUser: function (login, callback)
+ 	{
+ 		var sql = "SELECT * FROM users WHERE login = ?";
+ 		con.query(sql, [login], function (err, result) {
+ 			con.query('SELECT * FROM tags', function(err, tag) { if (err) throw err; 
+ 				var i = 0;
+ 				var j = 0;
+ 				while (result[i])
+ 				{
+ 					result[i].tags = new Array();
+ 					var onetag = tag.filter(tag => tag.login == result[i].login)
+ 					while (onetag[j])
+ 					{
+ 						result[i].tags.push(onetag[j].tag);
+ 						j++;
+ 					}
+ 					j = 0;
+ 					i++;
+ 				}
+ 				return callback(result);
+ 			})
+ 		});
+ 	},
 
-	getTags: function(login, callback)
-	{
-		var sql = "SELECT * FROM tags WHERE login = ?";
-		con.query(sql, [login], function (err, result) {
-			return callback(result);
-		})
-	},
+ 	getTags: function(login, callback)
+ 	{
+ 		var sql = "SELECT * FROM tags WHERE login = ?";
+ 		con.query(sql, [login], function (err, result) {
+ 			return callback(result);
+ 		})
+ 	},
 
-	getLikes: function(liker_id, callback)
-	{
-		var sql = "SELECT * FROM likes WHERE liker_id = ?";
-		con.query(sql, [liker_id], function (err, result) {
-			return callback(result);
-		})
-	},
+ 	getLikes: function(liker_id, callback)
+ 	{
+ 		var sql = "SELECT * FROM likes WHERE liker_id = ?";
+ 		con.query(sql, [liker_id], function (err, result) {
+ 			return callback(result);
+ 		})
+ 	},
 
-	getBlock: function(blocker_id, callback)
-	{
-		var sql = "SELECT * FROM block WHERE blocker_id = ?";
-		con.query(sql, [blocker_id], function (err, result) {
-			return callback(result);
-		})
-	},
+ 	getBlock: function(blocker_id, callback)
+ 	{
+ 		var sql = "SELECT * FROM block WHERE blocker_id = ?";
+ 		con.query(sql, [blocker_id], function (err, result) {
+ 			return callback(result);
+ 		})
+ 	},
 
-	getReport: function(reporter_id, callback)
-	{
-		var sql = "SELECT * FROM report WHERE reporter_id = ?";
-		con.query(sql, [reporter_id], function (err, result) {
-			return callback(result);
-		})
-	},
+ 	getReport: function(reporter_id, callback)
+ 	{
+ 		var sql = "SELECT * FROM report WHERE reporter_id = ?";
+ 		con.query(sql, [reporter_id], function (err, result) {
+ 			return callback(result);
+ 		})
+ 	},
 
-	getPicsUsersJoin: function(sexe, orientation, callback)
-	{
-		if (sexe == 0)
-		{
-			var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE orientation = ?";
-			con.query(sql, [orientation], function (err, result) {
-				return callback(result);
-			})
-		}
-		else
-		{
-			var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE sexe = ? AND orientation = ?";
-			con.query(sql, [sexe, orientation], function (err, result) {
-				return callback(result);
-			})
-		}
-	},
+ 	getPicsUsersJoin: function(sexe, orientation, callback)
+ 	{
+ 		if (sexe == 0)
+ 		{
+ 			var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE orientation = ?";
+ 			con.query(sql, [orientation], function (err, result) {
+ 				return callback(result);
+ 			})
+ 		}
+ 		else
+ 		{
+ 			var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE sexe = ? AND orientation = ?";
+ 			con.query(sql, [sexe, orientation], function (err, result) {
+ 				return callback(result);
+ 			})
+ 		}
+ 	},
 
-	settags: function(users, result, callback)
+	getTagScore: function(users, result, callback)
 	{
-		con.query('SELECT * FROM tags', function(err, tag) { if (err) throw err; 
+		con.query('SELECT * FROM tags', function(err, tag){
+			
 			var i = 0;
 			var j = 0;
 			var nb = 0;
+			var number = 0;
+			var biggest = 0;
 			while (result[i])
 			{
 				result[i].tags = new Array();
@@ -110,45 +113,109 @@ module.exports = {
 				}
 				j = 0;
 				result[i].tagScore = nb;
+				if (result[i].tagScore > biggest)
+					biggest = result[i].tagScore;
 				nb = 0;
 				i++;
 			}
-			return callback(result.sort(function scoreTag(first, second)
+			i = 0;
+			while (result[i])
 			{
-				if (first.tagScore == second.tagScore)
-					return 0;
-				if (first.tagScore > second.tagScore)
-					return -1;
-				else
-					return 1; 
-			}));
-		})
+				number = (((result[i].tagScore) / biggest) * 100);
+				result[i].matchingScore += (number / 3);
+				i++;
+			}
+			return callback(result);
+		});
 	},
 
-	getSortedDistanceList: function (users, myLat, myLong, result, callback)
+	getDistanceScore: function(users, myLat, myLong, result)
 	{
-		var mypoint = new geopoint(myLat, myLong)
+		var biggest = 0;
+		var mypoint = new geopoint(myLat, myLong);
+		var nb = 0;
 		i = 0;
+
 		while (result[i])
 		{
 			point2 = new geopoint(result[i].latitude, result[i].longitude)
 			result[i].distance = mypoint.distanceTo(point2, true)
+			if (result[i].distance > biggest)
+				biggest = result[i].distance;
 			if (!result[i].distance)
-				result[i].distance = '0';
+				result[i].distance = 0;
 			i++;
 		}
-		this.settags(users, result, function (result) {
-			// console.log(result);
-			result.sort(function popularity(first, second)
+		i = 0;
+		while (result[i])
+		{
+			nb = (((result[i].distance) / biggest) * 100);
+			result[i].matchingScore = ((100 - nb) / 2);
+			i++;
+		}
+		return result;
+	},
+
+	getPopularityScore: function(result)
+	{
+		var i = 0;
+		var biggest = 0;
+		var nb = 0;
+		while (result[i])
+		{
+			if (result[i].popularite > biggest)
+				biggest = result[i].popularite;
+			i++;
+		}
+		i = 0;
+		while (result[i])
+		{
+			nb = (((result[i].popularite) / biggest) * 100);
+			result[i].matchingScore += (nb / 5);
+			i++;
+		}
+		return result;
+	},
+
+	getSortedMatchingScoreList: function (users, myLat, myLong, result, callback)
+	{
+		var distanceScoreList = this.getDistanceScore(users, myLat, myLong, result);
+		var popularityScoreList = this.getPopularityScore(distanceScoreList);
+		this.getTagScore(users, popularityScoreList, function(result){
+			var tagScoreList = result;
+			return callback(tagScoreList.sort(function bestMatch(first, second)
 			{
-				if (first.popularite == second.popularite)
+				if (first.matchingScore == second.matchingScore)
 					return 0;
-				if (first.popularite > second.popularite)
+				if (first.matchingScore > second.matchingScore)
 					return -1;
 				else
 					return 1; 
-			});
-			return callback(result.sort(function ascendingdist(first, second)
+			}));
+		});
+	},
+
+
+	getFilteredResults: function(ageMin, ageMax, popMin, popMax, sort, result, callback)
+	{
+		if (sort == 'age')
+		{
+			console.log("ici");
+			return callback(result.sort(function sortAge(first, second)
+			{
+				if (first.age == second.age)
+					return 0;
+				if (first.age < second.age)
+					return -1;
+				else
+					return 1; 
+			}));
+		}
+		if (sort == 'localisation')
+		{
+
+			console.log("ici");
+			return callback(result.sort(function sortAge(first, second)
 			{
 				if (first.distance == second.distance)
 					return 0;
@@ -157,44 +224,32 @@ module.exports = {
 				else
 					return 1; 
 			}));
-		});
-	},
-
-	getPicsUsersJoinFilter: function(sexe, orientation, ageMin, ageMax, popMin, popMax, sort, callback)
-	{
+		}
 		if (sort == 'popularite')
 		{
-			if (sexe == 0)
+			console.log("ici");
+			return callback(result.sort(function sortAge(first, second)
 			{
-				var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE orientation = ? AND age >= ? AND age <= ? AND popularite >= ? AND popularite <= ? ORDER BY " + sort + " DESC";
-				con.query(sql, [orientation, ageMin, ageMax, popMin, popMax], function (err, result) {
-					return callback(result);
-				})
-			}
-			else
-			{
-				var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE sexe = ? AND orientation = ? AND age >= ? AND age <= ? AND popularite >= ? AND popularite <= ? ORDER BY " + sort + " DESC";
-				con.query(sql, [sexe, orientation, ageMin, ageMax, popMin, popMax], function (err, result) {
-					return callback(result);
-				})
-			}
+				if (first.popularite == second.popularite)
+					return 0;
+				if (first.popularite > second.popularite)
+					return -1;
+				else
+					return 1; 
+			}));
 		}
-		else
+		if (sort == 'tags')
 		{
-			if (sexe == 0)
+			console.log("ici");
+			return callback(result.sort(function sortAge(first, second)
 			{
-				var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE orientation = ? AND age >= ? AND age <= ? AND popularite >= ? AND popularite <= ? ORDER BY " + sort;
-				con.query(sql, [orientation, ageMin, ageMax, popMin, popMax], function (err, result) {
-					return callback(result);
-				})
-			}
-			else
-			{
-				var sql = "SELECT * FROM pics INNER JOIN users on pics.login = users.login WHERE sexe = ? AND orientation = ? AND age >= ? AND age <= ? AND popularite >= ? AND popularite <= ? ORDER BY " + sort;
-				con.query(sql, [sexe, orientation, ageMin, ageMax, popMin, popMax], function (err, result) {
-					return callback(result);
-				})
-			}
+				if (first.tagScore == second.tagScore)
+					return 0;
+				if (first.tagScore > second.tagScore)
+					return -1;
+				else
+					return 1; 
+			}));
 		}
 	}
 }
