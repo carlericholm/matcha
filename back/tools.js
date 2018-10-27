@@ -6,7 +6,7 @@
  	{
  		var sql = "SELECT * FROM users WHERE login = ?";
  		con.query(sql, [login], function (err, result) {
- 			con.query('SELECT * FROM tags', function(err, tag) { if (err) throw err; 
+ 			con.query('SELECT * FROM tags', function(err, tag) { if (err) throw err;
  				var i = 0;
  				var j = 0;
  				while (result[i])
@@ -25,7 +25,24 @@
  			})
  		});
  	},
-
+  casseCouilles: function(text) {
+    var map = {
+        '&amp;': '&',
+        '&#038;': "&",
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#039;': "'",
+        '&#8217;': "’",
+        '&#8216;': "‘",
+        '&#8211;': "–",
+        '&#8212;': "—",
+        '&#8230;': "…",
+        '&#8221;': '”'
+    };
+    text = text.replace(/\&[\w\d\#]{2,5}\;/g, function(m) { return map[m]; });
+    return text;
+  },
  	getTags: function(login, callback)
  	{
  		var sql = "SELECT * FROM tags WHERE login = ?";
@@ -79,7 +96,7 @@
 	getTagScore: function(users, result, callback)
 	{
 		con.query('SELECT * FROM tags', function(err, tag){
-			
+
 			var i = 0;
 			var j = 0;
 			var nb = 0;
@@ -190,7 +207,7 @@
 				if (first.matchingScore > second.matchingScore)
 					return -1;
 				else
-					return 1; 
+					return 1;
 			}));
 		});
 	},
@@ -207,7 +224,7 @@
 				if (first.age < second.age)
 					return -1;
 				else
-					return 1; 
+					return 1;
 			}));
 		}
 		if (sort == 'localisation')
@@ -219,7 +236,7 @@
 				if (first.distance < second.distance)
 					return -1;
 				else
-					return 1; 
+					return 1;
 			}));
 		}
 		if (sort == 'popularite')
@@ -231,7 +248,7 @@
 				if (first.popularite > second.popularite)
 					return -1;
 				else
-					return 1; 
+					return 1;
 			}));
 		}
 		if (sort == 'tags')
@@ -243,27 +260,10 @@
 				if (first.tagScore > second.tagScore)
 					return -1;
 				else
-					return 1; 
+					return 1;
 			}));
 		}
 		else
 			return callback(result);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

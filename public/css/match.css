@@ -142,7 +142,7 @@ input
     border-radius: 3px;
     color: white;
     font-size: 0.9em;
-    
+
 }
 
 .link:hover
@@ -210,6 +210,22 @@ input
 {
     cursor: pointer;
 }
+
+.bubble
+{
+    width: 4vw;
+    height: 7vh;
+    border-radius: 50%;
+}
+
+.report:hover
+{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+
 
 
 
@@ -294,12 +310,12 @@ span.psw {
 }
 
 @-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)} 
+    from {-webkit-transform: scale(0)}
     to {-webkit-transform: scale(1)}
 }
-    
+
 @keyframes animatezoom {
-    from {transform: scale(0)} 
+    from {transform: scale(0)}
     to {transform: scale(1)}
 }
 
@@ -313,32 +329,3 @@ span.psw {
        width: 100%;
     }
 }
-
-.bubble
-{
-    width: 4vw;
-    height: 7vh;
-    border-radius: 50%;
-}
-
-.report:hover
-{
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

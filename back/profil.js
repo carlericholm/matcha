@@ -48,7 +48,7 @@ router.post("/", function(req, res) {
 						}
 						else
 						{
-							con.query('UPDATE users SET email = ? WHERE login = ? ', [email, req.session.log]);	
+							con.query('UPDATE users SET email = ? WHERE login = ? ', [email, req.session.log]);
 						}
 					})
 				}
@@ -125,33 +125,3 @@ router.post("/", function(req, res) {
 
 
 module.exports = router
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

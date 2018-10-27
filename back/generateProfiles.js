@@ -97,34 +97,22 @@ con.query('SELECT login FROM users where login = ?', ['FakeUser42'], function (e
       	else
       			orientation = 'Homosexuel';
 
-        if (i % 4 == 0) {
-      		var img0 = 'seed/img01.png';
-      			img1 = 'seed/img02.png';
-      			img2 = 'seed/img03.png';
-      			img3 = 'seed/img04.png';
-      			img4 = 'seed/img05.png';
-      	}
-    	  else if (i % 4 == 1) {
-      		var img0 = 'seed/img06.png';
-      			img1 = 'seed/img07.png';
-      			img2 = 'seed/img08.png';
-      			img3 = 'seed/img09.png';
-      			img4 = 'seed/img10.png';
-      	}
-    	   else if (i % 4 == 2) {
-      		var img0 = 'seed/img11.png';
-      			img1 = 'seed/img12.png';
-      			img2 = 'seed/img13.png';
-      			img3 = 'seed/img14.png';
-      			img4 = 'seed/img15.png';
-      	}
-      	else {
-      		var img0 = 'seed/img16.png';
-      			img1 = 'seed/img17.png';
-      			img2 = 'seed/img18.png';
-      			img3 = 'seed/img19.png';
-      			img4 = 'seed/img20.png';
-      	}
+          if (i % 2 == 0){
+          		var img0 = 'seed/img0' + (getRandomInt(8) + 1) + '.png';
+          			img1 = 'seed/img0' + (getRandomInt(8) + 1) + '.png';
+          			img2 = 'seed/img0' + (getRandomInt(8) + 1) + '.png';
+          			img3 = 'seed/img0' + (getRandomInt(8) + 1) + '.png';
+          			img4 = 'seed/img0' + (getRandomInt(8) + 1) + '.png';
+          }
+          else {
+            var img0 = 'seed/img' + (getRandomInt(9) + 10) + '.png';
+              img1 = 'seed/img' + (getRandomInt(9) + 10) + '.png';
+              img2 = 'seed/img' + (getRandomInt(9) + 10) + '.png';
+              img3 = 'seed/img' + (getRandomInt(9) + 10) + '.png';
+              img4 = 'seed/img' + (getRandomInt(9) + 10) + '.png';
+          }
+
+
 
         sql = 'INSERT INTO `users` (`login`, `name`, `firstname`, `email`, `password`, `cle`, `active`, `age`, `sexe`, `orientation`, `bio`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         con.query(sql, [login, name, firstname, email, hash.generate(password), cle, active, age, sexe, orientation, bio, latitude, longitude], function (err, result) { if (err) throw err });

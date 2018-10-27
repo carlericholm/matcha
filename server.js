@@ -27,6 +27,7 @@ var likes = require('./back/likes');
 var block = require('./back/block');
 var report = require('./back/report');
 var notifs = require('./back/notifs');
+var tools = require('./back/tools');
 
 
 
@@ -69,6 +70,11 @@ app.get('/', function(req, res) {
 				var sql = "SELECT * FROM tags WHERE login = ?";
 				con.query(sql, [req.session.log], function(err, result) {
 					var tags = result;
+					Object.keys(users[0]).map(function(key) {
+						if (typeof users[0][key] === "string") {
+							users[0][key] = tools.casseCouilles(users[0][key]);
+						}
+					});
 					res.render("index", {result: pics[0], info: users[0], tags: tags});
 				})
 			})

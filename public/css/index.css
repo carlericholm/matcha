@@ -157,12 +157,12 @@
 }
 
 @-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)} 
+    from {-webkit-transform: scale(0)}
     to {-webkit-transform: scale(1)}
 }
 
 @keyframes animatezoom {
-    from {transform: scale(0)} 
+    from {transform: scale(0)}
     to {transform: scale(1)}
 }
 
@@ -233,7 +233,7 @@ label
     border-radius: 3px;
     color: white;
     font-size: 0.9em;
-    
+
 }
 
 .cross_icon_white
@@ -258,5 +258,12 @@ label
     margin-top: 30px;
 }
 
+@media screen and (max-width: 640px) {
 
-
+	.custom-file-input {
+		display: flex;
+		flex-direction: column;
+		font-size: 10px;
+		background-color: black;
+	}
+}
