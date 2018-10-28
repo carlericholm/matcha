@@ -24,7 +24,6 @@ router.get("/", function(req, res) {
 
 							tools.getPicsUsersJoin('Feminin', 'Héterosexuel', function(result) {
 								tools.getSortedMatchingScoreList(users, users[0].latitude, users[0].longitude, result, function (suggestions) {
-									console.log(suggestions);
 									tools.getLikes(users[0].id, function(likes) {
 										tools.getBlock(users[0].id, function (block) {
 											tools.getReport(users[0].id, function (report) {
@@ -131,6 +130,7 @@ router.post("/", function(req, res) {
 
 	if (req.session.log !== undefined)
 	{
+		console.log(req.body)
 		tools.getUser(req.session.log, function(users) {
 			tools.getTags(req.session.log, function(tags) {
 				if (users[0].age !== 0 && users[0].sexe !== 'NULL' && users[0].orientation !== 'NULL' && users[0].bio !== 'NULL')

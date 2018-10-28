@@ -66,7 +66,7 @@
           <div style="margin-top: 5px; width: 100%; display: flex; flex-wrap: wrap; justify-content: center;">
             <%if (typeof tags !== 'undefined') {%>
             <% for (var i = 0; i < tags.length ; i++) { %>
-            <p class="spanDiv"><% if (typeof tags && tags[i].tag) {%>
+            <input type="hidden" name="tagsTags" value="<%= tags[i].tag %>"><p class="spanDiv" style="background-color: rgb(251, 189, 8);"><% if (typeof tags && tags[i].tag) {%>
               <%= tags[i].tag %></p>
               <%}%>
               <%}%>
@@ -413,6 +413,18 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip(); 
 });
 
+
+
+var filtre = document.getElementsByClassName("spanDiv");
+    for (var i = 0; i < filtre.length; i++) {
+      filtre[i].addEventListener('click', function(e) {
+        console.log(e.target);
+            if (e.target.style.backgroundColor == "lightgrey")
+                    e.target.style.backgroundColor = 'rgb(' + 251 + ',' + 189 + ',' + 8 + ')';
+            else
+                    e.target.style.backgroundColor = "lightgrey";
+        });
+    }
 
 </script>
 </body>
