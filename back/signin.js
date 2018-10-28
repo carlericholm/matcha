@@ -3,6 +3,7 @@ var eschtml = require('htmlspecialchars');
 var hash = require('password-hash');
 
 var router = express.Router();
+var tools = require('./tools.js');
 var con = require('../config/database');
 
 router.post("/", function(req, res) {
@@ -11,7 +12,7 @@ router.post("/", function(req, res) {
 
 	var sql = "SELECT * FROM users WHERE login = ?";
 	con.query(sql, [login], function(err, result) {
-		if (result.length > 0) 
+		if (result.length > 0)
 		{
 			if (hash.verify(password, result[0].password) == true)
 			{
@@ -26,6 +27,11 @@ router.post("/", function(req, res) {
 						var sql = "SELECT * FROM tags WHERE login = ?";
 						con.query(sql, [req.session.log], function(err, result) {
 							var tags = result;
+							Object.keys(users[0]).map(function(key) {
+								if (typeof users[0][key] === "string") {
+									users[0][key] = tools.casseCouilles(users[0][key]);
+								}
+							});
 							res.render("index", {result: pics[0], info: users[0], tags: tags});
 						})
 					})
