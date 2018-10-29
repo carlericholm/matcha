@@ -137,18 +137,18 @@
           <%}%></div>
           <p class="success"><% if (locals.flash && locals.flash.exists) { %><%= flash.exists %><%}%></p>
         </div>
-  </form>
-        <div class="col">
-          <form method="post" action="/profil">
-            <label for="tags">Localisation</label>
-            <input type="text" class="form-control" name="localisation" value="<% if (info.showFakeLocation == 0) {%><%= info.trueLocation %><%} else {%><%= info.fakeLocation%><%} %>" style=" border: none; border-bottom: 1px solid grey; border-radius: 0px;">
-            <input type="submit" name="fakeLocation" value="Changer ma localisation" class="btn btn-primary btn-block"  style="margin-top: 15px;">
-            <input type="submit" name="trueLocation" value="Me géolocaliser" class="btn btn-primary btn-block" style="background-color: rgb(251, 189, 8); border: 1px solid rgb(251, 189, 8);">
-            <!-- <div id="test">localisation</div> -->
-            <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
-          </div>
-        </form>
-      </div>
+      </form>
+      <div class="col">
+        <form method="post" action="/profil">
+          <label for="tags">Localisation</label>
+          <input type="text" class="form-control" name="localisation" value="<% if (info.showFakeLocation == 0) {%><%= info.trueLocation %><%} else {%><%= info.fakeLocation%><%} %>" style=" border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+          <input type="submit" name="fakeLocation" value="Changer ma localisation" class="btn btn-primary btn-block"  style="margin-top: 15px;">
+          <input type="submit" name="trueLocation" value="Me géolocaliser" class="btn btn-primary btn-block" style="background-color: rgb(251, 189, 8); border: 1px solid rgb(251, 189, 8);">
+          <!-- <div id="test">localisation</div> -->
+          <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 </div>
@@ -157,7 +157,17 @@
 </div>
 
 <div id="footer">footer</div>
+<script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
+
+  var socket = io.connect('http://localhost:8080');
+  var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
+  socket.emit('new user', user);
+
+
+
+
+
   $.ajax({
     url: 'http://api.ipstack.com/check?access_key=97307c73fbc24738033ecab287ad0a82',
     dataType: 'jsonp',

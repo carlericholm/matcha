@@ -11,6 +11,9 @@ var geopoint = require('geopoint');
 
 var app = express();
 
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+server.listen(8080);
 
 // Routes var
 
@@ -42,6 +45,10 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(favicon(__dirname + '/public/favicon.png'));
+// app.use(function(request, response, next) {
+//     request.io = io;
+//     next();
+// });
 
 app.use(session({
 	secret: 'karlsecret',
@@ -104,6 +111,35 @@ app.get('/index', function(req, res) {
 });
 
 
+
+
+
+// var usersSockets = new Array;
+// var connections = new Array;
+
+// io.on('connection', function (socket) {
+// 	connections.push(socket);
+// 	console.log('%s sockets connected', connections.length);
+
+// 	socket.on('disconnect', function (data) {
+// 		var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
+// 		con.query(sql, [socket.username]);
+// 		console.log(socket.username);
+// 		usersSockets.splice(usersSockets.indexOf(socket.username), 1);
+// 		connections.splice(connections.indexOf(socket), 1);
+// 		console.log("1 socket disconnected, %s socket remaining: ", connections.length);
+// 	})
+// 	socket.on('new user', function(data) {
+// 		socket.username = data;
+// 		usersSockets.push(socket.username);
+// 		console.log(usersSockets);
+// 		socket.emit('connected users', usersSockets);
+// 	})
+// });
+
+
+
+
 app.use('/register', register);
 app.use('/confirm', confirm);
 app.use('/resetPass', resetPass);
@@ -122,8 +158,4 @@ app.use('/notifs', notifs);
 
 
 
-
-
-
-
-app.listen(8080);
+// app.listen(8080);

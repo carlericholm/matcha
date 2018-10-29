@@ -174,7 +174,7 @@
                   </div>
                   <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
                 </div>
-                <p>en ligne / hors ligne</p>
+                <p id="checkOnline"></p>
               </div>
             </div>
           </div>
@@ -199,12 +199,17 @@
 
 <div id="footer">footer</div>
 
-
+<script src="/socket.io/socket.io.js"></script>
 <script>
 
+  var socket = io.connect('http://localhost:8080');
+  var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
+  socket.emit('new user', user);
+  var checkOnline = document.getElementById('checkOnline');
+  socket.on('connected users', function (users) {
+    console.log(users);
+  })
 
-
-  var modal = document.getElementsByClassName('modal');
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
@@ -283,11 +288,7 @@ for (var i = 0; i < tags.length; i++) {
 
 var tags = document.getElementsByClassName("suggestionsUserDiv");
 
-// for (var i = 0; i < tags.length; i++) {
-//   tags[i].addEventListener('click', function(e) {
 
-//   });
-// }
 
 function getInfo() {
   var text = document.getElementsByClassName("text");
@@ -416,15 +417,14 @@ $(document).ready(function(){
 
 
 var filtre = document.getElementsByClassName("spanDiv");
-    for (var i = 0; i < filtre.length; i++) {
-      filtre[i].addEventListener('click', function(e) {
-        console.log(e.target);
-            if (e.target.style.backgroundColor == "lightgrey")
-                    e.target.style.backgroundColor = 'rgb(' + 251 + ',' + 189 + ',' + 8 + ')';
-            else
-                    e.target.style.backgroundColor = "lightgrey";
-        });
-    }
+for (var i = 0; i < filtre.length; i++) {
+  filtre[i].addEventListener('click', function(e) {
+    if (e.target.style.backgroundColor == "lightgrey")
+      e.target.style.backgroundColor = 'rgb(' + 251 + ',' + 189 + ',' + 8 + ')';
+    else
+      e.target.style.backgroundColor = "lightgrey";
+  });
+}
 
 </script>
 </body>
