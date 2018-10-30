@@ -1,0 +1,9 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:8080');
+  var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
+  socket.emit('new user', user);
+  socket.on('connected users', function (users) {
+    // console.log(users);
+  })
+</script>

@@ -15,7 +15,7 @@
 
 </head>
 <body>
-
+<% include header.ejs %>
   <div id="blackBanner">
    <h1>MATCHA</h1>
  </div>
@@ -24,7 +24,7 @@
    <div id="containerNav">
     <div class="topnav">
      <a href="/">Profile</a>
-     <a href="#">Tchat</a>
+     <a href="/tchat">Tchat</a>
      <a href="/match">Match</a>
      <a href="/notifs">Notifs</a>
    </div>
@@ -107,7 +107,7 @@
     <%var noImage = 0;if (suggestions[i].img0 == 'empty' && suggestions[i].img1 == 'empty' && suggestions[i].img2 == 'empty' && suggestions[i].img3 == 'empty' && suggestions[i].img4 == 'empty') {var noImage = 1;}%>
     <%if (skip == 0) {%>
     <div class="suggestionsUserDiv" style="margin: auto; margin-top: 15px; box-shadow: 0 10px 6px -6px #777; width: 12vw;"><% if (typeof suggestions && suggestions[i]) {%>
-      <div class="overlay" style="display: flex; justify-content: center; align-items: center;"><div class="text" id="<%=suggestions[i].id%>" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'">More infos</div></div>
+      <div class="overlay" style="display: flex; justify-content: center; align-items: center;"></div>
       <div id="user<%= i %>" class="modal">
         <div class="modal-content">
           <span class="close" title="Close Modal">&times;</span>
@@ -174,13 +174,15 @@
                   </div>
                   <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
                 </div>
-                <p id="checkOnline"></p>
+                <div id="checkOnline"><%if (connectedUsers.indexOf(suggestions[i].login) !== -1) {%><p id="online" style="color: green; text-align: center; margin-top: 15px;">En ligne</p><%} else {%>
+                  <p id="offline" style="color: red; margin-top: 15px; text-align: center;">Hors ligne <% if (typeof suggestions !== 'undefined' && suggestions[i].connected !== 'NULL') {%>depuis le <%= moment(suggestions[i].connected).format('DD-MM-YYYY HH:mm:ss') %><%}%></p><%}%></div>
+
               </div>
             </div>
           </div>
         </div>
         <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img0 !== 'empty') {%><%= suggestions[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
-        <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center;"><%= suggestions[i].login %></p>
+        <p style="font-size: 1.3em; margin-top: 15px; margin-left: 15px; font-family: 'impact'; text-align: center;"><%= suggestions[i].login %><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-left: 5px;" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'"></p>
       </div>
       <%}%>
       <%}%>
@@ -199,16 +201,7 @@
 
 <div id="footer">footer</div>
 
-<script src="/socket.io/socket.io.js"></script>
 <script>
-
-  var socket = io.connect('http://localhost:8080');
-  var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
-  socket.emit('new user', user);
-  var checkOnline = document.getElementById('checkOnline');
-  socket.on('connected users', function (users) {
-    console.log(users);
-  })
 
 
 // When the user clicks anywhere outside of the modal, close it

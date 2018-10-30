@@ -244,8 +244,6 @@
  		});
  	},
 
-
- 	
  	casseCouilles: function(text) {
  		var map = {
  			'&amp;': '&',
@@ -273,7 +271,7 @@
  		})
  	},
 
- 	render: function(tags, res, users, sex, orientation)
+ 	render: function(tags, res, users, sex, orientation, connectedUsers, moment)
  	{
  		let age = [0, 0, 100];
  		distance = [0, 0, 10000]
@@ -284,7 +282,7 @@
  				getLikes(users[0].id, function(likes) {
  					getBlock(users[0].id, function (block) {
  						getReport(users[0].id, function (report) {
- 							res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort});
+ 							res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment});
  						})
  					})
  				})
@@ -292,7 +290,7 @@
  		})
  	},
 
- 	renderPost: function(body, tags, res, users, sex, orientation)
+ 	renderPost: function(body, tags, res, users, sex, orientation, connectedUsers, moment)
  	{
  		var age = body.age.split(" ");
  		var distance = body.distance.split(" ");
@@ -308,7 +306,7 @@
  					getLikes(users[0].id, function(likes) {
  						getBlock(users[0].id, function (block) {
  							getReport(users[0].id, function (report) {
- 								res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort});
+ 								res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment});
  							})
  						})
  					})

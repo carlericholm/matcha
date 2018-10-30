@@ -83,14 +83,7 @@
 	width: 70%;
 	margin: auto;
 	margin-top: 30px;
-    border: 1px solid red;
 
-}
-
-#filterSortContainer
-{
-    display: flex;
-    justify-content: space-around;
 }
 
 #bodyContainer h1
@@ -102,23 +95,47 @@
 }
 
 
-#filterContainer
+#footer
 {
-    border: 1px solid green;
-    width: 50%;
-}
-
-#sortContainer
-{
-    border: 1px solid green;
-    width: 40%;
-
-}
-
-.divFilters
-{
+    background-color: rgb(22, 79, 159);
+    height: 80px;
+    width: 100%;
+    color: white;
     margin-top: 30px;
 }
+
+h4
+{
+    color: rgb(22, 79, 159);
+    margin: auto;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 label
@@ -135,14 +152,15 @@ input
 
 .spanDiv
 {
+    background-color: rgb(251, 189, 8);
     padding: 3px;
     margin-right: 3px;
     margin-bottom: 3px;
+    border: 1px solid green;
     border-radius: 3px;
     color: white;
     font-size: 0.9em;
-    cursor: pointer;
-
+    
 }
 
 .link:hover
@@ -150,19 +168,7 @@ input
     cursor: pointer;
 }
 
-#greyLine
-{
-    border-top: 1px solid grey;
-    width: 80%;
-    margin: auto;
-    margin-top: 50px;
-    /*margin-bottom: 30px;*/
-}
 
-#suggestionsDiv
-{
-    border: 2px solid black;
-}
 
 
 .error
@@ -201,18 +207,14 @@ input
     cursor: pointer;
 }
 
-.bubble
-{
-    width: 4vw;
-    height: 7vh;
-    border-radius: 50%;
-}
 
-.report:hover
-{
-    cursor: pointer;
-    text-decoration: underline;
-}
+
+
+
+
+
+
+
 
 
 
@@ -300,12 +302,12 @@ span.psw {
 }
 
 @-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)}
+    from {-webkit-transform: scale(0)} 
     to {-webkit-transform: scale(1)}
 }
-
+    
 @keyframes animatezoom {
-    from {transform: scale(0)}
+    from {transform: scale(0)} 
     to {transform: scale(1)}
 }
 
@@ -318,4 +320,17 @@ span.psw {
     .cancelbtn {
        width: 100%;
     }
+}
+
+.bubble
+{
+    width: 4vw;
+    height: 7vh;
+    border-radius: 50%;
+}
+
+.report:hover
+{
+    cursor: pointer;
+    text-decoration: underline;
 }

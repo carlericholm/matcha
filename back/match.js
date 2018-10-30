@@ -3,10 +3,11 @@ var geopoint = require('geopoint');
 var router = express.Router();
 var con = require('../config/database');
 var tools = require('./tools');
+var moment = require('moment');
 router.get("/", function(req, res) {
+	var connectedUsers = req.app.get('usersSockets');
 	if (req.session.log !== undefined)
 	{
-
 		tools.getUser(req.session.log, function(users) {
 			tools.getTags(req.session.log, function(tags) {
 				if (users[0].age !== 0 && users[0].sexe !== 'NULL' && users[0].orientation !== 'NULL' && users[0].bio !== 'NULL')
@@ -14,20 +15,20 @@ router.get("/", function(req, res) {
 					if (users[0].sexe == 'Masculin')
 					{
 						if (users[0].orientation == 'Héterosexuel')
-							tools.render(tags, res, users, 'Feminin', 'Héterosexuel')
+							tools.render(tags, res, users, 'Feminin', 'Héterosexuel', connectedUsers, moment)
 						if (users[0].orientation == 'Homosexuel')
-							tools.render(tags, res, users, 'Masculin', 'Homosexuel')
+							tools.render(tags, res, users, 'Masculin', 'Homosexuel', connectedUsers, moment)
 						if (users[0].orientation == 'Bisexuel')
-							tools.render(tags, res, users, 0, 'Bisexuel')
+							tools.render(tags, res, users, 0, 'Bisexuel', connectedUsers, moment)
 					}
 					if (users[0].sexe == 'Feminin')
 					{
 						if (users[0].orientation == 'Héterosexuel')
-							tools.render(tags, res, users, 'Masculin', 'Héterosexuel')
+							tools.render(tags, res, users, 'Masculin', 'Héterosexuel', connectedUsers, moment)
 						if (users[0].orientation == 'Homosexuel')
-							tools.render(tags, res, users, 'Feminin', 'Homosexuel')
+							tools.render(tags, res, users, 'Feminin', 'Homosexuel', connectedUsers, moment)
 						if (users[0].orientation == 'Bisexuel')
-							tools.render(tags, res, users, 0, 'Bisexuel')
+							tools.render(tags, res, users, 0, 'Bisexuel', connectedUsers, moment)
 					}
 				}
 				else
@@ -39,9 +40,9 @@ router.get("/", function(req, res) {
 	}
 })
 router.post("/", function(req, res) {
+	var connectedUsers = req.app.get('usersSockets');
 	if (req.session.log !== undefined)
 	{
-		console.log(req.body)
 		tools.getUser(req.session.log, function(users) {
 			tools.getTags(req.session.log, function(tags) {
 				if (users[0].age !== 0 && users[0].sexe !== 'NULL' && users[0].orientation !== 'NULL' && users[0].bio !== 'NULL')
@@ -49,20 +50,20 @@ router.post("/", function(req, res) {
 					if (users[0].sexe == 'Masculin')
 					{
 						if (users[0].orientation == 'Héterosexuel')
-							tools.renderPost(req.body, tags, res, users, 'Feminin', 'Héterosexuel')
+							tools.renderPost(req.body, tags, res, users, 'Feminin', 'Héterosexuel', connectedUsers, moment)
 						if (users[0].orientation == 'Homosexuel')
-							tools.renderPost(req.body, tags, res, users, 'Masculin', 'Homosexuel')
+							tools.renderPost(req.body, tags, res, users, 'Masculin', 'Homosexuel', connectedUsers, moment)
 						if (users[0].orientation == 'Bisexuel')
-							tools.renderPost(req.body, tags, res, users, 0, 'Bisexuel')
+							tools.renderPost(req.body, tags, res, users, 0, 'Bisexuel', connectedUsers, moment)
 					}
 					if (users[0].sexe == 'Feminin')
 					{
 						if (users[0].orientation == 'Héterosexuel')
-							tools.renderPost(req.body, tags, res, users, 'Masculin', 'Héterosexuel')
+							tools.renderPost(req.body, tags, res, users, 'Masculin', 'Héterosexuel', connectedUsers, moment)
 						if (users[0].orientation == 'Homosexuel')
-							tools.renderPost(req.body, tags, res, users, 'Feminin', 'Homosexuel')
+							tools.renderPost(req.body, tags, res, users, 'Feminin', 'Homosexuel', connectedUsers, moment)
 						if (users[0].orientation == 'Bisexuel')
-							tools.renderPost(req.body, tags, res, users, 0, 'Bisexuel')
+							tools.renderPost(req.body, tags, res, users, 0, 'Bisexuel', connectedUsers, moment)
 					}
 				}
 				else

@@ -13,7 +13,7 @@
 
 </head>
 <body>
-
+<% include header.ejs %>
   <div id="blackBanner">
    <h1>MATCHA</h1>
  </div>
@@ -22,7 +22,7 @@
    <div id="containerNav">
     <div class="topnav">
      <a href="/">Profile</a>
-     <a href="#news">Tchat</a>
+     <a href="/tchat">Tchat</a>
      <a href="/match">Match</a>
      <a href="/notifs">Notifs</a>
    </div>
@@ -157,14 +157,7 @@
 </div>
 
 <div id="footer">footer</div>
-<script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
-
-  var socket = io.connect('http://localhost:8080');
-  var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
-  socket.emit('new user', user);
-
-
 
 
 

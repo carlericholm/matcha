@@ -31,6 +31,7 @@ var block = require('./back/block');
 var report = require('./back/report');
 var notifs = require('./back/notifs');
 var tools = require('./back/tools');
+var tchat = require('./back/tchat');
 
 
 
@@ -45,10 +46,6 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(favicon(__dirname + '/public/favicon.png'));
-// app.use(function(request, response, next) {
-//     request.io = io;
-//     next();
-// });
 
 app.use(session({
 	secret: 'karlsecret',
@@ -114,29 +111,29 @@ app.get('/index', function(req, res) {
 
 
 
-// var usersSockets = new Array;
-// var connections = new Array;
+var usersSockets = [];
+var connections = [];
 
-// io.on('connection', function (socket) {
-// 	connections.push(socket);
-// 	console.log('%s sockets connected', connections.length);
+io.on('connection', function (socket) {
+	connections.push(socket);
+	console.log('%s sockets connected', connections.length);
 
-// 	socket.on('disconnect', function (data) {
-// 		var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
-// 		con.query(sql, [socket.username]);
-// 		console.log(socket.username);
-// 		usersSockets.splice(usersSockets.indexOf(socket.username), 1);
-// 		connections.splice(connections.indexOf(socket), 1);
-// 		console.log("1 socket disconnected, %s socket remaining: ", connections.length);
-// 	})
-// 	socket.on('new user', function(data) {
-// 		socket.username = data;
-// 		usersSockets.push(socket.username);
-// 		console.log(usersSockets);
-// 		socket.emit('connected users', usersSockets);
-// 	})
-// });
-
+	socket.on('disconnect', function (data) {
+		var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
+		con.query(sql, [socket.username]);
+		usersSockets.splice(usersSockets.indexOf(socket.username), 1);
+		connections.splice(connections.indexOf(socket), 1);
+		console.log("1 socket disconnected, %s socket remaining: ", connections.length);
+	})
+	socket.on('new user', function(data) {
+		socket.username = data;
+		// if (usersSockets.indexOf(socket.username) !== -1)
+			usersSockets.push(socket.username);
+		console.log(usersSockets);
+		socket.emit('connected users', usersSockets);
+		app.set('usersSockets', usersSockets);
+	})
+});
 
 
 
@@ -153,7 +150,7 @@ app.use('/likes', likes);
 app.use('/block', block);
 app.use('/report', report);
 app.use('/notifs', notifs);
-
+app.use('/tchat', tchat);
 
 
 

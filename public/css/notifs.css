@@ -216,15 +216,6 @@ input
     margin-top: 30px;
 }
 
-.overlay {
-    margin-top: 15px;
-  height: 20vh;
-  width: 12vw;
-  position: absolute;
-  opacity: 0;
-  transition: .5s ease;
-  /*background-color: black;*/
-}
 
 .text {
   color: white;
