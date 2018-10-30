@@ -22,6 +22,7 @@
 			<div class="form-group"><label for="password">Mot de passe </label><input type="password" name="password" id="password" class="form-control"></div>
 			<p class="error"><% if (locals.flash && locals.flash.wrongPass) { %><%= flash.wrongPass%><%}%></p>
 			<button type="submit" class="btn btn-primary"><img src="img/signin.png" style="margin-right: 5px; margin-bottom: 2px; width: 18px;">Log In</button>
+			<p class="error"><% if (locals.flash && locals.flash.activate) { %><%= flash.activate%><%}%></p>
 
 		</form>
 	</div>
