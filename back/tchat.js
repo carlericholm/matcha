@@ -8,9 +8,27 @@ var con = require('../config/database');
 
 function getMatchs(liked_tab, liker_tab)
 {
-	
+	var result = new Array();
+	liked_tab.forEach(function(liked_row) {
+		liker_tab.forEach(function(liker_row) {
+			if (liked_row.liker_id == liker_row.liked_id)
+			{
+				result.push(liker_row.liked_id);
+				// console.log(liked_row)
+			}
+		})
+	})
+	return (result);
 }
 
+function getMessages(result)
+{
+	var tab = new Array();
+	result.forEach(function(message) {
+		tab.push(message)
+	})
+	return (tab);
+}
 
 router.get("/", function(req, res) {
 	var sql = "SELECT * FROM users WHERE login = ?";
@@ -21,39 +39,40 @@ router.get("/", function(req, res) {
 			if (result.length > 0)
 			{
 				var likeList = result;
-				var tabList = likeList.map(el => {return el.liker_id});
-				var sql = "SELECT * FROM users WHERE id IN (?)";
-				con.query(sql, [tabList], function(err, result) {
-					var suggestions = result;
-					var sql = "SELECT * FROM likes WHERE liker_id = ?";
-					con.query(sql, [users[0].id], function(err, result) {
-						console.log("ceux qui ont ete like");
-						console.log(likeList);
-						console.log("ceux qui ont like");
-						console.log(result);
-						var likes = result;
-						var sql = "SELECT * FROM block WHERE blocker_id = ?";
-						con.query(sql, [users[0].id], function(err, result) {
-							var block = result;
-							var sql = "SELECT * FROM report WHERE reporter_id = ?";
+				var sql = "SELECT * FROM likes WHERE liker_id = ?";
+				con.query(sql, [users[0].id], function(err, result) {
+					var matchs = getMatchs(likeList, result);
+					var likes = result;
+					var sql = "SELECT * FROM users WHERE id IN (?)";
+					con.query(sql, [matchs], function(err, result) {
+						var suggestions = result;
+						var sql = "SELECT * FROM chat WHERE receiver_id IN (?) OR receiver_id = ?";
+						con.query(sql, [matchs, users[0].id], function(err, result) {
+							var messages = new Array();
+							messages = getMessages(result);
+							var sql = "SELECT * FROM block WHERE blocker_id = ?";
 							con.query(sql, [users[0].id], function(err, result) {
-								var report = result;
-								var picsLogin = suggestions.map(el => {return el.login});
-								var sql = "SELECT * FROM pics WHERE login IN (?)";
-								con.query(sql, [picsLogin], function (err, result) {
-									var pics = result;
-									var sql = "SELECT * FROM visits WHERE visited_id = ? ORDER BY date DESC";
-									con.query(sql, [users[0].id], function (err, result) {
-										var visiterList = result;
-										var visitList = visiterList.map(el => {return el.visiter_id});
-										var sql = "SELECT * FROM users WHERE id IN (?)";
-										con.query(sql, [visitList], function(err, result) {
-											var visitersInfo = result;
-											var picsLoginVisits = visitersInfo.map(el => {return el.login});
-											var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
-											con.query(sql, [picsLoginVisits], function (err, result) {
-												var visitersInfoDates = result;
-												res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment});
+								var block = result;
+								var sql = "SELECT * FROM report WHERE reporter_id = ?";
+								con.query(sql, [users[0].id], function(err, result) {
+									var report = result;
+									var picsLogin = suggestions.map(el => {return el.login});
+									var sql = "SELECT * FROM pics WHERE login IN (?)";
+									con.query(sql, [picsLogin], function (err, result) {
+										var pics = result;
+										var sql = "SELECT * FROM visits WHERE visited_id = ? ORDER BY date DESC";
+										con.query(sql, [users[0].id], function (err, result) {
+											var visiterList = result;
+											var visitList = visiterList.map(el => {return el.visiter_id});
+											var sql = "SELECT * FROM users WHERE id IN (?)";
+											con.query(sql, [visitList], function(err, result) {
+												var visitersInfo = result;
+												var picsLoginVisits = visitersInfo.map(el => {return el.login});
+												var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
+												con.query(sql, [picsLoginVisits], function (err, result) {
+													var visitersInfoDates = result;
+													res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, messages: messages, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment});
+												})
 											})
 										})
 									})
@@ -63,6 +82,10 @@ router.get("/", function(req, res) {
 					})
 				})
 			}
+			else
+			{
+				res.render("tchat");
+			}
 		})
 	})
 })
@@ -70,18 +93,6 @@ router.get("/", function(req, res) {
 
 
 module.exports = router
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

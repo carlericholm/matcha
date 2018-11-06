@@ -133,6 +133,12 @@ io.on('connection', function (socket) {
 		socket.emit('connected users', usersSockets);
 		app.set('usersSockets', usersSockets);
 	})
+
+	socket.on('send message', function (message, sender_id, receiver_id) {
+		io.sockets.emit('new message', {msg: message})
+		var sql = "INSERT INTO chat SET message = ?, sender_id = ?, receiver_id = ?, date = CURRENT_TIMESTAMP";
+		con.query(sql, [message, sender_id, receiver_id]);
+	})
 });
 
 

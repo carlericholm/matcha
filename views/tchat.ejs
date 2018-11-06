@@ -34,7 +34,7 @@
 
 <div id="bodyContainer">
   <h1>Tchat</h1>
-  <div id="matchChatDiv" style="border: 2px solid green;">
+  <div id="matchChatDiv" style="border: 2px solid green; display: flex;">
     <div id="matchDiv" style="border:1px solid black; height: 815px; width: 300px; overflow-y: scroll; ">
       <h4>Vos matchs</h4>
       <div>
@@ -114,18 +114,64 @@
                 </div>
               </div>
               <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
-              <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center; "><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'"><%= suggestions[i].login %><img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;"></p>
+              <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center; "><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'"><%= suggestions[i].login %><img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;" onclick="document.getElementById('chat<%= i %>').style.display='block'"></p>
             </div>
-            <%}%>
-            <%}%>
-            <%}%>
-            <%}%>
-            <%}%>
+
+
+
+            <div class="overlay" style="display: flex; justify-content: center;"></div>
+            <div id="chat<%= i %>" class="modal">
+              <div class="modal-content">
+                <span class="close" title="Close Modal">&times;</span>
+                <div id="infoContainer" style="border: 1px solid green; width: 70%; margin: auto;">
+                  <h1 style="color: rgb(22, 79, 159);">Votre conversation avec <%= suggestions[i].login %></h1>
+                  <div class="messageDiv" style="border: 1px solid red; width: 80%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; margin: auto; margin-top: 15px;">
+                    <div class="chatDiv" style="width: 70%;border: 1px solid grey; height: 50vh; overflow-y: scroll;">
+                      <%var nb = 0;if (typeof messages !== 'undefined') {%>
+                      <% for (var m = 0; m < messages.length ; m++) { %>
+                      <% if (messages[m].sender_id == suggestions[i].id || (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id)){%>
+                      <% if (nb % 5 == 0) { %><p style="color: grey; text-align: center;"><%= moment(messages[m].date).format('DD-MM')%> a <%= moment(messages[m].date).format('HH:mm')%></p><%}nb++%>
+                      <% if (messages[m].sender_id == suggestions[i].id){ %>
+                      <div style="display: flex;"><img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" 
+                        style="width: 2vw; height: 3vh; border-radius: 100%; align-self: center;" data-toggle="tooltip" title="<%=suggestions[i].login%>"><p id="leftMessage" style="background-color: rgb(241, 240, 240); border-radius: 5px; padding: 5px; max-width: 80%; margin-left: 5px; word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
+                        <%}%>
+                        <% if (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id) {%>
+                        <div style="display: flex; justify-content: flex-end;"><p id="rightMessage" style="background-color: rgb(17, 108, 214); border-radius: 5px; color: white; padding: 5px; max-width: 80%; margin-right: 5px;word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
+                        <%}%>
+
+
+                        <%}%>
+                        <%}%>
+                        <%}%>
+                      </div>
+                      <div id="formDiv" style="border: 1px solid yellow; width: 70%;margin-top: 15px; margin-bottom: 15px;">
+                        <div class="row">
+                         <div class="col">
+                          <textarea name="message" class="form-control" placeholder="Ecrivez un message"></textarea>
+                        </div>
+                      </div>
+                      <input type="submit" name="envoyer" value="Envoyer" class="btn btn-primary btn-block" style="margin-top: 15px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
+
+
+
+
+          <%}%>
+          <%}%>
+          <%}%>
+          <%}%>
+          <%}%>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div id="footer">footer</div>
@@ -133,6 +179,32 @@
 
 
 <script>
+
+  // var $message = $('#message');
+  // var $envoyer = $('#envoyer');
+
+  // $envoyer.submit(function (e) {
+  //   e.preventDefault();
+  //   console.log(e.target);
+  //   socket.emit('send message', $message.val());
+  //   $message.val('');
+  // })
+
+
+
+  var envoyer = document.getElementsByName("envoyer");
+  var message = document.getElementsByName("message");
+  console.log(message);
+  for (var i = 0; i < envoyer.length; i++) {
+    envoyer[i].addEventListener('click', function(e) {
+      console.log(envoyer[i])
+    })
+  }
+
+
+
+
+
 
 
   var modal = document.getElementsByClassName('modal');
@@ -146,26 +218,6 @@ window.onclick = function(event) {
 
 
 var tags = document.getElementsByClassName("suggestionsUserDiv");
-
-// for (var i = 0; i < tags.length; i++) {
-//   tags[i].addEventListener('click', function(e) {
-
-//   });
-// }
-
-function getInfo() {
-  var text = document.getElementsByClassName("text");
-
-  for (var i = 0; i < tags.length; i++) {
-    tags[i].addEventListener('click', function(e) {
-      var removeSlider = document.getElementsByClassName("removeSlider");
-      for (var i = 0; i < removeSlider.length; i++) {
-        removeSlider[i].style.opacity = 0;
-      }
-
-    });
-  }
-}
 
 
 var close = document.getElementsByClassName("close");

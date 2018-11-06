@@ -27,6 +27,8 @@ con.connect(function(err) {
   con.query(sql, function (err, result) { if (err) throw err; console.log("Table visited created"); });
   var sql = "CREATE TABLE IF NOT EXISTS report (id INT PRIMARY KEY AUTO_INCREMENT, reported_id INT(6) UNSIGNED NOT NULL, reporter_id INT(6) UNSIGNED NOT NULL, date DATETIME DEFAULT CURRENT_TIMESTAMP)";
   con.query(sql, function (err, result) { if (err) throw err; console.log("Table report created"); });
+  var sql = "CREATE TABLE IF NOT EXISTS chat (id INT PRIMARY KEY AUTO_INCREMENT, message TEXT, sender_id INT(6), receiver_id INT(6), date DATETIME DEFAULT CURRENT_TIMESTAMP)";
+  con.query(sql, function (err, result) { if (err) throw err; console.log("Table message created"); });
   var seed = require('../back/generateProfiles');
 });
 

@@ -300,7 +300,7 @@
  		else
  			var sort = 0;
 
- 		getPicsUsersJoin('Feminin', 'Héterosexuel', function(result) {
+ 		getPicsUsersJoin(sex, orientation, function(result) {
  			getSortedMatchingScoreList(users, users[0].latitude, users[0].longitude, result, function (matchList) {
  				getFilteredResults(age[0], age[2], popularite[0], popularite[2], sort, matchList, function(suggestions) {
  					getLikes(users[0].id, function(likes) {

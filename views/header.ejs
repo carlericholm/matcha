@@ -4,6 +4,7 @@
   var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
   socket.emit('new user', user);
   socket.on('connected users', function (users) {
-    // console.log(users);
   })
+
+
 </script>
