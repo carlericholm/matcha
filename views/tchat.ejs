@@ -134,7 +134,7 @@
                       <% if (nb % 5 == 0) { %><p style="color: grey; text-align: center;"><%= moment(messages[m].date).format('DD-MM')%> a <%= moment(messages[m].date).format('HH:mm')%></p><%}nb++%>
                       <% if (messages[m].sender_id == suggestions[i].id){ %>
                       <div style="display: flex;"><img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" 
-                        style="width: 2vw; height: 3vh; border-radius: 100%; align-self: center;" data-toggle="tooltip" title="<%=suggestions[i].login%>"><p id="leftMessage" style="background-color: rgb(241, 240, 240); border-radius: 5px; padding: 5px; max-width: 80%; margin-left: 5px; word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
+                        style="width: 2vw; height: 2vw; border-radius: 100%; align-self: center;" data-toggle="tooltip" title="<%=suggestions[i].login%>"><p id="leftMessage" style="background-color: rgb(241, 240, 240); border-radius: 5px; padding: 5px; max-width: 80%; margin-left: 5px; word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
                         <%}%>
                         <% if (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id) {%>
                         <div style="display: flex; justify-content: flex-end;"><p id="rightMessage" style="background-color: rgb(17, 108, 214); border-radius: 5px; color: white; padding: 5px; max-width: 80%; margin-right: 5px;word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
@@ -238,6 +238,8 @@
   socket.on("put message", function (message) {
     var chatDiv = document.getElementsByClassName("chatDiv");
     for (var i = 0; i < chatDiv.length; i++) {
+      console.log(chatDiv[i]);
+      console.log("Le serveur a un message pour vous: " + message.msg)
       if (message.id == chatDiv[i].id)
       {
         var div = document.createElement("div");
@@ -250,7 +252,7 @@
         }
         img.src = src;
         img.style.width = "2vw";
-        img.style.height = "3vh";
+        img.style.height = "2vw";
         img.style.borderRadius = "100%";
         img.style.alignSelf = "center";
         div.style.display = "flex";
