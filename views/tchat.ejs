@@ -114,7 +114,7 @@
                 </div>
               </div>
               <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
-              <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center; "><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'"><%= suggestions[i].login %><img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;" onclick="document.getElementById('chat<%= i %>').style.display='block'"></p>
+              <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center; "><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'"><%= suggestions[i].login %><img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;" onclick="setTimeout(function(){document.getElementById('<%= suggestions[i].id%>').scrollTop = document.getElementById('<%= suggestions[i].id%>').scrollHeight}, 1);document.getElementById('chat<%= i %>').style.display='block'" id="<%= suggestions[i].id %>" class="chatRoom"></p>
             </div>
 
 
@@ -126,7 +126,8 @@
                 <div id="infoContainer" style="border: 1px solid green; width: 70%; margin: auto;">
                   <h1 style="color: rgb(22, 79, 159);">Votre conversation avec <%= suggestions[i].login %></h1>
                   <div class="messageDiv" style="border: 1px solid red; width: 80%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; margin: auto; margin-top: 15px;">
-                    <div class="chatDiv" style="width: 70%;border: 1px solid grey; height: 50vh; overflow-y: scroll;">
+                    <input type="hidden" class="hiddenSrc" src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" id="<%=suggestions[i].id%>">
+                    <div class="chatDiv" style="width: 70%;border: 1px solid grey; height: 50vh; overflow-y: scroll;" id="<%=suggestions[i].id%>">
                       <%var nb = 0;if (typeof messages !== 'undefined') {%>
                       <% for (var m = 0; m < messages.length ; m++) { %>
                       <% if (messages[m].sender_id == suggestions[i].id || (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id)){%>
@@ -147,10 +148,10 @@
                       <div id="formDiv" style="border: 1px solid yellow; width: 70%;margin-top: 15px; margin-bottom: 15px;">
                         <div class="row">
                          <div class="col">
-                          <textarea name="message" class="form-control" placeholder="Ecrivez un message"></textarea>
+                          <textarea name="message" class="form-control" id="<%=suggestions[i].id%>" placeholder="Ecrivez un message"></textarea>
+                          <input type="submit" id="<%=suggestions[i].id%>" name="envoyer" value="Envoyer" class="btn btn-primary btn-block" style="margin-top: 15px;">
                         </div>
                       </div>
-                      <input type="submit" name="envoyer" value="Envoyer" class="btn btn-primary btn-block" style="margin-top: 15px;">
                     </div>
                   </div>
                 </div>
@@ -180,26 +181,100 @@
 
 <script>
 
-  // var $message = $('#message');
-  // var $envoyer = $('#envoyer');
 
-  // $envoyer.submit(function (e) {
-  //   e.preventDefault();
-  //   console.log(e.target);
-  //   socket.emit('send message', $message.val());
-  //   $message.val('');
-  // })
+
+
+
+
 
 
 
   var envoyer = document.getElementsByName("envoyer");
   var message = document.getElementsByName("message");
-  console.log(message);
   for (var i = 0; i < envoyer.length; i++) {
     envoyer[i].addEventListener('click', function(e) {
-      console.log(envoyer[i])
+      console.log(e.target.parentNode.children[0].value);
+      var message = e.target.parentNode.children[0].value
+      var id = e.target.parentNode.children[0].id;
+      if (message !== '')
+      {
+        e.target.parentNode.children[0].value = '';
+        e.target.parentNode.children[0].focus();
+        socket.emit('send message', message, id);
+        var chatDiv = document.getElementsByClassName("chatDiv");
+        for (var i = 0; i < chatDiv.length; i++) {
+          if (id == chatDiv[i].id)
+          {
+            var div = document.createElement("div");
+            var p = document.createElement("p");
+            div.style.display = "flex";
+            div.style.justifyContent = "flex-end";
+            p.textContent = message;
+            p.style.backgroundColor = 'rgb(' + 17 + ',' + 108 + ',' + 214 + ')';
+            p.style.borderRadius = '5px';
+            p.style.color = "white";
+            p.style.padding = '5px';
+            p.style.maxWidth = '80%';
+            p.style.marginRight = '5px';
+            p.style.wordBreak = 'break-all';
+            div.appendChild(p);
+            chatDiv[i].appendChild(div);
+            chatDiv[i].scrollTop = chatDiv[i].scrollHeight;
+          }
+        }
+      }
     })
   }
+
+  var chatRoom = document.getElementsByClassName("chatRoom");
+  for (var i = 0; i < chatRoom.length; i++) {
+    chatRoom[i].addEventListener('click', function(e) {
+      socket.emit("new room", e.target.id);
+    })
+  }
+
+
+
+  socket.on("put message", function (message) {
+    var chatDiv = document.getElementsByClassName("chatDiv");
+    for (var i = 0; i < chatDiv.length; i++) {
+      if (message.id == chatDiv[i].id)
+      {
+        var div = document.createElement("div");
+        var img = document.createElement("img");
+        var p = document.createElement("p");
+        var hiddenSrc = document.getElementsByClassName("hiddenSrc");
+        for (var l = 0; l < hiddenSrc.length; l++) {
+          if (hiddenSrc[l].id == chatDiv[i].id)
+            var src = hiddenSrc[i].src;
+        }
+        img.src = src;
+        img.style.width = "2vw";
+        img.style.height = "3vh";
+        img.style.borderRadius = "100%";
+        img.style.alignSelf = "center";
+        div.style.display = "flex";
+        p.textContent = message.msg;
+        p.style.backgroundColor = 'rgb(' + 241 + ',' + 240 + ',' + 240 + ')';
+        p.style.borderRadius = '5px';
+        p.style.padding = '5px';
+        p.style.maxWidth = '80%';
+        p.style.marginLeft = '5px';
+        p.style.wordBreak = 'break-all';
+        div.appendChild(img);
+        div.appendChild(p);
+        chatDiv[i].appendChild(div);
+        chatDiv[i].scrollTop = chatDiv[i].scrollHeight;
+      }
+    }
+  })
+
+
+
+
+
+
+
 
 
 
@@ -234,7 +309,7 @@ for (var i = 0; i < close.length; i++) {
           removeSlider[i].style.opacity = 1;
         }
 
-      });
+      })
     }
   })
 }
@@ -328,6 +403,9 @@ for (var i = 0; i < report.length; i++) {
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip(); 
 });
+
+
+
 
 </script>
 </body>

@@ -26,7 +26,6 @@ router.post("/", function(req, res) {
 		var str = req.session.log + id;
 		if (!req.files)
 		{
-			console.log("okokoko");
 			console.log(req.files);
 			res.render("index");
 		}
@@ -42,7 +41,6 @@ router.post("/", function(req, res) {
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
 						console.log(result);
-						// res.render("index", {result: pics[0], info: result[0]});
 						res.redirect('/');
 					})
 				})
@@ -61,7 +59,6 @@ router.post("/", function(req, res) {
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
 						console.log(result);
-						// res.render("index", {result: pics[0], info: result[0]});
 						res.redirect('/');
 					})
 				})
@@ -79,7 +76,6 @@ router.post("/", function(req, res) {
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
 						console.log(result);
-						// res.render("index", {result: pics[0], info: result[0]});
 						res.redirect('/');
 					})
 				})

@@ -8,6 +8,7 @@ var path = require('path');
 var fileUpload = require('express-fileupload');
 const favicon = require('express-favicon');
 var geopoint = require('geopoint');
+var eschtml = require('htmlspecialchars');
 
 var app = express();
 
@@ -128,16 +129,37 @@ io.on('connection', function (socket) {
 	socket.on('new user', function(data) {
 		socket.username = data;
 		// if (usersSockets.indexOf(socket.username) !== -1)
-			usersSockets.push(socket.username);
+		usersSockets.push(socket.username);
 		console.log(usersSockets);
 		socket.emit('connected users', usersSockets);
 		app.set('usersSockets', usersSockets);
 	})
 
-	socket.on('send message', function (message, sender_id, receiver_id) {
-		io.sockets.emit('new message', {msg: message})
-		var sql = "INSERT INTO chat SET message = ?, sender_id = ?, receiver_id = ?, date = CURRENT_TIMESTAMP";
-		con.query(sql, [message, sender_id, receiver_id]);
+	socket.on("new room", function (data) {
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [socket.username], function(err, result) {
+			if (data > result[0].id)
+				var room = "room" + data + '_' + result[0].id;
+			else
+				var room = "room" + result[0].id + '_' + data;
+			console.log(room);
+			socket.join(room);
+		})	
+	})
+
+
+
+	socket.on('send message', function (message, receiver_id) {
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [socket.username], function(err, result) {
+			var sql = "INSERT INTO chat SET message = ?, sender_id = ?, receiver_id = ?, date = CURRENT_TIMESTAMP";
+			con.query(sql, [eschtml(message), result[0].id, receiver_id]);
+			if (receiver_id > result[0].id)
+				socket.to('room' + receiver_id + '_' + result[0].id).emit("put message", {msg: message, id: result[0].id});
+			else
+				socket.to('room' + result[0].id + '_' + receiver_id).emit("put message", {msg: message, id: result[0].id});
+			console.log("ligne ajoutee");
+		})
 	})
 });
 
