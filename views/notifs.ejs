@@ -56,17 +56,17 @@
                 <div class="modal-content">
                   <span class="close" title="Close Modal">&times;</span>
                   <div style="display: flex; margin: 50px;">
-                    <div style="border: 2px solid blue; width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
+                    <div style="width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
                       <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                       <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img1 !== 'empty') {%><%= pics[i].img1 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                       <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img2 !== 'empty') {%><%= pics[i].img2 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                       <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img3 !== 'empty') {%><%= pics[i].img3 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                       <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img4 !== 'empty') {%><%= pics[i].img4 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                     </div>
-                    <div id="infoContainer" style="border: 1px solid green; width: 50%;">
+                    <div id="infoContainer" style="width: 50%;">
                       <h1 style="color: rgb(22, 79, 159);"><%= suggestions[i].login %></h1>
                       <p class="<%if (reportUser == 1){%>reported<%}else{%>report<%}%>" style="display: flex; justify-content: center; color: red; font-style: italic;<%if (reportUser == 1){%>color: green;<%}%> font-size: 0.8em;" id="<%=suggestions[i].id%>"><%if (reportUser == 1){%>(Reported)<%}else{%>(Report user as fake user)<%}%></p>
-                      <div style="border: 1px solid red; display: flex; justify-content: space-around; margin-top: 20px;">
+                      <div style="display: flex; justify-content: space-around; margin-top: 20px;">
                         <div>
                           <p style="color: grey;">Nom</p>
                           <p style="font-style: italic;"><%= suggestions[i].name %></p>
@@ -81,9 +81,9 @@
                           <p style="color: grey;">Orientation</p>
                           <p style="font-style: italic;"><%= suggestions[i].orientation %></p>
                           <p style="color: grey;">De</p>
-                          <p style="font-style: italic;"><% if (typeof suggestions && suggestions[i].showFakeLocation == 0) {%><%= suggestions[i].trueLocation%><%} else {%><%= suggestions[i].fakeLocation%><%}%><span> (distance: 
+                          <p style="font-style: italic;"><% if (typeof suggestions && suggestions[i].showFakeLocation == 0) {%><%= suggestions[i].trueLocation%><%} else {%><%= suggestions[i].fakeLocation%><%}%><span> (distance:
                             <%
-                            var point1 = new geopoint(info.latitude, info.longitude) 
+                            var point1 = new geopoint(info.latitude, info.longitude)
                             point2 =  new geopoint(suggestions[i].latitude, suggestions[i].longitude)
                             distance = point1.distanceTo(point2, true)
                             if (!distance)
@@ -93,11 +93,11 @@
                           </span></p>
                         </div>
                       </div>
-                      <div style="border: 1px solid pink; text-align: center;">
+                      <div style="text-align: center;">
                         <p style="color: grey;">Bio</p>
                         <p style="font-style: italic;"><%= suggestions[i].bio %></p>
                       </div>
-                      <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
+                      <div id="iconDiv" style="margin-top: 20px; display: flex; justify-content: space-around;">
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                           <% var src = 'like_icon.png'%>
@@ -117,7 +117,7 @@
                 </div>
               </div>
               <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
-              <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center;"><%= suggestions[i].login %><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-left: 5px;" class="text" id="<%= suggestions[i].id%>" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'"></p>
+              <p class="name_user"><%= suggestions[i].login %><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-left: 5px;" class="text" id="<%= suggestions[i].id%>" onclick="getInfo(); document.getElementById('user<%= i %>').style.display='block'"></p>
             </div>
             <%}%>
             <%}%>
@@ -131,7 +131,7 @@
 
 
 
-        
+
       </div>
     </div>
     <div id="visitDiv">
@@ -153,17 +153,17 @@
                 <div class="modal-content">
                   <span class="close" title="Close Modal">&times;</span>
                   <div style="display: flex; margin: 50px;">
-                    <div style="border: 2px solid blue; width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
+                    <div style="width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
                       <img src="img/users/<% if (typeof visiters !== 'undefined' && visiters[i].img0 !== 'empty') {%><%= visiters[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                       <img src="img/users/<% if (typeof visiters !== 'undefined' && visiters[i].img1 !== 'empty') {%><%= visiters[i].img1 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                       <img src="img/users/<% if (typeof visiters !== 'undefined' && visiters[i].img2 !== 'empty') {%><%= visiters[i].img2 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                       <img src="img/users/<% if (typeof visiters !== 'undefined' && visiters[i].img3 !== 'empty') {%><%= visiters[i].img3 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                       <img src="img/users/<% if (typeof visiters !== 'undefined' && visiters[i].img4 !== 'empty') {%><%= visiters[i].img4 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
                     </div>
-                    <div id="infoContainer" style="border: 1px solid green; width: 50%;">
+                    <div id="infoContainer" style="width: 50%;">
                       <h1 style="color: rgb(22, 79, 159);"><%= visiters[i].login %></h1>
                       <p class="<%if (reportUser == 1){%>reported<%}else{%>report<%}%>" style="display: flex; justify-content: center; color: red; font-style: italic;<%if (reportUser == 1){%>color: green;<%}%> font-size: 0.8em;" id="<%=visiters[i].id%>"><%if (reportUser == 1){%>(Reported)<%}else{%>(Report user as fake user)<%}%></p>
-                      <div style="border: 1px solid red; display: flex; justify-content: space-around; margin-top: 20px;">
+                      <div style="display: flex; justify-content: space-around; margin-top: 20px;">
                         <div>
                           <p style="color: grey;">Nom</p>
                           <p style="font-style: italic;"><%= visiters[i].name %></p>
@@ -178,9 +178,9 @@
                           <p style="color: grey;">Orientation</p>
                           <p style="font-style: italic;"><%= visiters[i].orientation %></p>
                           <p style="color: grey;">De</p>
-                          <p style="font-style: italic;"><% if (typeof visiters && visiters[i].showFakeLocation == 0) {%><%= visiters[i].trueLocation%><%} else {%><%= visiters[i].fakeLocation%><%}%><span> (distance: 
+                          <p style="font-style: italic;"><% if (typeof visiters && visiters[i].showFakeLocation == 0) {%><%= visiters[i].trueLocation%><%} else {%><%= visiters[i].fakeLocation%><%}%><span> (distance:
                             <%
-                            var point1 = new geopoint(info.latitude, info.longitude) 
+                            var point1 = new geopoint(info.latitude, info.longitude)
                             point2 =  new geopoint(visiters[i].latitude, visiters[i].longitude)
                             distance = point1.distanceTo(point2, true)
                             if (!distance)
@@ -190,11 +190,11 @@
                           </span></p>
                         </div>
                       </div>
-                      <div style="border: 1px solid pink; text-align: center;">
+                      <div style="text-align: center;">
                         <p style="color: grey;">Bio</p>
                         <p style="font-style: italic;"><%= visiters[i].bio %></p>
                       </div>
-                      <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
+                      <div id="iconDiv" style="margin-top: 20px; display: flex; justify-content: space-around;">
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=visiters[i].popularite%></div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                           <% var src = 'like_icon.png'%>
@@ -215,7 +215,7 @@
               </div>
               <img src="img/users/<% if (typeof visiters !== 'undefined' && visiters[i].img0 !== 'empty') {%><%= visiters[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
               <p style="font-size: 0.7em;  position: absolute; color: rgb(251, 189, 8)">le <%= moment(visiters[i].date).format('DD-MM-YYYY HH:mm:ss')%></p>
-              <p style="font-size: 1.3em; margin-top: 15px; font-family: 'impact'; text-align: center;"><%= visiters[i].login %><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-left: 5px;" class="text" id="<%= visiters[i].id%>" onclick="getInfo(); document.getElementById('visiter<%= i %>').style.display='block'"></p>
+              <p class="name_user"><%= visiters[i].login %><img src="img/infos.png" style="width: 30px; cursor: pointer; margin-left: 5px;" class="text" id="<%= visiters[i].id%>" onclick="getInfo(); document.getElementById('visiter<%= i %>').style.display='block'"></p>
             </div>
             <%}%>
             <%}%>
@@ -247,7 +247,7 @@
   </div>
 </div>
 
-<div id="footer">footer</div>
+<div id="footer">© Cholm & Mimhoff</div>
 
 
 
@@ -338,7 +338,7 @@ for (var i = 0; i < like.length; i++) {
   xhttp.open("POST", "/likes", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("unlikeId="+ encodeURIComponent(e.target.id));
-  
+
 }
 });
 }
@@ -394,7 +394,7 @@ for (var i = 0; i < report.length; i++) {
 }
 
 $(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip(); 
+  $('[data-toggle="tooltip"]').tooltip();
 });
 
 </script>

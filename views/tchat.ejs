@@ -36,7 +36,7 @@
 
 <div id="bodyContainer">
   <h1>Tchat</h1>
-  <div id="matchChatDiv" style="border: 2px solid green; display: flex; flex-wrap: wrap; justify-content: space-between;">
+  <div id="matchChatDiv" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
     <%if (typeof suggestions !== 'undefined') {%>
     <% for (var i = 0; i < suggestions.length ; i++) { %>
     <% if (suggestions[i].login !== info.login) {%>
@@ -50,17 +50,17 @@
         <div class="modal-content">
           <span class="close" title="Close Modal">&times;</span>
           <div style="display: flex; margin: 50px;">
-            <div style="border: 2px solid blue; width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
+            <div style="width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
               <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
               <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img1 !== 'empty') {%><%= pics[i].img1 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
               <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img2 !== 'empty') {%><%= pics[i].img2 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
               <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img3 !== 'empty') {%><%= pics[i].img3 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
               <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img4 !== 'empty') {%><%= pics[i].img4 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
             </div>
-            <div id="infoContainer" style="border: 1px solid green; width: 50%;">
+            <div id="infoContainer" style="width: 50%;">
               <h1 style="color: rgb(22, 79, 159);"><%= suggestions[i].login %></h1>
               <p class="<%if (reportUser == 1){%>reported<%}else{%>report<%}%>" style="display: flex; justify-content: center; color: red; font-style: italic;<%if (reportUser == 1){%>color: green;<%}%> font-size: 0.8em;" id="<%=suggestions[i].id%>"><%if (reportUser == 1){%>(Reported)<%}else{%>(Report user as fake user)<%}%></p>
-              <div style="border: 1px solid red; display: flex; justify-content: space-around; margin-top: 20px;">
+              <div style="display: flex; justify-content: space-around; margin-top: 20px;">
                 <div>
                   <p style="color: grey;">Nom</p>
                   <p style="font-style: italic;"><%= suggestions[i].name %></p>
@@ -75,9 +75,9 @@
                   <p style="color: grey;">Orientation</p>
                   <p style="font-style: italic;"><%= suggestions[i].orientation %></p>
                   <p style="color: grey;">De</p>
-                  <p style="font-style: italic;"><% if (typeof suggestions && suggestions[i].showFakeLocation == 0) {%><%= suggestions[i].trueLocation%><%} else {%><%= suggestions[i].fakeLocation%><%}%><span> (distance: 
+                  <p style="font-style: italic;"><% if (typeof suggestions && suggestions[i].showFakeLocation == 0) {%><%= suggestions[i].trueLocation%><%} else {%><%= suggestions[i].fakeLocation%><%}%><span> (distance:
                     <%
-                    var point1 = new geopoint(info.latitude, info.longitude) 
+                    var point1 = new geopoint(info.latitude, info.longitude)
                     point2 =  new geopoint(suggestions[i].latitude, suggestions[i].longitude)
                     distance = point1.distanceTo(point2, true)
                     if (!distance)
@@ -87,11 +87,11 @@
                   </span></p>
                 </div>
               </div>
-              <div style="border: 1px solid pink; text-align: center;">
+              <div style="text-align: center;">
                 <p style="color: grey;">Bio</p>
                 <p style="font-style: italic;"><%= suggestions[i].bio %></p>
               </div>
-              <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
+              <div id="iconDiv" style="margin-top: 20px; display: flex; justify-content: space-around;">
                 <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
                 <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                   <% var src = 'like_icon.png'%>
@@ -115,7 +115,7 @@
         <div>
           <img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'">
         </div>
-        <div style="font-size: 1.3em; font-family: 'impact';">
+        <div class="name_user">
           <%= suggestions[i].login %>
         </div>
         <div style="position: relative;">
@@ -142,17 +142,17 @@
     <div id="chat<%= i %>" class="modal">
       <div class="modal-content">
         <span class="close" title="Close Modal">&times;</span>
-        <div id="infoContainer" style="border: 1px solid green; width: 70%; margin: auto;">
+        <div id="infoContainer" style="width: 70%; margin: auto;">
           <h1 style="color: rgb(22, 79, 159);">Votre conversation avec <%= suggestions[i].login %></h1>
-          <div class="messageDiv" style="border: 1px solid red; width: 80%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; margin: auto; margin-top: 15px;">
+          <div class="messageDiv" style="width: 80%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; margin: auto; margin-top: 15px;">
             <input type="hidden" class="hiddenSrc" src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" id="<%=suggestions[i].id%>">
-            <div class="chatDiv" style="width: 70%;border: 1px solid grey; height: 50vh; overflow-y: scroll;" id="<%=suggestions[i].id%>">
+            <div class="chatDiv" style="width: 70%;height: 50vh; overflow-y: scroll;" id="<%=suggestions[i].id%>">
               <%var nb = 0;if (typeof messages !== 'undefined') {%>
               <% for (var m = 0; m < messages.length ; m++) { %>
               <% if (messages[m].sender_id == suggestions[i].id || (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id)){%>
               <% if (nb % 5 == 0) { %><p style="color: grey; text-align: center;"><%= moment(messages[m].date).format('DD-MM')%> a <%= moment(messages[m].date).format('HH:mm')%></p><%}nb++%>
               <% if (messages[m].sender_id == suggestions[i].id){ %>
-              <div style="display: flex;"><img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" 
+              <div style="display: flex;"><img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>"
                 style="width: 2vw; height: 2vw; border-radius: 100%; align-self: center;" data-toggle="tooltip" title="<%=suggestions[i].login%>"><p id="leftMessage" style="background-color: rgb(241, 240, 240); border-radius: 5px; padding: 5px; max-width: 80%; margin-left: 5px; word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
                 <%}%>
                 <% if (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id) {%>
@@ -164,7 +164,7 @@
                 <%}%>
                 <%}%>
               </div>
-              <div id="formDiv" style="border: 1px solid yellow; width: 70%;margin-top: 15px; margin-bottom: 15px;">
+              <div id="formDiv" style="width: 70%;margin-top: 15px; margin-bottom: 15px;">
                 <div class="row">
                  <div class="col">
                   <textarea name="message" class="form-control" id="<%=suggestions[i].id%>" placeholder="Ecrivez un message"></textarea>
@@ -188,7 +188,7 @@
 </div>
 </div>
 
-<div id="footer">footer</div>
+<div id="footer">© Cholm & Mimhoff</div>
 
 
 
@@ -369,7 +369,7 @@ for (var i = 0; i < like.length; i++) {
   xhttp.open("POST", "/likes", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("unlikeId="+ encodeURIComponent(e.target.id));
-  
+
 }
 });
 }
@@ -424,7 +424,7 @@ for (var i = 0; i < report.length; i++) {
 }
 
 $(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip(); 
+  $('[data-toggle="tooltip"]').tooltip();
 });
 
 

@@ -79,7 +79,6 @@
 
 #bodyContainer
 {
-	/*border: 1px solid black;*/
 	width: 70%;
 	margin: auto;
 	margin-top: 30px;
@@ -90,7 +89,6 @@
 {
 	color: rgb(22, 79, 159);
 	margin: auto;
-	/*border: 1px solid red;*/
 	text-align: center;
 }
 
@@ -116,17 +114,13 @@
 #likeDiv
 {
     margin-top: 30px;
-    /*border: 1px solid green;*/
     width: 50%;
-    border-right: 1px solid grey;
 }
 
 #visitDiv
 {
     margin-top: 30px;
-    /*border: 1px solid red;*/
     width: 50%;
-    border-left: 1px solid grey;
 }
 
 h3
@@ -181,11 +175,10 @@ input
     padding: 3px;
     margin-right: 3px;
     margin-bottom: 3px;
-    border: 1px solid green;
     border-radius: 3px;
     color: white;
     font-size: 0.9em;
-    
+
 }
 
 .link:hover
@@ -328,12 +321,12 @@ span.psw {
 }
 
 @-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)} 
+    from {-webkit-transform: scale(0)}
     to {-webkit-transform: scale(1)}
 }
-    
+
 @keyframes animatezoom {
-    from {transform: scale(0)} 
+    from {transform: scale(0)}
     to {transform: scale(1)}
 }
 
@@ -359,4 +352,22 @@ span.psw {
 {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.name_user {
+	font-size: 1.3em;
+	margin-top: 15px;
+	margin-left: 15px;
+	font-family: 'impact';
+	text-align: center;
+}
+
+@media screen and (max-width: 640px) {
+		.name_user{
+			font-size: 0.6em;
+		}
+		.modal-content {
+			font-size: 0.6em;
+			width: 100%;
+		}
 }

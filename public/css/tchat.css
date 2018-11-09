@@ -79,7 +79,6 @@
 
 #bodyContainer
 {
-	/*border: 1px solid black;*/
 	width: 70%;
 	margin: auto;
 	margin-top: 30px;
@@ -90,7 +89,6 @@
 {
 	color: rgb(22, 79, 159);
 	margin: auto;
-	/*border: 1px solid red;*/
 	text-align: center;
 }
 
@@ -158,11 +156,10 @@ input
     padding: 3px;
     margin-right: 3px;
     margin-bottom: 3px;
-    border: 1px solid green;
     border-radius: 3px;
     color: white;
     font-size: 0.9em;
-    
+
 }
 
 .link:hover
@@ -304,12 +301,12 @@ span.psw {
 }
 
 @-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)} 
+    from {-webkit-transform: scale(0)}
     to {-webkit-transform: scale(1)}
 }
-    
+
 @keyframes animatezoom {
-    from {transform: scale(0)} 
+    from {transform: scale(0)}
     to {transform: scale(1)}
 }
 
@@ -355,4 +352,19 @@ span.psw {
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+.name_user {
+	font-size: 1.3em;
+	font-family: 'impact';
+}
+
+@media screen and (max-width: 640px) {
+		.name_user{
+			font-size: 0.6em;
+		}
+		.modal-content {
+			font-size: 0.6em;
+			width: 100%;
+		}
 }

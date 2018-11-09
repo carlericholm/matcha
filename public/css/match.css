@@ -79,11 +79,9 @@
 
 #bodyContainer
 {
-	/*border: 1px solid black;*/
 	width: 70%;
 	margin: auto;
 	margin-top: 30px;
-    border: 1px solid red;
 
 }
 
@@ -97,20 +95,17 @@
 {
 	color: rgb(22, 79, 159);
 	margin: auto;
-	/*border: 1px solid red;*/
 	text-align: center;
 }
 
 
 #filterContainer
 {
-    border: 1px solid green;
     width: 50%;
 }
 
 #sortContainer
 {
-    border: 1px solid green;
     width: 40%;
 
 }
@@ -153,7 +148,6 @@ input
 
 #greyLine
 {
-    border-top: 1px solid grey;
     width: 80%;
     margin: auto;
     margin-top: 50px;
@@ -162,7 +156,6 @@ input
 
 #suggestionsDiv
 {
-    border: 2px solid black;
 }
 
 

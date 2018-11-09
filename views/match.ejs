@@ -82,7 +82,7 @@
           <div class="row" style="margin-top: 40px;">
            <div class="col">
             <label for="sel1">Sort by:</label>
-            <select class="form-control" id="sel1" name="sort" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+            <select class="form-control" id="sel1" name="sort" style="border: none;border-radius: 0px;">
              <option value="age" <% if (typeof sort !== 'undefined') { %><%= sort == 'age' ? 'selected' : ''%><%}%>>Age</option>
              <option value="localisation" <% if (typeof sort !== 'undefined') { %><%= sort == 'localisation' ? 'selected' : ''%><%}%>>Distance</option>
              <option value="popularite" <% if (typeof sort !== 'undefined') { %><%= sort == 'popularite' ? 'selected' : ''%><%}%>>Popularité</option>
@@ -114,17 +114,17 @@
         <div class="modal-content">
           <span class="close" title="Close Modal">&times;</span>
           <div style="display: flex; margin: 50px;">
-            <div style="border: 2px solid blue; width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
+            <div style="width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around;">
               <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img0 !== 'empty') {%><%= suggestions[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
               <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img1 !== 'empty') {%><%= suggestions[i].img1 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
               <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img2 !== 'empty') {%><%= suggestions[i].img2 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
               <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img3 !== 'empty') {%><%= suggestions[i].img3 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
               <img src="img/users/<% if (typeof suggestions !== 'undefined' && suggestions[i].img4 !== 'empty') {%><%= suggestions[i].img4 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 14vw; height: 14vh; margin-top: 15px;">
             </div>
-            <div id="infoContainer" style="border: 1px solid green; width: 50%;">
+            <div id="infoContainer" style="width: 50%;">
               <p style="color: rgb(22, 79, 159);"><%= suggestions[i].login %></p>
               <p class="<%if (reportUser == 1){%>reported<%}else{%>report<%}%>" style="display: flex; justify-content: center; color: red; font-style: italic;<%if (reportUser == 1){%>color: green;<%}%> font-size: 0.8em;" id="<%=suggestions[i].id%>"><%if (reportUser == 1){%>(Reported)<%}else{%>(Report user as fake user)<%}%></p>
-              <div style="border: 1px solid red; display: flex; justify-content: space-around; margin-top: 20px;">
+              <div style="display: flex; justify-content: space-around; margin-top: 20px;">
                 <div>
                   <p style="color: grey;">Nom</p>
                   <p style="font-style: italic;"><%= suggestions[i].name %></p>
@@ -151,7 +151,7 @@
                   </span></p>
                 </div>
               </div>
-              <div style="border: 1px solid pink; text-align: center;">
+              <div style="text-align: center;">
                 <p style="color: grey;">Bio</p>
                 <p style="font-style: italic;"><%= suggestions[i].bio %></p>
               </div>
@@ -162,7 +162,7 @@
                   <%}%>
                   <%}%>
                 </div>
-                <div id="iconDiv" style="border: 1px solid green; margin-top: 20px; display: flex; justify-content: space-around;">
+                <div id="iconDiv" style="margin-top: 20px; display: flex; justify-content: space-around;">
                   <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
                   <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                     <% var src = 'like_icon.png'%>
@@ -212,7 +212,7 @@
 
 
 
-  <div id="footer">footer</div>
+  <div id="footer">© Cholm & Mimhoff</div>
 
   <script>
 
