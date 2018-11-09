@@ -13,23 +13,25 @@
 
 </head>
 <body>
-<% include header.ejs %>
+  <% include header.ejs %>
   <div id="blackBanner">
    <h1>MATCHA</h1>
  </div>
  <div id="blueBanner">
+  <div style="display: flex;">
    <p id="loginWelcome">Bonjour <% if (locals.log) { %><%= locals.log %><%}%></p>
-   <div id="containerNav">
-    <div class="topnav">
-     <a href="/">Profile</a>
-     <a href="/tchat">Tchat</a>
-     <a href="/match">Match</a>
-     <a href="/notifs">Notifs</a>
-   </div>
-   <div class="topnavBis">
-     <a href="/signout">Sign out</a>
-   </div>
  </div>
+ <div id="containerNav">
+  <div class="topnav">
+   <a href="/"><img src="img/profile_icon.png" style="width: 30px"></a>
+   <a href="/tchat"><img src="img/tchat_icon.png" style="width: 30px"></a>
+   <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
+   <a href="/notifs"><img src="img/bell.png" style="width: 30px;"></a>
+ </div>
+ <div class="topnavBis">
+   <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>
+ </div>
+</div>
 </div>
 
 <div id="bodyContainer">
@@ -240,7 +242,6 @@
 
 
 
-
       </div>
     </div>
   </div>
@@ -253,7 +254,7 @@
 <script>
 
 
-var modal = document.getElementsByClassName('modal');
+  var modal = document.getElementsByClassName('modal');
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
