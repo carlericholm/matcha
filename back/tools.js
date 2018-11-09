@@ -244,6 +244,15 @@
  		});
  	},
 
+ 	getNotifsMessages: function(result)
+ 	{
+ 		var tab = new Array();
+ 		result.forEach(function(notif) {
+ 			tab.push(notif)
+ 		})
+ 		return (tab);
+ 	},
+
  	casseCouilles: function(text) {
  		var map = {
  			'&amp;': '&',

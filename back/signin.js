@@ -34,7 +34,8 @@ router.post("/", function(req, res) {
 											users[0][key] = tools.casseCouilles(users[0][key]);
 										}
 									});
-									res.render("index", {result: pics[0], info: users[0], tags: tags});
+									// res.render("index", {result: pics[0], info: users[0], tags: tags});
+									res.redirect("/");
 								})
 						})
 				})

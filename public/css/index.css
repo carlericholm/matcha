@@ -251,6 +251,8 @@ label
 
 #footer
 {
+    position: fixed;
+    bottom: 0px;
     background-color: rgb(22, 79, 159);
     height: 80px;
     width: 100%;

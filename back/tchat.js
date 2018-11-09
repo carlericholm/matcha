@@ -1,6 +1,7 @@
 var express = require('express');
 var geopoint = require('geopoint');
 var moment = require('moment');
+var tools = require('./tools');
 
 var router = express.Router();
 var con = require('../config/database');
@@ -30,14 +31,14 @@ function getMessages(result)
 	return (tab);
 }
 
-function getNotifsMessages(result)
-{
-	var tab = new Array();
-	result.forEach(function(notif) {
-		tab.push(notif)
-	})
-	return (tab);
-}
+// function getNotifsMessages(result)
+// {
+// 	var tab = new Array();
+// 	result.forEach(function(notif) {
+// 		tab.push(notif)
+// 	})
+// 	return (tab);
+// }
 
 router.get("/", function(req, res) {
 	var sql = "SELECT * FROM users WHERE login = ?";
@@ -82,8 +83,7 @@ router.get("/", function(req, res) {
 													var visitersInfoDates = result;
 													var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
 													con.query(sql, [users[0].id], function(err, result) {
-														var notifs_messages = getNotifsMessages(result);
-														console.log(notifs_messages);
+														var notifs_messages = tools.getNotifsMessages(result);
 														res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, messages: messages, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages});
 													})	
 												})
