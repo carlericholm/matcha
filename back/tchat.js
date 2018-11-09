@@ -30,6 +30,15 @@ function getMessages(result)
 	return (tab);
 }
 
+function getNotifsMessages(result)
+{
+	var tab = new Array();
+	result.forEach(function(notif) {
+		tab.push(notif)
+	})
+	return (tab);
+}
+
 router.get("/", function(req, res) {
 	var sql = "SELECT * FROM users WHERE login = ?";
 	con.query(sql, [req.session.log], function (err, result) {
@@ -71,7 +80,12 @@ router.get("/", function(req, res) {
 												var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
 												con.query(sql, [picsLoginVisits], function (err, result) {
 													var visitersInfoDates = result;
-													res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, messages: messages, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment});
+													var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
+													con.query(sql, [users[0].id], function(err, result) {
+														var notifs_messages = getNotifsMessages(result);
+														console.log(notifs_messages);
+														res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, messages: messages, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages});
+													})	
 												})
 											})
 										})

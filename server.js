@@ -152,6 +152,8 @@ io.on('connection', function (socket) {
 	socket.on('send message', function (message, receiver_id) {
 		var sql = "SELECT * FROM users WHERE login = ?";
 		con.query(sql, [socket.username], function(err, result) {
+			var sql = "INSERT INTO notifs_messages SET sender_id = ?, receiver_id = ?";
+			con.query(sql, [result[0].id, receiver_id]);
 			var sql = "INSERT INTO chat SET message = ?, sender_id = ?, receiver_id = ?, date = CURRENT_TIMESTAMP";
 			con.query(sql, [eschtml(message), result[0].id, receiver_id]);
 			if (receiver_id > result[0].id)
@@ -159,6 +161,14 @@ io.on('connection', function (socket) {
 			else
 				socket.to('room' + result[0].id + '_' + receiver_id).emit("put message", {msg: message, id: result[0].id});
 			console.log("ligne ajoutee");
+		})
+	})
+
+	socket.on("remove notif message", function(sender_id) {
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [socket.username], function(err, result) {
+			var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
+			con.query(sql, [sender_id, result[0].id]);
 		})
 	})
 });

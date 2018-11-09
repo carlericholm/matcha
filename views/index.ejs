@@ -40,7 +40,7 @@
    <div id="containerImage">
     <% for(var i = 0; i <5; i++) {
     var img = "img" + i;
-    %><img src="img/users/<% if (typeof result !== 'undefined' && result[img] !== 'empty') {%><%= result[img] %> <%} else {%>profile_image.png<%}%>" id="profile_image_<%=i%>" class="img-thumbnail" onclick="document.getElementById('<%=i%>').style.display='block'" style="width: 50%; margin-top: 15px;">
+    %><img src="img/users/<% if (typeof result !== 'undefined' && result[img] !== 'empty') {%><%= result[img] %> <%} else {%>profile_image.png<%}%>" id="profile_image_<%=i%>" class="img-thumbnail" onclick="document.getElementById('<%=i%>').style.display='block'" style="width: 12vw; height: 12vw; margin-top: 15px;">
     <div id="<%= i %>" class="modal">
       <form ref='uploadForm' class="modal-content animate" method="post" action="/images" encType="multipart/form-data">
        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
