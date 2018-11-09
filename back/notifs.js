@@ -1,7 +1,7 @@
 var express = require('express');
 var geopoint = require('geopoint');
 var moment = require('moment');
-
+var tools = require('./tools');
 var router = express.Router();
 var con = require('../config/database');
 
@@ -43,7 +43,11 @@ router.get("/", function(req, res) {
 											var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
 											con.query(sql, [picsLoginVisits], function (err, result) {
 												var visitersInfoDates = result;
-												res.render("notifs", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment});
+												var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
+												con.query(sql, [users[0].id], function(err, result) {
+													var notifs_messages = tools.getNotifsMessages(result);
+													res.render("notifs", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages});
+												})
 											})
 										})
 									})
@@ -59,45 +63,49 @@ router.get("/", function(req, res) {
 				con.query(sql, [users[0].id], function (err, result) {
 					if (result.length > 0)
 					{
-					var visiterList = result;
-					var visitList = visiterList.map(el => {return el.visiter_id});
-					var sql = "SELECT * FROM users WHERE id IN (?)";
-					con.query(sql, [visitList], function(err, result) {
-						var visitersInfo = result;
-						var sql = "SELECT * FROM likes WHERE liker_id = ?";
-						con.query(sql, [users[0].id], function(err, result) {
-							var likes = result;
-							var sql = "SELECT * FROM block WHERE blocker_id = ?";
+						var visiterList = result;
+						var visitList = visiterList.map(el => {return el.visiter_id});
+						var sql = "SELECT * FROM users WHERE id IN (?)";
+						con.query(sql, [visitList], function(err, result) {
+							var visitersInfo = result;
+							var sql = "SELECT * FROM likes WHERE liker_id = ?";
 							con.query(sql, [users[0].id], function(err, result) {
-								var block = result;
-								var sql = "SELECT * FROM report WHERE reporter_id = ?";
+								var likes = result;
+								var sql = "SELECT * FROM block WHERE blocker_id = ?";
 								con.query(sql, [users[0].id], function(err, result) {
-									var report = result;
-									var picsLogin = visitersInfo.map(el => {return el.login});
-									var sql = "SELECT * FROM pics WHERE login IN (?)";
-									con.query(sql, [picsLogin], function (err, result) {
-										var pics = result;
-										var picsLoginVisits = visitersInfo.map(el => {return el.login});
-										var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
-										con.query(sql, [picsLoginVisits], function (err, result) {
-											var visitersInfoDates = result;
-											res.render("notifs", {info: users[0], geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment});
+									var block = result;
+									var sql = "SELECT * FROM report WHERE reporter_id = ?";
+									con.query(sql, [users[0].id], function(err, result) {
+										var report = result;
+										var picsLogin = visitersInfo.map(el => {return el.login});
+										var sql = "SELECT * FROM pics WHERE login IN (?)";
+										con.query(sql, [picsLogin], function (err, result) {
+											var pics = result;
+											var picsLoginVisits = visitersInfo.map(el => {return el.login});
+											var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
+											con.query(sql, [picsLoginVisits], function (err, result) {
+												var visitersInfoDates = result;
+												var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
+												con.query(sql, [users[0].id], function(err, result) {
+													var notifs_messages = tools.getNotifsMessages(result);
+													res.render("notifs", {info: users[0], geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages});
+												})
+											})
 										})
 									})
 								})
 							})
 						})
-					})
-				}
-				else
-				{
-					res.render("notifs", {info: users[0]});
-				}
+					}
+					else
+					{
+						res.render("notifs", {info: users[0]});
+					}
 
 				})
 			}
 		})
-	})
+})
 })
 
 

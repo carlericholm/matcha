@@ -2,8 +2,15 @@
 <script>
   var socket = io.connect('http://localhost:8080');
   var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
-  socket.emit('new user', user);
-  socket.on('connected users', function (users) {
+  socket.on("connect", function () {
+  	console.log("connected");
+  	socket.emit('new user', user);
+  })
+
+
+
+  socket.on("test", function(data) {
+  	console.log("le serveur a un message pour la socket: " + data);
   })
 
 

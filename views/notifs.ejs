@@ -22,11 +22,29 @@
    <p id="loginWelcome">Bonjour <% if (locals.log) { %><%= locals.log %><%}%></p>
  </div>
  <div id="containerNav">
-  <div class="topnav">
-   <a href="/"><img src="img/profile_icon.png" style="width: 30px"></a>
-   <a href="/tchat"><img src="img/tchat_icon.png" style="width: 30px"></a>
-   <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
-   <a href="/notifs"><img src="img/bell.png" style="width: 30px;"></a>
+  <div class="topnav" style="display: flex;">
+    <div>
+     <a href="/"><img src="img/profile_icon.png" style="width: 30px"></a>
+   </div>
+   <div style="position: relative;">
+     <a href="/tchat"><img src="img/tchat_icon.png" style="width: 30px" onclick="test();"></a>
+     <%var nb = 0; var temp = '';if (typeof notif !== 'undefined') {%>
+     <% for (var n = 0; n < notif.length ; n++) { %>
+     <% if (notif[n].sender_id !== temp){temp = notif[n].sender_id; nb++;}%>
+     <%}%>
+     <% if (nb > 0) {%>
+     <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
+     <%} else {%>
+     <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
+     <%}%>
+     <%}%>
+   </div>
+   <div>
+     <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
+   </div>
+   <div>
+     <a href="/notifs"><img src="img/bell.png" style="width: 30px;"></a>
+   </div>
  </div>
  <div class="topnavBis">
    <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>

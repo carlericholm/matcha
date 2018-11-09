@@ -92,13 +92,11 @@ router.post("/", function(req, res) {
 					else
 					{
 						req.flash("emptyName", "Veuillez ne pas laisser ce champ vide");
-						console.log("champ vide");
 					}
 				}
 				else
 				{
 					req.flash("emptyFirstname", "Veuillez ne pas laisser ce champ vide");
-					console.log("champ vide");
 				}
 			}
 

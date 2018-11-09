@@ -123,13 +123,10 @@ io.on('connection', function (socket) {
 	connections.push(socket);
 	console.log('%s sockets connected', connections.length);
 
-	socket.on('disconnect', function (data) {
-		var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
-		con.query(sql, [socket.username]);
-		usersSockets.splice(usersSockets.indexOf(socket.username), 1);
-		connections.splice(connections.indexOf(socket), 1);
-		console.log("1 socket disconnected, %s socket remaining: ", connections.length);
-	})
+
+
+
+
 	socket.on('new user', function(data) {
 		socket.username = data;
 		// if (usersSockets.indexOf(socket.username) !== -1)
@@ -146,7 +143,7 @@ io.on('connection', function (socket) {
 				var room = "room" + data + '_' + result[0].id;
 			else
 				var room = "room" + result[0].id + '_' + data;
-			console.log(room);
+			// console.log(room);
 			socket.join(room);
 		})	
 	})
@@ -161,9 +158,16 @@ io.on('connection', function (socket) {
 			var sql = "INSERT INTO chat SET message = ?, sender_id = ?, receiver_id = ?, date = CURRENT_TIMESTAMP";
 			con.query(sql, [eschtml(message), result[0].id, receiver_id]);
 			if (receiver_id > result[0].id)
+			{
 				socket.to('room' + receiver_id + '_' + result[0].id).emit("put message", {msg: message, id: result[0].id});
+				socket.to('room' + receiver_id + '_' + result[0].id).emit("test", "salut je suis un test");
+			}
 			else
+			{
 				socket.to('room' + result[0].id + '_' + receiver_id).emit("put message", {msg: message, id: result[0].id});
+				socket.to('room' + result[0].id + '_' + receiver_id).emit("test", "salut je suis un test");
+
+			}
 			console.log("ligne ajoutee");
 		})
 	})
@@ -174,6 +178,15 @@ io.on('connection', function (socket) {
 			var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
 			con.query(sql, [sender_id, result[0].id]);
 		})
+	})
+
+
+	socket.on('disconnect', function (data) {
+		var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
+		con.query(sql, [socket.username]);
+		usersSockets.splice(usersSockets.indexOf(socket.username), 1);
+		connections.splice(connections.indexOf(socket), 1);
+		console.log("1 socket disconnected, %s socket remaining: ", connections.length);
 	})
 });
 

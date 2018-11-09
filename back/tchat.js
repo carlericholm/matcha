@@ -31,14 +31,6 @@ function getMessages(result)
 	return (tab);
 }
 
-// function getNotifsMessages(result)
-// {
-// 	var tab = new Array();
-// 	result.forEach(function(notif) {
-// 		tab.push(notif)
-// 	})
-// 	return (tab);
-// }
 
 router.get("/", function(req, res) {
 	var sql = "SELECT * FROM users WHERE login = ?";

@@ -1,6 +1,14 @@
  var con = require('../config/database');
  var geopoint = require('geopoint');
 
+ function getNotifsMessages(result)
+ {
+ 	var tab = new Array();
+ 	result.forEach(function(notif) {
+ 		tab.push(notif)
+ 	})
+ 	return (tab);
+ }
 
  function getPicsUsersJoin (sexe, orientation, callback)
  {
@@ -291,7 +299,11 @@
  				getLikes(users[0].id, function(likes) {
  					getBlock(users[0].id, function (block) {
  						getReport(users[0].id, function (report) {
- 							res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment});
+ 							var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
+ 							con.query(sql, [users[0].id], function(err, result) {
+ 								var notifs_messages = getNotifsMessages(result);
+ 								res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages});
+ 							})
  						})
  					})
  				})
@@ -315,7 +327,11 @@
  					getLikes(users[0].id, function(likes) {
  						getBlock(users[0].id, function (block) {
  							getReport(users[0].id, function (report) {
- 								res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment});
+ 								var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
+ 								con.query(sql, [users[0].id], function(err, result) {
+ 									var notifs_messages = getNotifsMessages(result);
+ 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages});
+ 								})
  							})
  						})
  					})
