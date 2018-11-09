@@ -24,10 +24,10 @@ router.post("/", function(req, res) {
 	{
 		var id = req.body.hidden;
 		var str = req.session.log + id;
-		if (!req.files)
+		if (!req.files.file_profil)
 		{
 			console.log(req.files);
-			res.render("index");
+			res.redirect('/');
 		}
 		else if (req.files && req.files.file_profil.mimetype == 'image/png')
 		{

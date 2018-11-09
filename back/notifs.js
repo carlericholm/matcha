@@ -18,7 +18,7 @@ router.get("/", function(req, res) {
 				var tabList = likeList.map(el => {return el.liker_id});
 				var sql = "SELECT * FROM users WHERE id IN (?)";
 				con.query(sql, [tabList], function(err, result) {
-					var suggestions = result;
+					var suggestions = result.reverse();
 					var sql = "SELECT * FROM likes WHERE liker_id = ?";
 					con.query(sql, [users[0].id], function(err, result) {
 						var likes = result;
