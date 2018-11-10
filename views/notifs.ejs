@@ -129,8 +129,10 @@
                         </div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
                       </div>
-                      <p>en ligne / hors ligne</p>
-                    </div>
+                      <div class="checkOnline" id="<%=suggestions[i].login%>"><%if (connectedUsers.indexOf(suggestions[i].login) !== -1) {%><p id="online" style="color: green; text-align: center; margin-top: 15px;">En ligne</p><%} else {%>
+                        <p id="offline" style="color: red; margin-top: 15px; text-align: center;">Hors ligne <% if (typeof suggestions !== 'undefined' && suggestions[i].connected !== 'NULL') {%>depuis le <%= moment(suggestions[i].connected).format('DD-MM-YYYY HH:mm:ss') %><%}%></p><%}%></div>
+
+                      </div>
                   </div>
                 </div>
               </div>
@@ -226,7 +228,8 @@
                         </div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= visiters[i].login%>" id="<%=visiters[i].id%>" class="block"></div>
                       </div>
-                      <p>en ligne / hors ligne</p>
+                      <div class="checkOnline" id="<%=visiters[i].login%>"><%if (connectedUsers.indexOf(visiters[i].login) !== -1) {%><p id="online" style="color: green; text-align: center; margin-top: 15px;">En ligne</p><%} else {%>
+                        <p id="offline" style="color: red; margin-top: 15px; text-align: center;">Hors ligne <% if (typeof visiters !== 'undefined' && visiters[i].connected !== 'NULL') {%>depuis le <%= moment(visiters[i].connected).format('DD-MM-YYYY HH:mm:ss') %><%}%></p><%}%></div>
                     </div>
                   </div>
                 </div>

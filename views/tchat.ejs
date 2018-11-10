@@ -26,7 +26,7 @@
     <div>
      <a href="/"><img src="img/profile_icon.png" style="width: 30px"></a>
    </div>
-   <div style="position: relative;">
+   <div style="position: relative;" id="chatNav">
      <a href="/tchat"><img src="img/tchat_icon.png" style="width: 30px" onclick="test();"></a>
      <%var nb = 0; var temp = '';if (typeof notif !== 'undefined') {%>
      <% for (var n = 0; n < notif.length ; n++) { %>
@@ -123,85 +123,86 @@
                 </div>
                 <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
               </div>
-              <p>en ligne / hors ligne</p>
+              <div class="checkOnline" id="<%=suggestions[i].login%>"><%if (connectedUsers.indexOf(suggestions[i].login) !== -1) {%><p id="online" style="color: green; text-align: center; margin-top: 15px;">En ligne</p><%} else {%>
+                <p id="offline" style="color: red; margin-top: 15px; text-align: center;">Hors ligne <% if (typeof suggestions !== 'undefined' && suggestions[i].connected !== 'NULL') {%>depuis le <%= moment(suggestions[i].connected).format('DD-MM-YYYY HH:mm:ss') %><%}%></p><%}%></div>
+              </div>
             </div>
           </div>
         </div>
+        <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
+        <div style=" margin-top: 15px; display: flex; justify-content: center; ">
+          <div>
+            <img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'">
+          </div>
+          <div class="name_user">
+            <%= suggestions[i].login %>
+          </div>
+          <div style="position: relative;">
+            <img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;" onclick="test(this);document.getElementById('chat<%= i %>').style.display='block'" id="<%= suggestions[i].id %>" class="chatRoom">
+            <%var nb = 0;if (typeof notif !== 'undefined') {%>
+            <% for (var n = 0; n < notif.length ; n++) { %>
+            <% if (notif[n].sender_id == suggestions[i].id){%>
+            <% nb++;%>
+            <%}%>
+            <%}%>
+            <% if (nb > 0) {%>
+            <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: block;" class="notifDiv"><%=nb%></div>
+            <%} else {%>
+            <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: none;" class="notifDiv">0</div>
+            <%}%>
+            <%}%>
+          </div>
+        </div>
       </div>
-      <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
-      <div style=" margin-top: 15px; display: flex; justify-content: center; ">
-        <div>
-          <img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'">
-        </div>
-        <div class="name_user">
-          <%= suggestions[i].login %>
-        </div>
-        <div style="position: relative;">
-          <img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;" onclick="test(this);document.getElementById('chat<%= i %>').style.display='block'" id="<%= suggestions[i].id %>" class="chatRoom">
-          <%var nb = 0;if (typeof notif !== 'undefined') {%>
-          <% for (var n = 0; n < notif.length ; n++) { %>
-          <% if (notif[n].sender_id == suggestions[i].id){%>
-          <% nb++;%>
-          <%}%>
-          <%}%>
-          <% if (nb > 0) {%>
-          <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: block;" class="notifDiv"><%=nb%></div>
-          <%} else {%>
-          <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: none;" class="notifDiv">0</div>
-          <%}%>
-          <%}%>
-        </div>
-      </div>
-    </div>
 
 
 
-    <div class="overlay" style="display: flex; justify-content: center;"></div>
-    <div id="chat<%= i %>" class="modal">
-      <div class="modal-content">
-        <span class="close" title="Close Modal">&times;</span>
-        <div id="infoContainer" style="width: 70%; margin: auto;">
-          <h1 style="color: rgb(22, 79, 159);">Votre conversation avec <%= suggestions[i].login %></h1>
-          <div class="messageDiv" style="width: 80%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; margin: auto; margin-top: 15px;">
-            <input type="hidden" class="hiddenSrc" src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" id="<%=suggestions[i].id%>">
-            <div class="chatDiv" style="width: 70%;height: 50vh; overflow-y: scroll;" id="<%=suggestions[i].id%>">
-              <%var nb = 0;if (typeof messages !== 'undefined') {%>
-              <% for (var m = 0; m < messages.length ; m++) { %>
-              <% if (messages[m].sender_id == suggestions[i].id || (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id)){%>
-              <% if (nb % 5 == 0) { %><p style="color: grey; text-align: center;"><%= moment(messages[m].date).format('DD-MM')%> a <%= moment(messages[m].date).format('HH:mm')%></p><%}nb++%>
-              <% if (messages[m].sender_id == suggestions[i].id){ %>
-              <div style="display: flex;"><img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>"
-                style="width: 2vw; height: 2vw; border-radius: 100%; align-self: center;" data-toggle="tooltip" title="<%=suggestions[i].login%>"><p id="leftMessage" style="background-color: rgb(241, 240, 240); border-radius: 5px; padding: 5px; max-width: 80%; margin-left: 5px; word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
-                <%}%>
-                <% if (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id) {%>
-                <div style="display: flex; justify-content: flex-end;"><p id="rightMessage" style="background-color: rgb(17, 108, 214); border-radius: 5px; color: white; padding: 5px; max-width: 80%; margin-right: 5px;word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
-                <%}%>
+      <div class="overlay" style="display: flex; justify-content: center;"></div>
+      <div id="chat<%= i %>" class="modal">
+        <div class="modal-content">
+          <span class="close" title="Close Modal">&times;</span>
+          <div id="infoContainer" style="width: 70%; margin: auto;">
+            <h1 style="color: rgb(22, 79, 159);">Votre conversation avec <%= suggestions[i].login %></h1>
+            <div class="messageDiv" style="width: 80%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; margin: auto; margin-top: 15px;">
+              <input type="hidden" class="hiddenSrc" src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" id="<%=suggestions[i].id%>">
+              <div class="chatDiv" style="width: 70%;height: 50vh; overflow-y: scroll;" id="<%=suggestions[i].id%>">
+                <%var nb = 0;if (typeof messages !== 'undefined') {%>
+                <% for (var m = 0; m < messages.length ; m++) { %>
+                <% if (messages[m].sender_id == suggestions[i].id || (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id)){%>
+                <% if (nb % 5 == 0) { %><p style="color: grey; text-align: center;"><%= moment(messages[m].date).format('DD-MM')%> a <%= moment(messages[m].date).format('HH:mm')%></p><%}nb++%>
+                <% if (messages[m].sender_id == suggestions[i].id){ %>
+                <div style="display: flex;"><img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>"
+                  style="width: 2vw; height: 2vw; border-radius: 100%; align-self: center;" data-toggle="tooltip" title="<%=suggestions[i].login%>"><p id="leftMessage" style="background-color: rgb(241, 240, 240); border-radius: 5px; padding: 5px; max-width: 80%; margin-left: 5px; word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
+                  <%}%>
+                  <% if (messages[m].sender_id == info.id && messages[m].receiver_id == suggestions[i].id) {%>
+                  <div style="display: flex; justify-content: flex-end;"><p id="rightMessage" style="background-color: rgb(17, 108, 214); border-radius: 5px; color: white; padding: 5px; max-width: 80%; margin-right: 5px;word-break: break-all;" data-toggle="tooltip" title="le <%= moment(messages[m].date).format('DD-MM-YYYY')%> a <%= moment(messages[m].date).format('HH:mm')%>"><%=messages[m].message%></p></div>
+                  <%}%>
 
 
-                <%}%>
-                <%}%>
-                <%}%>
-              </div>
-              <div id="formDiv" style="width: 70%;margin-top: 15px; margin-bottom: 15px;">
-                <div class="row">
-                 <div class="col">
-                  <textarea name="message" class="form-control" id="<%=suggestions[i].id%>" placeholder="Ecrivez un message"></textarea>
-                  <input type="submit" id="<%=suggestions[i].id%>" name="envoyer" value="Envoyer" class="btn btn-primary btn-block" style="margin-top: 15px;">
+                  <%}%>
+                  <%}%>
+                  <%}%>
+                </div>
+                <div id="formDiv" style="width: 70%;margin-top: 15px; margin-bottom: 15px;">
+                  <div class="row">
+                   <div class="col">
+                    <textarea name="message" class="form-control" id="<%=suggestions[i].id%>" placeholder="Ecrivez un message"></textarea>
+                    <input type="submit" id="<%=suggestions[i].id%>" name="envoyer" value="Envoyer" class="btn btn-primary btn-block" style="margin-top: 15px;">
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
+      </div>
+      <%}%>
+      <%}%>
+      <%}%>
+      <%}%>
+      <%}%>
     </div>
-    <%}%>
-    <%}%>
-    <%}%>
-    <%}%>
-    <%}%>
   </div>
-</div>
 </div>
 </div>
 </div>

@@ -33,6 +33,7 @@ function getMessages(result)
 
 
 router.get("/", function(req, res) {
+	var connectedUsers = req.app.get('usersSockets');
 	var sql = "SELECT * FROM users WHERE login = ?";
 	con.query(sql, [req.session.log], function (err, result) {
 		var users = result;
@@ -76,7 +77,7 @@ router.get("/", function(req, res) {
 													var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
 													con.query(sql, [users[0].id], function(err, result) {
 														var notifs_messages = tools.getNotifsMessages(result);
-														res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, messages: messages, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages});
+														res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, messages: messages, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages, connectedUsers: connectedUsers});
 													})	
 												})
 											})

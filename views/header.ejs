@@ -1,17 +1,60 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io.connect('http://localhost:8080');
-  var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
-  socket.on("connect", function () {
-  	console.log("connected");
-  	socket.emit('new user', user);
-  })
+	var socket = io.connect('http://localhost:8080');
+	var user = '<% if (locals.log) { %><%= locals.log %><%}%>';
+	socket.on("connect", function () {
+		console.log("connected");
+		socket.emit('new user', user);
+	})
+
+	function currentDate() {
+    var x = new Date();
+    var y = x.getFullYear().toString();
+    var m = (x.getMonth() + 1).toString();
+    var d = x.getDate().toString();
+    var h = x.getHours().toString();
+    var mm = x.getMinutes().toString();
+    var ss = x.getSeconds().toString();
+    (d.length == 1) && (d = '0' + d);
+    (m.length == 1) && (m = '0' + m);
+    var currentDate = d +'-' + m + '-' + y + ' a ' + h + ':' + mm + ':' + ss;
+    return currentDate;
+}
+
+	socket.on("test", function(data) {
+		console.log("le serveur a un message pour la socket: " + data.receiver_id);
+		var chatNav = document.getElementById("chatNav");
+		console.log(chatNav.children[1]);
+		chatNav.children[1].textContent = parseInt(chatNav.children[1].textContent) + 1;
+	})
+
+	socket.on("connected users", function (connectedUsers) {
+		var checkOnline = document.getElementsByClassName("checkOnline");
+		for (var i = 0; i < checkOnline.length; i++) {
+			if (connectedUsers.indexOf(checkOnline[i].id) !== -1)
+			{
+				checkOnline[i].children[0].textContent = "En ligne";
+				checkOnline[i].children[0].style.color = "green";
+				checkOnline[i].children[0].style.textAlign = "center";
+				checkOnline[i].children[0].style.marginTop = "15px";
+			}
+		}
+	})
+
+	socket.on("disconnected user", function (username) {
+		var checkOnline = document.getElementsByClassName("checkOnline");
+		for (var i = 0; i < checkOnline.length; i++) {
+			if (username == checkOnline[i].id)
+			{
+				checkOnline[i].children[0].textContent = "Hors ligne depuis le " + currentDate();
+				checkOnline[i].children[0].style.color = "red";
+				checkOnline[i].children[0].style.textAlign = "center";
+				checkOnline[i].children[0].style.marginTop = "15px";
+			}
+		}
+	})
 
 
-
-  socket.on("test", function(data) {
-  	console.log("le serveur a un message pour la socket: " + data);
-  })
 
 
 </script>

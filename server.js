@@ -116,7 +116,7 @@ app.get('/index', function(req, res) {
 
 
 
-var usersSockets = [];
+var usersSockets = new Array();
 var connections = [];
 
 io.on('connection', function (socket) {
@@ -125,14 +125,12 @@ io.on('connection', function (socket) {
 
 
 
-
-
 	socket.on('new user', function(data) {
 		socket.username = data;
-		// if (usersSockets.indexOf(socket.username) !== -1)
-		usersSockets.push(socket.username);
-		console.log(usersSockets);
+		// if (usersSockets.indexOf(socket.username) == -1)
+			usersSockets.push(socket.username);
 		socket.emit('connected users', usersSockets);
+		socket.broadcast.emit("connected users", usersSockets);
 		app.set('usersSockets', usersSockets);
 	})
 
@@ -143,7 +141,6 @@ io.on('connection', function (socket) {
 				var room = "room" + data + '_' + result[0].id;
 			else
 				var room = "room" + result[0].id + '_' + data;
-			// console.log(room);
 			socket.join(room);
 		})	
 	})
@@ -160,14 +157,13 @@ io.on('connection', function (socket) {
 			if (receiver_id > result[0].id)
 			{
 				socket.to('room' + receiver_id + '_' + result[0].id).emit("put message", {msg: message, id: result[0].id});
-				socket.to('room' + receiver_id + '_' + result[0].id).emit("test", "salut je suis un test");
 			}
 			else
 			{
 				socket.to('room' + result[0].id + '_' + receiver_id).emit("put message", {msg: message, id: result[0].id});
-				socket.to('room' + result[0].id + '_' + receiver_id).emit("test", "salut je suis un test");
 
 			}
+			socket.broadcast.emit("test", {receiver_id: receiver_id});
 			console.log("ligne ajoutee");
 		})
 	})
@@ -182,6 +178,7 @@ io.on('connection', function (socket) {
 
 
 	socket.on('disconnect', function (data) {
+		socket.broadcast.emit("disconnected user", socket.username);
 		var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
 		con.query(sql, [socket.username]);
 		usersSockets.splice(usersSockets.indexOf(socket.username), 1);
