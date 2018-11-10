@@ -143,7 +143,7 @@
                           <% if (typeof likes !== 'undefined' && likes[l].liked_id == suggestions[i].id) {%>
                           <%var src = 'liked_icon.png';%>
                           <%break;}}}%>
-                          <img src="img/<%=src%>" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=suggestions[i].id%>"
+                          <img src="img/<%=src%>" style="cursor: pointer; width: 48px;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=suggestions[i].id%>"
                           class="like"><span id="<%if (src == 'liked_icon.png') {%>unlike<%}else{%>like<%}%>"></span>
                         </div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
@@ -242,7 +242,7 @@
                             <% if (typeof likes !== 'undefined' && likes[l].liked_id == visiters[i].id) {%>
                             <%var src = 'liked_icon.png';%>
                             <%break;}}}%>
-                            <img src="img/<%=src%>" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=visiters[i].id%>"
+                            <img src="img/<%=src%>" style="cursor: pointer; width: 48px;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=visiters[i].id%>"
                             class="like"><span id="<%if (src == 'liked_icon.png') {%>unlike<%}else{%>like<%}%>"></span>
                           </div>
                           <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= visiters[i].login%>" id="<%=visiters[i].id%>" class="block"></div>
