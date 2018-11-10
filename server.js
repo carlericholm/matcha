@@ -83,7 +83,11 @@ app.get('/', function(req, res) {
 					var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
 					con.query(sql, [users[0].id], function(err, result) {
 						var notifs_messages = tools.getNotifsMessages(result);
-						res.render("index", {result: pics[0], info: users[0], tags: tags, notif: notifs_messages});
+						var sql = "SELECT * from notifs WHERE receiver_id = ?";
+						con.query(sql, [users[0].id], function(err, result) {
+							var notifs = tools.getNotifsMessages(result).reverse();
+							res.render("index", {result: pics[0], info: users[0], tags: tags, notif: notifs_messages, notifs: notifs});
+						})
 					})
 				})
 			})
@@ -194,6 +198,16 @@ io.on('connection', function (socket) {
 	})
 
 
+	socket.on("new notif", function (data) {
+		console.log(data.type);
+		console.log("space");
+		console.log(data.receiver_id);
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [socket.username], function(err, result) {
+			var sql = "INSERT INTO notifs SET notif = ?, sender_id = ?, receiver_id = ?";
+			con.query(sql, [data.type, result[0].id, data.receiver_id]);
+		})
+	})
 
 
 
@@ -203,24 +217,24 @@ io.on('connection', function (socket) {
 
 
 
-				socket.on("remove notif message", function(sender_id) {
-					var sql = "SELECT * FROM users WHERE login = ?";
-					con.query(sql, [socket.username], function(err, result) {
-						var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
-						con.query(sql, [sender_id, result[0].id]);
-					})
-				})
+	socket.on("remove notif message", function(sender_id) {
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [socket.username], function(err, result) {
+			var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
+			con.query(sql, [sender_id, result[0].id]);
+		})
+	})
 
 
-				socket.on('disconnect', function (data) {
-					socket.broadcast.emit("disconnected user", socket.username);
-					var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
-					con.query(sql, [socket.username]);
-					usersSockets.splice(usersSockets.indexOf(socket.username), 1);
-					connections.splice(connections.indexOf(socket), 1);
-					console.log("1 socket disconnected, %s socket remaining: ", connections.length);
-				})
-			});
+	socket.on('disconnect', function (data) {
+		socket.broadcast.emit("disconnected user", socket.username);
+		var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
+		con.query(sql, [socket.username]);
+		usersSockets.splice(usersSockets.indexOf(socket.username), 1);
+		connections.splice(connections.indexOf(socket), 1);
+		console.log("1 socket disconnected, %s socket remaining: ", connections.length);
+	})
+});
 
 
 

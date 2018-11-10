@@ -50,7 +50,7 @@
  <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
 </div>
 <div>
- <a href="/notifs"><img src="img/bell.png" style="width: 30px;"></a>
+  <a href="/notifs" onmouseover="document.getElementById('notifBox').style.display = 'block';document.getElementById('whiteArrow').style.display = 'block'" onmouseleave="document.getElementById('notifBox').style.display = 'none';document.getElementById('whiteArrow').style.display = 'none'"><img src="img/bell.png" style="width: 30px;"></a>
 </div>
 </div>
 <div class="topnavBis">
@@ -59,6 +59,17 @@
 </div>
 </div>
 
+
+<div style="position: absolute; right: 85px; top: 157px; z-index: 1;"><img src="img/white_arrow.png" style="width: 15px; height: 15px; display: none;" id="whiteArrow"></div>
+<div style="position: absolute; right: 0px;width: 300px; height: 300px; background-color: white; border: 1px solid black; z-index: 1; box-shadow: 2px 2px 2px; border-top: none; overflow-y: scroll; display: none;" id="notifBox">
+
+<%if (typeof notifs !== 'undefined') {%>
+            <% for (var n = 0; n < notifs.length ; n++) { %>
+              <p style="font-style: italic; background-color: rgb(251, 189, 8); color: white; margin: auto; margin-top: 3px; height: 40px; display: flex; justify-content: center; align-items: center;"><%=notifs[n].notif%></p>
+            <%}%>
+            <%}%>
+
+</div>
 
 <div id="bodyContainer">
   <h1>Tchat</h1>

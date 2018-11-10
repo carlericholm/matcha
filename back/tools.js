@@ -302,7 +302,11 @@
  							var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
  							con.query(sql, [users[0].id], function(err, result) {
  								var notifs_messages = getNotifsMessages(result);
- 								res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages});
+ 								var sql = "SELECT * from notifs WHERE receiver_id = ?";
+ 								con.query(sql, [users[0].id], function(err, result) {
+ 									var notifs = getNotifsMessages(result).reverse();
+ 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages, notifs: notifs});
+ 								})
  							})
  						})
  					})
@@ -330,7 +334,11 @@
  								var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
  								con.query(sql, [users[0].id], function(err, result) {
  									var notifs_messages = getNotifsMessages(result);
- 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages});
+ 									var sql = "SELECT * from notifs WHERE receiver_id = ?";
+ 									con.query(sql, [users[0].id], function(err, result) {
+ 										var notifs = getNotifsMessages(result).reverse();
+ 										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages, notifs: notifs});
+ 									})
  								})
  							})
  						})
