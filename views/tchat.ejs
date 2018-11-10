@@ -241,7 +241,6 @@
   var message = document.getElementsByName("message");
   for (var i = 0; i < envoyer.length; i++) {
     envoyer[i].addEventListener('click', function(e) {
-      console.log(e.target.parentNode.children[0].value);
       var message = e.target.parentNode.children[0].value
       var id = e.target.parentNode.children[0].id;
       if (message !== '')
