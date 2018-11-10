@@ -115,12 +115,20 @@
 {
     margin-top: 30px;
     width: 50%;
+		border-right: 1px solid grey;
+}
+
+.like {
+	width: 48;
+	height: 48;
 }
 
 #visitDiv
 {
     margin-top: 30px;
     width: 50%;
+		border-left: 1px solid grey;
+
 }
 
 h3

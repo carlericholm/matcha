@@ -60,8 +60,8 @@ function maketag() {
 con.query('SELECT login FROM users where login = ?', ['FakeUser42'], function (err, result) { if (err) throw err
   if (result.length == 0) {
 
-    // sql = 'INSERT INTO `users` (`login`, `name`, `firstname`, `email`, `password`, `cle`, `active`, `age`, `sexe`, `orientation`, `bio`, `trueLocation`, `fakeLocation`, `showFakeLocation`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    // con.query(sql, ["admin", "admin", "admin", "admin@admin.com", hash.generate("admin"), 1, 1, 25, "Masculin", "Héterosexuel", "admin", "Paris", "Paris", 1, 55, 27], function (err, result) { if (err) throw err });
+    sql = 'INSERT INTO `users` (`login`, `name`, `firstname`, `email`, `password`, `cle`, `active`, `age`, `sexe`, `orientation`, `bio`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    con.query(sql, ["admin", "admin", "admin", "admin@admin.com", hash.generate("admin"), 1, 1, 25, "Masculin", "Héterosexuel", "admin", 55, 27], function (err, result) { if (err) throw err });
 
       var i = 1;
       while (i < 600) {
@@ -75,7 +75,7 @@ con.query('SELECT login FROM users where login = ?', ['FakeUser42'], function (e
           age = getRandomInt(60) + 18;
           quelSexe = getRandomInt(2);
           quelleOrientation = getRandomInt(3);
-      		bio = "J'aime le Sport, le Sexe, les Vacances, les Parties ou le Code" + i;
+      		bio = "J'aime le Sport, le Sexe, les Vacances, les Party et le Code" + i;
           latitude = getRandomInt(90);
           longitude = getRandomInt(90);
           // trueLocation = 'La true location du FakeUser' + i;
