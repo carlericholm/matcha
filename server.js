@@ -229,7 +229,7 @@ io.on('connection', function (socket) {
 		var sql = "SELECT * FROM users WHERE login = ?";
 		con.query(sql, [socket.username], function(err, result) {
 			var sql = "UPDATE notifs SET seen = 1 WHERE receiver_id = ?";
-			con.query(sql, [result[0].id]);
+			con.query(sql, [sender_id, result[0].id]);
 		})
 	})
 
