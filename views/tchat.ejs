@@ -28,29 +28,37 @@
    </div>
    <div style="position: relative;" id="chatNav">
      <a href="/tchat"><img src="img/tchat_icon.png" style="width: 30px" onclick="test();"></a>
-     <%var nb = 0; var temp = '';if (typeof notif !== 'undefined') {%>
+     <%var nb = 0; var temp = new Array();if (typeof notif !== 'undefined') {%>
      <% for (var n = 0; n < notif.length ; n++) { %>
-     <% if (notif[n].sender_id !== temp){temp = notif[n].sender_id; nb++;}%>
+     <%temp.push(notif[n].sender_id)%>
      <%}%>
-     <% if (nb > 0) {%>
-     <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
-     <%} else {%>
-     <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
-     <%}%>
-     <%}%>
-   </div>
-   <div>
-     <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
-   </div>
-   <div>
-     <a href="/notifs"><img src="img/bell.png" style="width: 30px;"></a>
-   </div>
- </div>
- <div class="topnavBis">
-   <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>
- </div>
+     <%var resultat = new Array(); temp.forEach(function (element) {
+     if (resultat.indexOf(element) == -1)
+     {
+      resultat.push(element);
+    }
+  })%>
+  <% nb = resultat.length;%>
+  <% if (nb > 0) {%>
+  <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
+  <%} else {%>
+  <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
+  <%}%>
+  <%}%>
+</div>
+<div>
+ <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
+</div>
+<div>
+ <a href="/notifs"><img src="img/bell.png" style="width: 30px;"></a>
 </div>
 </div>
+<div class="topnavBis">
+ <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>
+</div>
+</div>
+</div>
+
 
 <div id="bodyContainer">
   <h1>Tchat</h1>
@@ -216,12 +224,17 @@
 
   function test(e)
   {
+    var chatNav = document.getElementById("chatNav");
+    if (parseInt(chatNav.children[1].textContent) > 0 && parseInt(e.parentNode.children[1].textContent) > 0)
+    {
+      chatNav.children[1].textContent = parseInt(chatNav.children[1].textContent) - 1;
+      if (parseInt(chatNav.children[1].textContent) == 0)
+        chatNav.children[1].style.display = "none";
+    }
     e.parentNode.children[1].textContent = '0';
     e.parentNode.children[1].style.display = 'none';
     socket.emit("remove notif message", e.id);
   }
-
-
 
 
   var envoyer = document.getElementsByName("envoyer");
@@ -273,8 +286,6 @@
     var chatDiv = document.getElementsByClassName("chatDiv");
     var notifDiv = document.getElementsByClassName("notifDiv");
     for (var i = 0; i < chatDiv.length; i++) {
-      // console.log(notifDiv[i]);
-      // console.log("Le serveur a un message pour vous: " + message.msg)
       if (message.id == chatDiv[i].id)
       {
         var div = document.createElement("div");

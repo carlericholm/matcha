@@ -8,24 +8,32 @@
 	})
 
 	function currentDate() {
-    var x = new Date();
-    var y = x.getFullYear().toString();
-    var m = (x.getMonth() + 1).toString();
-    var d = x.getDate().toString();
-    var h = x.getHours().toString();
-    var mm = x.getMinutes().toString();
-    var ss = x.getSeconds().toString();
-    (d.length == 1) && (d = '0' + d);
-    (m.length == 1) && (m = '0' + m);
-    var currentDate = d +'-' + m + '-' + y + ' a ' + h + ':' + mm + ':' + ss;
-    return currentDate;
-}
+		var x = new Date();
+		var y = x.getFullYear().toString();
+		var m = (x.getMonth() + 1).toString();
+		var d = x.getDate().toString();
+		var h = x.getHours().toString();
+		var mm = x.getMinutes().toString();
+		var ss = x.getSeconds().toString();
+		(d.length == 1) && (d = '0' + d);
+		(m.length == 1) && (m = '0' + m);
+		var currentDate = d +'-' + m + '-' + y + ' a ' + h + ':' + mm + ':' + ss;
+		return currentDate;
+	}
 
 	socket.on("test", function(data) {
-		console.log("le serveur a un message pour la socket: " + data.receiver_id);
 		var chatNav = document.getElementById("chatNav");
-		console.log(chatNav.children[1]);
-		chatNav.children[1].textContent = parseInt(chatNav.children[1].textContent) + 1;
+		if (user == data.login)
+		{
+			if (parseInt(chatNav.children[1].textContent) == 0)
+			{
+				chatNav.children[1].style.display = "block";
+				chatNav.children[1].textContent = data.nb;
+			}
+			else
+				chatNav.children[1].textContent = data.nb;
+
+		}
 	})
 
 	socket.on("connected users", function (connectedUsers) {

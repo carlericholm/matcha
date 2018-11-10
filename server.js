@@ -128,7 +128,7 @@ io.on('connection', function (socket) {
 	socket.on('new user', function(data) {
 		socket.username = data;
 		// if (usersSockets.indexOf(socket.username) == -1)
-			usersSockets.push(socket.username);
+		usersSockets.push(socket.username);
 		socket.emit('connected users', usersSockets);
 		socket.broadcast.emit("connected users", usersSockets);
 		app.set('usersSockets', usersSockets);
@@ -163,29 +163,64 @@ io.on('connection', function (socket) {
 				socket.to('room' + result[0].id + '_' + receiver_id).emit("put message", {msg: message, id: result[0].id});
 
 			}
-			socket.broadcast.emit("test", {receiver_id: receiver_id});
-			console.log("ligne ajoutee");
+			var sql = "SELECT * FROM users WHERE id = ?";
+			con.query(sql, [receiver_id], function(err, result) {
+				var login = result[0].login;
+				var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
+				con.query(sql, [receiver_id], function(err, result) {
+					if (result.length > 0)
+					{
+						var notif = tools.getNotifsMessages(result);
+						var nb = 0;
+						var temp = new Array();
+						for (var n = 0; n < notif.length ; n++) 
+							temp.push(notif[n].sender_id);
+						var resultat = new Array();
+						temp.forEach(function (element) {
+							if (resultat.indexOf(element) == -1)
+								resultat.push(element);
+						})
+						nb = resultat.length;
+						if (nb > 0)
+							socket.broadcast.emit("test", {login: login, nb: nb});
+						else
+							socket.broadcast.emit("test", {login: login, nb: 0});		
+					}
+					else
+						socket.broadcast.emit("test", {login: login, nb: 0});
+				})
+			})
 		})
 	})
 
-	socket.on("remove notif message", function(sender_id) {
-		var sql = "SELECT * FROM users WHERE login = ?";
-		con.query(sql, [socket.username], function(err, result) {
-			var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
-			con.query(sql, [sender_id, result[0].id]);
-		})
-	})
 
 
-	socket.on('disconnect', function (data) {
-		socket.broadcast.emit("disconnected user", socket.username);
-		var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
-		con.query(sql, [socket.username]);
-		usersSockets.splice(usersSockets.indexOf(socket.username), 1);
-		connections.splice(connections.indexOf(socket), 1);
-		console.log("1 socket disconnected, %s socket remaining: ", connections.length);
-	})
-});
+
+
+
+
+
+
+
+
+				socket.on("remove notif message", function(sender_id) {
+					var sql = "SELECT * FROM users WHERE login = ?";
+					con.query(sql, [socket.username], function(err, result) {
+						var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
+						con.query(sql, [sender_id, result[0].id]);
+					})
+				})
+
+
+				socket.on('disconnect', function (data) {
+					socket.broadcast.emit("disconnected user", socket.username);
+					var sql = "UPDATE users SET connected = CURRENT_TIMESTAMP WHERE login = ?";
+					con.query(sql, [socket.username]);
+					usersSockets.splice(usersSockets.indexOf(socket.username), 1);
+					connections.splice(connections.indexOf(socket), 1);
+					console.log("1 socket disconnected, %s socket remaining: ", connections.length);
+				})
+			});
 
 
 

@@ -26,12 +26,19 @@
     <div>
      <a href="/"><img src="img/profile_icon.png" style="width: 30px"></a>
    </div>
-   <div style="position: relative;">
+   <div style="position: relative;" id="chatNav">
      <a href="/tchat"><img src="img/tchat_icon.png" style="width: 30px" onclick="test();"></a>
-     <%var nb = 0; var temp = '';if (typeof notif !== 'undefined') {%>
+     <%var nb = 0; var temp = new Array();if (typeof notif !== 'undefined') {%>
      <% for (var n = 0; n < notif.length ; n++) { %>
-     <% if (notif[n].sender_id !== temp){temp = notif[n].sender_id; nb++;}%>
+     <%temp.push(notif[n].sender_id)%>
      <%}%>
+     <%var resultat = new Array(); temp.forEach(function (element) {
+     if (resultat.indexOf(element) == -1)
+     {
+        resultat.push(element);
+     }
+   })%>
+   <% nb = resultat.length;%>
      <% if (nb > 0) {%>
      <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
      <%} else {%>
@@ -51,6 +58,7 @@
  </div>
 </div>
 </div>
+
 
 <div id="bodyContainer">
   <h1>Welcome <% if (locals.log) { %><%= locals.log %><%}%></h1>
