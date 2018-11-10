@@ -225,6 +225,15 @@ io.on('connection', function (socket) {
 		})
 	})
 
+	socket.on("seen", function() {
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [socket.username], function(err, result) {
+			var sql = "UPDATE notifs SET seen = 1 WHERE receiver_id = ?";
+			con.query(sql, [result[0].id]);
+		})
+	})
+
+
 
 	socket.on('disconnect', function (data) {
 		socket.broadcast.emit("disconnected user", socket.username);

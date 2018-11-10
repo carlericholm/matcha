@@ -19,7 +19,7 @@
   <div id="blackBanner">
    <h1>MATCHA</h1>
  </div>
-  <div id="blueBanner">
+ <div id="blueBanner">
   <div style="display: flex;">
    <p id="loginWelcome">Bonjour <% if (locals.log) { %><%= locals.log %><%}%></p>
  </div>
@@ -37,38 +37,38 @@
      <%var resultat = new Array(); temp.forEach(function (element) {
      if (resultat.indexOf(element) == -1)
      {
-        resultat.push(element);
-     }
-   })%>
-   <% nb = resultat.length;%>
-     <% if (nb > 0) {%>
-     <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
-     <%} else {%>
-     <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
-     <%}%>
-     <%}%>
-   </div>
-   <div>
-     <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
-   </div>
-   <div>
-    <a href="/notifs" onmouseover="document.getElementById('notifBox').style.display = 'block';document.getElementById('whiteArrow').style.display = 'block'" onmouseleave="document.getElementById('notifBox').style.display = 'none';document.getElementById('whiteArrow').style.display = 'none'"><img src="img/bell.png" style="width: 30px;"></a>
-   </div>
- </div>
- <div class="topnavBis">
-   <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>
- </div>
+      resultat.push(element);
+    }
+  })%>
+  <% nb = resultat.length;%>
+  <% if (nb > 0) {%>
+  <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
+  <%} else {%>
+  <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
+  <%}%>
+  <%}%>
+</div>
+<div>
+ <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
+</div>
+<div>
+  <a href="/notifs" id="notifsHover"><img src="img/bell.png" style="width: 30px;"></a>
+</div>
+</div>
+<div class="topnavBis">
+ <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>
+</div>
 </div>
 </div>
 
 <div style="position: absolute; right: 85px; top: 157px; z-index: 1;"><img src="img/white_arrow.png" style="width: 15px; height: 15px; display: none;" id="whiteArrow"></div>
 <div style="position: absolute; right: 0px;width: 300px; height: 300px; background-color: white; border: 1px solid black; z-index: 1; box-shadow: 2px 2px 2px; border-top: none; overflow-y: scroll; display: none;" id="notifBox">
 
-<%if (typeof notifs !== 'undefined') {%>
-            <% for (var n = 0; n < notifs.length ; n++) { %>
-              <p style="font-style: italic; background-color: rgb(251, 189, 8); color: white; margin: auto; margin-top: 3px; height: 40px; display: flex; justify-content: center; align-items: center;"><%=notifs[n].notif%></p>
-            <%}%>
-            <%}%>
+  <%if (typeof notifs !== 'undefined') {%>
+  <% for (var n = 0; n < notifs.length ; n++) { %>
+  <p style="font-style: italic; background-color: rgb(251, 189, 8); color: white; margin: auto; margin-top: 3px; height: 40px; display: flex; justify-content: center; align-items: center;"><%=notifs[n].notif%></p>
+  <%}%>
+  <%}%>
 
 </div>
 
@@ -259,7 +259,16 @@
 //     modal.style.display = "none";
 //   }
 // }
+var notifsHover = document.getElementById("notifsHover");
+notifsHover.addEventListener("mouseover", function (){
+  document.getElementById('notifBox').style.display = 'block';
+  document.getElementById('whiteArrow').style.display = 'block'
+})
 
+notifsHover.addEventListener("mouseout", function (){
+  document.getElementById('notifBox').style.display = 'none';
+  document.getElementById('whiteArrow').style.display = 'none';
+})
 
 
 

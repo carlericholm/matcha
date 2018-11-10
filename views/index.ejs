@@ -50,7 +50,7 @@
      <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
    </div>
    <div>
-     <a href="/notifs" onmouseover="document.getElementById('notifBox').style.display = 'block';document.getElementById('whiteArrow').style.display = 'block'" onmouseleave="document.getElementById('notifBox').style.display = 'none';document.getElementById('whiteArrow').style.display = 'none';"><img src="img/bell.png" style="width: 30px;"></a>
+     <a href="/notifs" id="notifsHover"><img src="img/bell.png" style="width: 30px;"></a>
    </div>
  </div>
  <div class="topnavBis">
@@ -219,6 +219,16 @@
 <div id="footer">footer</div>
 <script type="text/javascript">
 
+var notifsHover = document.getElementById("notifsHover");
+notifsHover.addEventListener("mouseover", function (){
+  document.getElementById('notifBox').style.display = 'block';
+  document.getElementById('whiteArrow').style.display = 'block'
+})
+
+notifsHover.addEventListener("mouseout", function (){
+  document.getElementById('notifBox').style.display = 'none';
+  document.getElementById('whiteArrow').style.display = 'none';
+})
 
 
   $.ajax({
@@ -247,7 +257,6 @@ var tags = document.getElementsByClassName("link");
 var xhttp = new XMLHttpRequest();
 for (var i = 0; i < tags.length; i++) {
   tags[i].addEventListener('click', function(e) {
-    console.log(e.target.id);
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {}
     };
