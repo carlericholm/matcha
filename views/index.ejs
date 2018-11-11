@@ -5,11 +5,11 @@
   <title>Matcha</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
- <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
 
 </head>
 <body>
@@ -35,59 +35,60 @@
      <%var resultat = new Array(); temp.forEach(function (element) {
      if (resultat.indexOf(element) == -1)
      {
-        resultat.push(element);
-     }
-   })%>
-   <% nb = resultat.length;%>
-     <% if (nb > 0) {%>
-     <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
-     <%} else {%>
-     <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
-     <%}%>
-     <%}%>
-   </div>
-   <div>
-     <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
-   </div>
-   <div>
-     <a href="/notifs" id="notifsHover"><img src="img/bell.png" style="width: 30px;"></a>
-   </div>
- </div>
- <div class="topnavBis">
-   <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>
- </div>
+      resultat.push(element);
+    }
+  })%>
+  <% nb = resultat.length;%>
+  <% if (nb > 0) {%>
+  <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
+  <%} else {%>
+  <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
+  <%}%>
+  <%}%>
+</div>
+<div>
+ <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
+</div>
+<div style="position: relative;" id="notifsNav">
+ <a href="/notifs" id="notifsHover"><img src="img/bell.png" style="width: 30px;"></a>
+
+ <%var nb = 0; if (typeof notifs !== 'undefined') {%>
+ <% for (var n = 0; n < notifs.length ; n++) { %>
+ <%nb++%>
+ <%}%>
+ <% if (nb > 0) {%>
+ <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
+ <%} else {%>
+ <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
+ <%}%>
+ <%}%>
+
+
 </div>
 </div>
-
-
-
-
-
-
-<div style="position: absolute; right: 85px; top: 157px; z-index: 1;"><img src="img/white_arrow.png" style="width: 15px; height: 15px; display: none;" id="whiteArrow"></div>
-<div style="position: absolute; right: 0px;width: 300px; height: 300px; background-color: white; border: 1px solid black; z-index: 1; box-shadow: 2px 2px 2px; border-top: none; overflow-y: scroll; display: none;" id="notifBox">
-
-<%if (typeof notifs !== 'undefined') {%>
-            <% for (var n = 0; n < notifs.length ; n++) { %>
-              <p style="font-style: italic; background-color: rgb(251, 189, 8); color: white; margin: auto; margin-top: 3px; height: 40px; display: flex; justify-content: center; align-items: center;"><%=notifs[n].notif%></p>
-            <%}%>
-            <%}%>
-
+<div class="topnavBis">
+ <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>
+</div>
+</div>
 </div>
 
 
+<div style="position: absolute; right: 0px;width: 300px; background-color: white; border: 1px solid black; z-index: 1; box-shadow: 2px 2px 2px; border-top: none; overflow-y: scroll; display: none;" id="notifBox">
 
+  <%var nb = 0;if (typeof notifs !== 'undefined') {%>
+  <% for (var n = 0; n < notifs.length ; n++) { %>
+  <%nb++;%>
+  <%}%>
+  <% if (nb > 0) { %>
+  <% for (var n = 0; n < notifs.length ; n++) { %>
+  <p style="font-style: italic; background-color: rgb(251, 189, 8); color: white; margin: auto; margin-top: 3px; height: 40px; display: flex; justify-content: center; align-items: center;"><%=notifs[n].notif%></p>
+  <%}%>
+  <%} else {%>
+  <p style="font-style: italic; background-color: rgb(251, 189, 8); color: white; margin: auto; margin-top: 3px; height: 40px; display: flex; justify-content: center; align-items: center;">Aucune nouvelle notification</p>
+  <%}%>
+  <%}%>
 
-
-
-
-
-
-
-
-
-
-
+</div>
 
 
 
@@ -204,7 +205,6 @@
           <input type="text" class="form-control" name="localisation" value="<% if (info.showFakeLocation == 0) {%><%= info.trueLocation %><%} else {%><%= info.fakeLocation%><%} %>" style=" border: none; border-bottom: 1px solid grey; border-radius: 0px;">
           <input type="submit" name="fakeLocation" value="Changer ma localisation" class="btn btn-primary btn-block"  style="margin-top: 15px;">
           <input type="submit" name="trueLocation" value="Me géolocaliser" class="btn btn-primary btn-block" style="background-color: rgb(251, 189, 8); border: 1px solid rgb(251, 189, 8);">
-          <!-- <div id="test">localisation</div> -->
           <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
         </div>
       </form>
@@ -219,16 +219,18 @@
 <div id="footer">© Cholm & Mimhoff</div>
 <script type="text/javascript">
 
-var notifsHover = document.getElementById("notifsHover");
-notifsHover.addEventListener("mouseover", function (){
-  document.getElementById('notifBox').style.display = 'block';
-  document.getElementById('whiteArrow').style.display = 'block'
-})
+  var notifsHover = document.getElementById("notifsHover");
+  notifsHover.addEventListener("mouseover", function (){
+    document.getElementById('notifBox').style.display = 'block';
+    var redBubble = document.getElementById("notifsNav");
+    redBubble.children[1].style.display = 'none';
+    socket.emit("seen");
+  })
 
-notifsHover.addEventListener("mouseout", function (){
-  document.getElementById('notifBox').style.display = 'none';
-  document.getElementById('whiteArrow').style.display = 'none';
-})
+  notifsHover.addEventListener("mouseout", function (){
+    document.getElementById('notifBox').style.display = 'none';
+
+  })
 
 
   $.ajax({

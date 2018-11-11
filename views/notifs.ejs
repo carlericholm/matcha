@@ -59,7 +59,6 @@
 </div>
 </div>
 
-<div style="position: absolute; right: 85px; top: 157px; z-index: 1;"><img src="img/white_arrow.png" style="width: 15px; height: 15px; display: none;" id="whiteArrow"></div>
 <div style="position: absolute; right: 0px;width: 300px; height: 300px; background-color: white; border: 1px solid black; z-index: 1; box-shadow: 2px 2px 2px; border-top: none; overflow-y: scroll; display: none;" id="notifBox">
 
   <%if (typeof notifs !== 'undefined') {%>
@@ -143,7 +142,7 @@
                           <% if (typeof likes !== 'undefined' && likes[l].liked_id == suggestions[i].id) {%>
                           <%var src = 'liked_icon.png';%>
                           <%break;}}}%>
-                          <img src="img/<%=src%>" style="cursor: pointer; width: 48px;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=suggestions[i].id%>"
+                          <img src="img/<%=src%>" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=suggestions[i].id%>"
                           class="like"><span id="<%if (src == 'liked_icon.png') {%>unlike<%}else{%>like<%}%>"></span>
                         </div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= suggestions[i].login%>" id="<%=suggestions[i].id%>" class="block"></div>
@@ -242,7 +241,7 @@
                             <% if (typeof likes !== 'undefined' && likes[l].liked_id == visiters[i].id) {%>
                             <%var src = 'liked_icon.png';%>
                             <%break;}}}%>
-                            <img src="img/<%=src%>" style="cursor: pointer; width: 48px;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=visiters[i].id%>"
+                            <img src="img/<%=src%>" style="cursor: pointer; width: 3vw;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=visiters[i].id%>"
                             class="like"><span id="<%if (src == 'liked_icon.png') {%>unlike<%}else{%>like<%}%>"></span>
                           </div>
                           <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/block_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="block <%= visiters[i].login%>" id="<%=visiters[i].id%>" class="block"></div>
@@ -295,13 +294,10 @@
       var notifsHover = document.getElementById("notifsHover");
       notifsHover.addEventListener("mouseover", function (){
         document.getElementById('notifBox').style.display = 'block';
-        document.getElementById('whiteArrow').style.display = 'block'
       })
 
       notifsHover.addEventListener("mouseout", function (){
         document.getElementById('notifBox').style.display = 'none';
-        document.getElementById('whiteArrow').style.display = 'none';
-        socket.emit("seen");
       })
 
       var modal = document.getElementsByClassName('modal');
@@ -414,7 +410,6 @@ var text = document.getElementsByClassName("text");
 var xhttp = new XMLHttpRequest();
 for (var i = 0; i < text.length; i++) {
   text[i].addEventListener('click', function(e) {
-    console.log(e.target);
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {}
     };

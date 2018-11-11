@@ -83,7 +83,7 @@ app.get('/', function(req, res) {
 					var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
 					con.query(sql, [users[0].id], function(err, result) {
 						var notifs_messages = tools.getNotifsMessages(result);
-						var sql = "SELECT * from notifs WHERE receiver_id = ?";
+						var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 0";
 						con.query(sql, [users[0].id], function(err, result) {
 							var notifs = tools.getNotifsMessages(result).reverse();
 							res.render("index", {result: pics[0], info: users[0], tags: tags, notif: notifs_messages, notifs: notifs});
@@ -154,44 +154,52 @@ io.on('connection', function (socket) {
 	socket.on('send message', function (message, receiver_id) {
 		var sql = "SELECT * FROM users WHERE login = ?";
 		con.query(sql, [socket.username], function(err, result) {
-			var sql = "INSERT INTO notifs_messages SET sender_id = ?, receiver_id = ?";
-			con.query(sql, [result[0].id, receiver_id]);
-			var sql = "INSERT INTO chat SET message = ?, sender_id = ?, receiver_id = ?, date = CURRENT_TIMESTAMP";
-			con.query(sql, [eschtml(message), result[0].id, receiver_id]);
-			if (receiver_id > result[0].id)
-			{
-				socket.to('room' + receiver_id + '_' + result[0].id).emit("put message", {msg: message, id: result[0].id});
-			}
-			else
-			{
-				socket.to('room' + result[0].id + '_' + receiver_id).emit("put message", {msg: message, id: result[0].id});
 
-			}
-			var sql = "SELECT * FROM users WHERE id = ?";
-			con.query(sql, [receiver_id], function(err, result) {
-				var login = result[0].login;
-				var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
-				con.query(sql, [receiver_id], function(err, result) {
-					if (result.length > 0)
+			var users = result;
+			var sql = "SELECT * FROM likes WHERE liked_id = ? AND liker_id = ?";
+			con.query(sql, [users[0].id, receiver_id], function (err, result) {
+				if (result.length > 0)
+				{
+					var sql = "INSERT INTO notifs_messages SET sender_id = ?, receiver_id = ?";
+					con.query(sql, [users[0].id, receiver_id]);
+					var sql = "INSERT INTO chat SET message = ?, sender_id = ?, receiver_id = ?, date = CURRENT_TIMESTAMP";
+					con.query(sql, [eschtml(message), users[0].id, receiver_id]);
+					if (receiver_id > users[0].id)
 					{
-						var notif = tools.getNotifsMessages(result);
-						var nb = 0;
-						var temp = new Array();
-						for (var n = 0; n < notif.length ; n++) 
-							temp.push(notif[n].sender_id);
-						var resultat = new Array();
-						temp.forEach(function (element) {
-							if (resultat.indexOf(element) == -1)
-								resultat.push(element);
-						})
-						nb = resultat.length;
-						if (nb > 0)
-							socket.broadcast.emit("test", {login: login, nb: nb});
-						else
-							socket.broadcast.emit("test", {login: login, nb: 0});		
+						socket.to('room' + receiver_id + '_' + users[0].id).emit("put message", {msg: message, id: users[0].id});
 					}
 					else
-						socket.broadcast.emit("test", {login: login, nb: 0});
+					{
+						socket.to('room' + users[0].id + '_' + receiver_id).emit("put message", {msg: message, id: users[0].id});
+
+					}
+				}
+				var sql = "SELECT * FROM users WHERE id = ?";
+				con.query(sql, [receiver_id], function(err, result) {
+					var login = result[0].login;
+					var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
+					con.query(sql, [receiver_id], function(err, result) {
+						if (result.length > 0)
+						{
+							var notif = tools.getNotifsMessages(result);
+							var nb = 0;
+							var temp = new Array();
+							for (var n = 0; n < notif.length ; n++) 
+								temp.push(notif[n].sender_id);
+							var resultat = new Array();
+							temp.forEach(function (element) {
+								if (resultat.indexOf(element) == -1)
+									resultat.push(element);
+							})
+							nb = resultat.length;
+							if (nb > 0)
+								socket.broadcast.emit("test", {login: login, nb: nb});
+							else
+								socket.broadcast.emit("test", {login: login, nb: 0});		
+						}
+						else
+							socket.broadcast.emit("test", {login: login, nb: 0});
+					})
 				})
 			})
 		})
@@ -225,13 +233,26 @@ io.on('connection', function (socket) {
 		})
 	})
 
-	// socket.on("seen", function() {
+	// socket.on("remove notif_message unlike", function(sender) {
 	// 	var sql = "SELECT * FROM users WHERE login = ?";
 	// 	con.query(sql, [socket.username], function(err, result) {
-	// 		var sql = "UPDATE notifs SET seen = 1 WHERE receiver_id = ?";
-	// 		con.query(sql, [sender_id, result[0].id]);
+	// 		var receiver_id = result[0].id;
+	// 		var sql = "SELECT * FROM users WHERE login = ?";
+	// 		con.query(sql, [sender], function(err, result) {
+	// 			var sender_id = result[0].id;
+	// 			var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
+	// 			con.query(sql, [sender_id, receiver_id]);
+	// 		})
 	// 	})
 	// })
+
+	socket.on("seen", function() {
+		var sql = "SELECT * FROM users WHERE login = ?";
+		con.query(sql, [socket.username], function(err, result) {
+			var sql = "UPDATE notifs SET seen = 1 WHERE receiver_id = ?";
+			con.query(sql, [result[0].id]);
+		})
+	})
 
 
 
