@@ -218,13 +218,6 @@ io.on('connection', function (socket) {
 	})
 
 
-
-
-
-
-
-
-
 	socket.on("remove notif message", function(sender_id) {
 		var sql = "SELECT * FROM users WHERE login = ?";
 		con.query(sql, [socket.username], function(err, result) {
@@ -233,18 +226,17 @@ io.on('connection', function (socket) {
 		})
 	})
 
-	// socket.on("remove notif_message unlike", function(sender) {
-	// 	var sql = "SELECT * FROM users WHERE login = ?";
-	// 	con.query(sql, [socket.username], function(err, result) {
-	// 		var receiver_id = result[0].id;
-	// 		var sql = "SELECT * FROM users WHERE login = ?";
-	// 		con.query(sql, [sender], function(err, result) {
-	// 			var sender_id = result[0].id;
-	// 			var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
-	// 			con.query(sql, [sender_id, receiver_id]);
-	// 		})
-	// 	})
-	// })
+	socket.on("remove notif_message unlike", function(data) {
+			var sql = "SELECT * FROM users WHERE login = ?";
+			con.query(sql, [data.sender], function(err, result) {
+				var sender_id = result[0].id;
+				console.log("sender: " + sender_id);
+				console.log("receiver: " + data.receiver_id);
+				var sql = "DELETE FROM notifs_messages WHERE sender_id = ? AND receiver_id = ?";
+				con.query(sql, [sender_id, data.receiver_id]);
+
+		})
+	})
 
 	socket.on("seen", function() {
 		var sql = "SELECT * FROM users WHERE login = ?";

@@ -405,7 +405,7 @@ for (var i = 0; i < like.length; i++) {
   else if (e.target.nextSibling.id == "unlike")
   {
     socket.emit('new notif', {type : user + ' n\'aime plus votre profil', receiver_id: e.target.id});
-    socket.emit('remove notif_message unlike', {sender_id : user});
+    socket.emit('remove notif_message unlike', {sender : user, receiver_id: e.target.id});
     e.target.src = "img/like_icon.png";
     e.target.className = "like";
     e.target.title = "like";
