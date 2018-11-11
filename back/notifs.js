@@ -47,7 +47,7 @@ router.get("/", function(req, res) {
 												var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
 												con.query(sql, [users[0].id], function(err, result) {
 													var notifs_messages = tools.getNotifsMessages(result);
-													var sql = "SELECT * from notifs WHERE receiver_id = ?";
+													var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 0;";
 													con.query(sql, [users[0].id], function(err, result) {
 														var notifs = tools.getNotifsMessages(result).reverse();
 														res.render("notifs", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages, connectedUsers: connectedUsers, notifs: notifs});

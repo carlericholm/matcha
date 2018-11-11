@@ -62,6 +62,57 @@
 		}
 	})
 
+	socket.on("prepend notif", function (data) {
+		if (user == data.login)
+		{
+			var redBubble = document.getElementById("notifsNav");
+			var notifBox = document.getElementById("notifBox");
+			if (redBubble.children[1].style.display == 'block')
+			{
+				redBubble.children[1].textContent = parseInt(redBubble.children[1].textContent) + 1;
+			}
+			if (redBubble.children[1].style.display == 'none')
+			{
+				redBubble.children[1].style.display = 'block';
+				redBubble.children[1].textContent = parseInt(redBubble.children[1].textContent) + 1;
+			}
+			if (notifBox.children[0].textContent !== "Aucune nouvelle notification")
+			{
+				var p = document.createElement("p");
+				p.style.fontStyle = "italic";
+				p.style.backgroundColor = 'rgb(' + 251 + ',' + 189 + ',' + 8 + ')';
+				p.style.color = "white";
+				p.style.margin = "auto";
+				p.style.marginTop = "3px";
+				p.style.height = "40px";
+				p.style.display = "flex";
+				p.style.justifyContent = "center";
+				p.style.alignItems = "center";
+				p.textContent = data.notif;
+				notifBox.prepend(p);
+			}
+			if (notifBox.children[0].textContent == "Aucune nouvelle notification")
+			{
+				notifBox.removeChild(notifBox.children[0]);
+				var p = document.createElement("p");
+				p.style.fontStyle = "italic";
+				p.style.backgroundColor = 'rgb(' + 251 + ',' + 189 + ',' + 8 + ')';
+				p.style.color = "white";
+				p.style.margin = "auto";
+				p.style.marginTop = "3px";
+				p.style.height = "40px";
+				p.style.display = "flex";
+				p.style.justifyContent = "center";
+				p.style.alignItems = "center";
+				p.textContent = data.notif;
+				notifBox.prepend(p);
+				
+			}
+			// console.log(document.getElementById('notifBox').children[0]);
+		// console.log("broadcast: " + data.login + " ce message est pour vous :" + data.notif);
+	}
+})
+
 
 
 

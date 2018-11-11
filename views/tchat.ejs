@@ -49,8 +49,21 @@
 <div>
  <a href="/match"><img src="img/flame_icon.png" style="width: 30px"></a>
 </div>
-<div>
-  <a href="/notifs" id="notifsHover"><img src="img/bell.png" style="width: 30px;"></a>
+<div style="position: relative;" id="notifsNav">
+ <a href="/notifs" id="notifsHover"><img src="img/bell.png" style="width: 30px;"></a>
+
+ <%var nb = 0; if (typeof notifs !== 'undefined') {%>
+ <% for (var n = 0; n < notifs.length ; n++) { %>
+ <%nb++%>
+ <%}%>
+ <% if (nb > 0) {%>
+ <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: block"><%=nb%></div>
+ <%} else {%>
+ <div style="position: absolute; right: 5px; top: 3px; width: 20px; height: 20px; background-color: red; border-radius: 100%; text-align: center; color: white; font-size: 0.9em; display: none;"><%=nb%></div>
+ <%}%>
+ <%}%>
+
+
 </div>
 </div>
 <div class="topnavBis">
@@ -59,12 +72,18 @@
 </div>
 </div>
 
+<div style="position: absolute; right: 0px;width: 300px; background-color: white; border: 1px solid black; z-index: 1; box-shadow: 2px 2px 2px; border-top: none; display: none;" id="notifBox">
 
-<div style="position: absolute; right: 0px;width: 300px; height: 300px; background-color: white; border: 1px solid black; z-index: 1; box-shadow: 2px 2px 2px; border-top: none; overflow-y: scroll; display: none;" id="notifBox">
-
-  <%if (typeof notifs !== 'undefined') {%>
+  <%var nb = 0;if (typeof notifs !== 'undefined') {%>
+  <% for (var n = 0; n < notifs.length ; n++) { %>
+  <%nb++;%>
+  <%}%>
+  <% if (nb > 0) { %>
   <% for (var n = 0; n < notifs.length ; n++) { %>
   <p style="font-style: italic; background-color: rgb(251, 189, 8); color: white; margin: auto; margin-top: 3px; height: 40px; display: flex; justify-content: center; align-items: center;"><%=notifs[n].notif%></p>
+  <%}%>
+  <%} else {%>
+  <p style="font-style: italic; background-color: rgb(251, 189, 8); color: white; margin: auto; margin-top: 3px; height: 40px; display: flex; justify-content: center; align-items: center;">Aucune nouvelle notification</p>
   <%}%>
   <%}%>
 
@@ -234,6 +253,10 @@
   var notifsHover = document.getElementById("notifsHover");
   notifsHover.addEventListener("mouseover", function (){
     document.getElementById('notifBox').style.display = 'block';
+    var redBubble = document.getElementById("notifsNav");
+    redBubble.children[1].style.display = 'none';
+    redBubble.children[1].textContent = '0';
+    socket.emit("seen");
   })
 
   notifsHover.addEventListener("mouseout", function (){
