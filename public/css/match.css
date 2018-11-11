@@ -89,6 +89,11 @@
 {
     display: flex;
     justify-content: space-around;
+		box-shadow: 1px 2px 5px 0px grey;
+}
+
+#filterButton {
+	margin-bottom: 20px;
 }
 
 #bodyContainer h1
