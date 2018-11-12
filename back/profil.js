@@ -44,7 +44,6 @@ router.post("/", function(req, res) {
 						if (result.length > 0)
 						{
 							req.flash("mailUsed", "Désolé, cette adresse email est déja prise par un autre utilisateur");
-							// res.redirect('/');
 						}
 						else
 						{
@@ -82,21 +81,17 @@ router.post("/", function(req, res) {
 			{
 				if (req.body.firstname)
 				{
-
 					if (req.body.name)
 					{
 
 						if (parseInt(req.body.age) == req.body.age && (req.body.age > 0 && req.body.age < 125))
 						{
-							console.log("updated age")
 							var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
 							con.query(sql, [name, firstname, req.body.age, req.body.sexe, req.body.orientation, bio, req.session.log]);
 							req.flash("success", "Vos informations ont été mises à jour");
 						}
 						else
 						{
-							console.log("probleme age")
-							console.log(Number.isInteger(req.body.age));
 							req.flash("ageProblem", "Veuillez indiquer un age correct");
 						}
 					}

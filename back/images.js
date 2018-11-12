@@ -27,13 +27,11 @@ router.post("/", function(req, res) {
 	{
 		var id = req.body.hidden;
 		var str = req.session.log + id;
-
 		if (!req.files.file_profil)
 		{
-			console.log(req.files);
 			res.redirect('/');
 		}
-		else if (req.files.file_profil.data.length > 3)
+		else if (req.files.file_profil.data.length > 5000000)
 		{
 			req.flash("imageTooBig", "Le fichier uploader est trop gros");
 			res.redirect('/');
