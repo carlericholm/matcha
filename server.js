@@ -212,9 +212,40 @@ io.on('connection', function (socket) {
 			var login = result;
 			var sql = "SELECT * FROM users WHERE id = ?";
 			con.query(sql, [data.receiver_id], function(err, result) {
-				socket.broadcast.emit("prepend notif", {login: result[0].login, notif: data.type,});
-				var sql = "INSERT INTO notifs SET notif = ?, sender_id = ?, receiver_id = ?";
-				con.query(sql, [data.type, login[0].id, data.receiver_id]);
+				var receiverLogin = result[0].login
+
+				var sql = "SELECT * FROM likes WHERE liker_id = ? AND liked_id = ?";
+				con.query(sql, [data.receiver_id, login[0].id], function(err, result) {
+					var type1 = socket.username + " a like votre profil";
+					var type2 = socket.username + " n'aime plus votre profil";
+					console.log(data.type);
+					console.log("type2");
+					console.log(type2);
+					if (result.length > 0 && (data.type == type1))
+					{
+						var message = socket.username + " a aussi liké votre profil";
+						socket.broadcast.emit("prepend notif", {login: receiverLogin, notif: message});
+						var sql = "INSERT INTO notifs SET notif = ?, sender_id = ?, receiver_id = ?";
+						con.query(sql, [message, login[0].id, data.receiver_id]);
+					}
+					else if (result.length > 0 && (data.type !== type1))
+					{
+						socket.broadcast.emit("prepend notif", {login: receiverLogin, notif: data.type,});
+						var sql = "INSERT INTO notifs SET notif = ?, sender_id = ?, receiver_id = ?";
+						con.query(sql, [data.type, login[0].id, data.receiver_id]);
+
+					}
+					else
+					{
+						if (data.type !== type2)
+						{
+							socket.broadcast.emit("prepend notif", {login: receiverLogin, notif: data.type,});
+							var sql = "INSERT INTO notifs SET notif = ?, sender_id = ?, receiver_id = ?";
+							con.query(sql, [data.type, login[0].id, data.receiver_id]);
+						}
+
+					}
+				})
 			})
 		})
 	})
@@ -276,7 +307,9 @@ app.use('/block', block);
 app.use('/report', report);
 app.use('/notifs', notifs);
 app.use('/tchat', tchat);
-
+app.use(function(req, res, next) {
+	res.redirect('/');
+});
 
 
 

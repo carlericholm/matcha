@@ -218,7 +218,7 @@
                   <%}%>
                 </div>
                 <div id="iconDiv" style="margin-top: 20px; display: flex; justify-content: space-around;">
-                  <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
+                  <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png"  data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
                   <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                     <% var src = 'like_icon.png'%>
                     <%if (typeof likes !== 'undefined') {%>
@@ -226,6 +226,7 @@
                     <% if (typeof likes !== 'undefined' && likes[l].liked_id == suggestions[i].id) {%>
                     <%var src = 'liked_icon.png';%>
                     <%break;}}}%>
+
                     <img src="img/<%=src%>" style="cursor: pointer; width: 48px;" data-toggle="tooltip" title="<%if (src == 'liked_icon.png') {%>Unlike<%}else{%>like<%}%>" id="<%=suggestions[i].id%>"
                     class="like"><span id="<%if (src == 'liked_icon.png') {%>unlike<%}else{%>like<%}%>"></span>
                   </div>
@@ -407,6 +408,8 @@ for (var i = 0; i < like.length; i++) {
       e.target.className = "unlike";
       e.target.title = "unlike";
       e.target.nextSibling.id = "unlike";
+      e.target.style.webkitTransform = "rotate(360deg)";
+      e.target.style.webkitTransitionDuration = "1s";
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {}
       };
@@ -417,10 +420,14 @@ for (var i = 0; i < like.length; i++) {
   }
   else if (e.target.nextSibling.id == "unlike")
   {
+    socket.emit('new notif', {type : user + ' n\'aime plus votre profil', receiver_id: e.target.id});
+    socket.emit('remove notif_message unlike', {sender : user, receiver_id: e.target.id});
     e.target.src = "img/like_icon.png";
     e.target.className = "like";
     e.target.title = "like";
     e.target.nextSibling.id = "like";
+    e.target.style.webkitTransform = "rotate(-360deg)";
+    e.target.style.webkitTransitionDuration = "1s";
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {}
     };
@@ -437,6 +444,7 @@ var block = document.getElementsByClassName("block");
 var xhttpBlock = new XMLHttpRequest();
 for (var i = 0; i < block.length; i++) {
   block[i].addEventListener('click', function(e) {
+    document.getElementById(e.target.getAttribute("aria-describedby")).style.display = 'none';
     e.target.parentNode.parentNode.style.color = "red";
     e.target.parentNode.parentNode.style.textAlign = "center";
     e.target.parentNode.parentNode.innerHTML = "Cet utilisateur à été bloqué et n'apparaitra désormais plus dans vos résultats de recherches";

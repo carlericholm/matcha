@@ -154,7 +154,7 @@
                         <p style="font-style: italic;"><%= suggestions[i].bio %></p>
                       </div>
                       <div id="iconDiv" style="margin-top: 20px; display: flex; justify-content: space-around;">
-                        <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
+                        <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" data-toggle="tooltip" title="Popularity score"><%=suggestions[i].popularite%></div>
                         <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                           <% var src = 'like_icon.png'%>
                           <%if (typeof likes !== 'undefined') {%>
@@ -253,7 +253,7 @@
                           <p style="font-style: italic;"><%= visiters[i].bio %></p>
                         </div>
                         <div id="iconDiv" style="margin-top: 20px; display: flex; justify-content: space-around;">
-                          <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" style="cursor: pointer;" data-toggle="tooltip" title="Popularity score"><%=visiters[i].popularite%></div>
+                          <div class="bubble" style="display: flex; justify-content: center; align-items: center;"><img src="img/pop_icon.png" data-toggle="tooltip" title="Popularity score"><%=visiters[i].popularite%></div>
                           <div class="bubble" style="display: flex; justify-content: center; align-items: center; <% if (noImage == 1) {%>display: none;<%}%>">
                             <% var src = 'like_icon.png'%>
                             <%if (typeof likes !== 'undefined') {%>
@@ -382,6 +382,7 @@ for (var i = 0; i < like.length; i++) {
   like[i].addEventListener('click', function(e) {
     if (e.target.nextSibling.id == "like")
     {
+      socket.emit('new notif', {type : user + ' a like votre profil', receiver_id: e.target.id});
       e.target.src = "img/liked_icon.png";
       e.target.className = "unlike";
       e.target.title = "unlike";
@@ -397,6 +398,8 @@ for (var i = 0; i < like.length; i++) {
   }
   else if (e.target.nextSibling.id == "unlike")
   {
+    socket.emit('new notif', {type : user + ' n\'aime plus votre profil', receiver_id: e.target.id});
+    socket.emit('remove notif_message unlike', {sender : user, receiver_id: e.target.id});
     e.target.src = "img/like_icon.png";
     e.target.className = "like";
     e.target.title = "like";
@@ -434,6 +437,7 @@ var text = document.getElementsByClassName("text");
 var xhttp = new XMLHttpRequest();
 for (var i = 0; i < text.length; i++) {
   text[i].addEventListener('click', function(e) {
+    socket.emit('new notif', {type : user + ' a visité votre profil', receiver_id: e.target.id});
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {}
     };

@@ -85,9 +85,20 @@ router.post("/", function(req, res) {
 
 					if (req.body.name)
 					{
-						var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
-						con.query(sql, [name, firstname, req.body.age, req.body.sexe, req.body.orientation, bio, req.session.log]);
-						req.flash("success", "Vos informations ont été mises à jour");
+
+						if (parseInt(req.body.age) == req.body.age && (req.body.age > 0 && req.body.age < 125))
+						{
+							console.log("updated age")
+							var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
+							con.query(sql, [name, firstname, req.body.age, req.body.sexe, req.body.orientation, bio, req.session.log]);
+							req.flash("success", "Vos informations ont été mises à jour");
+						}
+						else
+						{
+							console.log("probleme age")
+							console.log(Number.isInteger(req.body.age));
+							req.flash("ageProblem", "Veuillez indiquer un age correct");
+						}
 					}
 					else
 					{
@@ -102,24 +113,24 @@ router.post("/", function(req, res) {
 
 			res.redirect('/');
 		})
-	}
-	if (req.body.tableau)
-	{
-		var localisation = JSON.parse(req.body.tableau);
-		con.query("UPDATE users SET trueLocation = ?, latitude = ?, longitude = ? WHERE login = ?", [localisation.city, localisation.latitude, localisation.longitude, req.session.log]);
-		res.redirect('/');
-	}
-	if (req.body.fakeLocation)
-	{
-		con.query("UPDATE users SET fakeLocation = ?, showFakeLocation = ? WHERE login = ?", [req.body.localisation, 1, req.session.log]);
-		res.redirect('/');
-	}
-	if (req.body.trueLocation)
-	{
-		con.query("UPDATE users SET showFakeLocation = ? WHERE login = ?", [0, req.session.log]);
-		res.redirect('/');
-	}
-})
+					}
+				if (req.body.tableau)
+				{
+					var localisation = JSON.parse(req.body.tableau);
+					con.query("UPDATE users SET trueLocation = ?, latitude = ?, longitude = ? WHERE login = ?", [localisation.city, localisation.latitude, localisation.longitude, req.session.log]);
+					res.redirect('/');
+				}
+				if (req.body.fakeLocation)
+				{
+					con.query("UPDATE users SET fakeLocation = ?, showFakeLocation = ? WHERE login = ?", [req.body.localisation, 1, req.session.log]);
+					res.redirect('/');
+				}
+				if (req.body.trueLocation)
+				{
+					con.query("UPDATE users SET showFakeLocation = ? WHERE login = ?", [0, req.session.log]);
+					res.redirect('/');
+				}
+			})
 
 
-module.exports = router
+		module.exports = router

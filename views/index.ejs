@@ -95,6 +95,7 @@
 
 <div id="bodyContainer">
   <h1>Welcome <% if (locals.log) { %><%= locals.log %><%}%></h1>
+  <p class="error"><% if (locals.flash && locals.flash.imageTooBig) { %><%= flash.imageTooBig %><%}%></p>
 
   <div id="containerBioImg">
    <div id="containerImage">
@@ -103,7 +104,7 @@
     %><img src="img/users/<% if (typeof result !== 'undefined' && result[img] !== 'empty') {%><%= result[img] %> <%} else {%>profile_image.png<%}%>" id="profile_image_<%=i%>" class="img-thumbnail" onclick="document.getElementById('<%=i%>').style.display='block'" style="width: 12vw; height: 12vw; margin-top: 15px;">
     <div id="<%= i %>" class="modal">
       <form ref='uploadForm' class="modal-content animate" method="post" action="/images" encType="multipart/form-data">
-       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+       <span class="close" title="Close Modal">&times;</span>
        <img src="img/users/<% if (typeof result !== 'undefined' && result[img] !== 'empty') {%><%= result[img] %> <%} else {%>profile_image.png<%}%>" style="width: 55%; margin: auto;">
        <div  style="margin: auto; margin-bottom: 15px;"><label>Changer de photo: </label><input type="hidden" name="hidden" value="<%-i%>"></div>
        <div class="custom-file mb-3">
@@ -138,7 +139,8 @@
   </div>
   <div class="col">
     <label for="nom">Age</label>
-    <input type="number" class="form-control" name="age" value="<%= info.age %>" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+    <input type="number" class="form-control" name="age" value="<%= info.age %>" min="0" max="125" style="border: none; border-bottom: 1px solid grey; border-radius: 0px;">
+    <p class="error"><% if (locals.flash && locals.flash.ageProblem) { %><%= flash.ageProblem %><%}%></p>
   </div>
 </div>
 <div class="row">
@@ -245,14 +247,14 @@
   });
 
 // Get the modal
-var modal = document.getElementById('id01');
+// var modal = document.getElementById('id01');
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+// window.onclick = function(event) {
+//   if (event.target == modal) {
+//     modal.style.display = "none";
+//   }
+// }
 
 var tags = document.getElementsByClassName("link");
 
