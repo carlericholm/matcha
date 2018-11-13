@@ -114,7 +114,7 @@
 {
     margin-top: 30px;
     width: 50%;
-		border-right: 1px solid grey;
+    border-right: 1px solid grey;
 }
 
 .like {
@@ -126,7 +126,7 @@
 {
     margin-top: 30px;
     width: 50%;
-		border-left: 1px solid grey;
+    border-left: 1px solid grey;
 
 }
 
@@ -332,12 +332,12 @@ span.psw {
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
     span.psw {
-       display: block;
-       float: none;
-    }
-    .cancelbtn {
-       width: 100%;
-    }
+     display: block;
+     float: none;
+ }
+ .cancelbtn {
+     width: 100%;
+ }
 }
 
 .bubble
@@ -361,12 +361,26 @@ span.psw {
 	text-align: center;
 }
 
-@media screen and (max-width: 640px) {
-		.name_user{
-			font-size: 0.6em;
-		}
-		.modal-content {
-			font-size: 0.6em;
-			width: 100%;
-		}
+.dateVisits
+{
+
+    font-size: 0.7em;
+    position: absolute;
+    color: rgb(251, 189, 8);
 }
+
+@media screen and (max-width: 640px) {
+  .name_user{
+     font-size: 0.6em;
+ }
+ .modal-content {
+     font-size: 0.6em;
+     width: 100%;
+ }
+ .dateVisits
+{
+
+    display: none;
+}
+}
+

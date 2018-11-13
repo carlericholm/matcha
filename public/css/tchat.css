@@ -347,7 +347,8 @@ span.psw {
 .name_user {
 	font-size: 1.3em;
 	font-family: 'impact';
-	display: flex;
+	/*display: flex;*/
+    text-align: center;
 	width: 100%;
 }
 
