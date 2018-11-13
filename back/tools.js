@@ -187,7 +187,7 @@
  	}
  	if (sort == 'localisation')
  	{
- 		return callback(result.sort(function sortAge(first, second)
+ 		return callback(result.sort(function sortDist(first, second)
  		{
  			if (first.distance == second.distance)
  				return 0;
@@ -199,7 +199,7 @@
  	}
  	if (sort == 'popularite')
  	{
- 		return callback(result.sort(function sortAge(first, second)
+ 		return callback(result.sort(function sortPop(first, second)
  		{
  			if (first.popularite == second.popularite)
  				return 0;
@@ -211,7 +211,7 @@
  	}
  	if (sort == 'tags')
  	{
- 		return callback(result.sort(function sortAge(first, second)
+ 		return callback(result.sort(function sortTag(first, second)
  		{
  			if (first.tagScore == second.tagScore)
  				return 0;
@@ -224,6 +224,32 @@
  	else
  		return callback(result);
  }
+
+ function getGoodTags(users, result, callback)
+  {
+   con.query('SELECT * FROM tags', function(err, tag){
+     var i = 0;
+     var j = 0;
+
+     console.log(result);
+     while (result[i])
+     {
+       while (result[i].tags[j])
+       {
+         if (users[0].tags.indexOf(result[i].tags[j]) === -1)
+         {
+           result.splice(i, 1);
+           break;
+         }
+         j++;
+       }
+       j = 0; 
+       i++;
+     }
+   
+     return callback(result);
+   });
+  }
 
 
 
@@ -305,7 +331,10 @@
  								var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 0";
  								con.query(sql, [users[0].id], function(err, result) {
  									var notifs = getNotifsMessages(result).reverse();
- 									res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages, notifs: notifs});
+ 									var sql = "SELECT * from pics WHERE login = ?";
+ 									con.query(sql, [users[0].login], function(err, result) {
+ 										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages, notifs: notifs, pics: result[0]});
+ 									})
  								})
  							})
  						})
@@ -327,7 +356,8 @@
 
  		getPicsUsersJoin(sex, orientation, function(result) {
  			getSortedMatchingScoreList(users, users[0].latitude, users[0].longitude, result, function (matchList) {
- 				getFilteredResults(age[0], age[2], popularite[0], popularite[2], sort, matchList, function(suggestions) {
+ 				getGoodTags(users, matchList, function (goodTags) {
+ 				getFilteredResults(age[0], age[2], popularite[0], popularite[2], sort, goodTags, function(suggestions) {
  					getLikes(users[0].id, function(likes) {
  						getBlock(users[0].id, function (block) {
  							getReport(users[0].id, function (report) {
@@ -337,7 +367,11 @@
  									var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 60";
  									con.query(sql, [users[0].id], function(err, result) {
  										var notifs = getNotifsMessages(result).reverse();
- 										res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages, notifs: notifs});
+ 										var sql = "SELECT * from pics WHERE login = ?";
+ 										con.query(sql, [users[0].login], function(err, result) {
+ 											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages, notifs: notifs, pics: result[0]});
+ 										})
+ 										})
  									})
  								})
  							})

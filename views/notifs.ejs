@@ -104,7 +104,7 @@
             <% if (suggestions[i].login !== info.login) {%>
             <%if (typeof block !== 'undefined') {%><%var skip = 0;%><% for (var b = 0; b < block.length ; b++) { %><% if (block[b].blocked_id == suggestions[i].id) { var skip = 1;}}}%>
             <%if (typeof report !== 'undefined') {%><%var reportUser = 0;%><% for (var b = 0; b < report.length ; b++) { %><% if (report[b].reported_id == suggestions[i].id) { var reportUser = 1;}}}%>
-            <%var noImage = 0;if (pics[i].img0 == 'empty' && pics[i].img1 == 'empty' && pics[i].img2 == 'empty' && pics[i].img3 == 'empty' && pics[i].img4 == 'empty') {var noImage = 1;}%>
+            <%var noImage = 0;if (myPics.img0 == 'empty' && myPics.img1 == 'empty' && myPics.img2 == 'empty' && myPics.img3 == 'empty' && myPics.img4 == 'empty') {var noImage = 1;}%>
             <%if (skip == 0) {%>
             <div class="suggestionsUserDiv" style="margin: auto; margin-top: 15px; box-shadow: 0 10px 6px -6px #777; width: 12vw;"><% if (typeof suggestions && suggestions[i]) {%>
               <div class="overlay" style="display: flex; justify-content: center; align-items: center;"></div>
@@ -203,7 +203,7 @@
               <% if (visiters[i].login !== info.login) {%>
               <%if (typeof block !== 'undefined') {%><%var skip = 0;%><% for (var b = 0; b < block.length ; b++) { %><% if (block[b].blocked_id == visiters[i].id) { var skip = 1;}}}%>
               <%if (typeof report !== 'undefined') {%><%var reportUser = 0;%><% for (var b = 0; b < report.length ; b++) { %><% if (report[b].reported_id == visiters[i].id) { var reportUser = 1;}}}%>
-              <%var noImage = 0;if (visiters[i].img0 == 'empty' && visiters[i].img1 == 'empty' && visiters[i].img2 == 'empty' && visiters[i].img3 == 'empty' && visiters[i].img4 == 'empty') {var noImage = 1;}%>
+              <%var noImage = 0;if (myPics.img0 == 'empty' && myPics.img1 == 'empty' && myPics.img2 == 'empty' && myPics.img3 == 'empty' && myPics.img4 == 'empty') {var noImage = 1;}%>
               <%if (skip == 0) {%>
               <div class="suggestionsUserDiv" style="margin: auto; margin-top: 15px; box-shadow: 0 10px 6px -6px #777; width: 12vw;"><% if (typeof visiters && visiters[i]) {%>
                 <div class="overlay" style="display: flex; justify-content: center; align-items: center;"></div>

@@ -161,7 +161,7 @@
     <% if ((suggestions[i].popularite >= popularite[0] && suggestions[i].popularite <= popularite[2])) {%>
     <%if (typeof block !== 'undefined') {%><%var skip = 0;%><% for (var b = 0; b < block.length ; b++) { %><% if (block[b].blocked_id == suggestions[i].id) { var skip = 1;}}}%>
     <%if (typeof report !== 'undefined') {%><%var reportUser = 0;%><% for (var b = 0; b < report.length ; b++) { %><% if (report[b].reported_id == suggestions[i].id) { var reportUser = 1;}}}%>
-    <%var noImage = 0;if (suggestions[i].img0 == 'empty' && suggestions[i].img1 == 'empty' && suggestions[i].img2 == 'empty' && suggestions[i].img3 == 'empty' && suggestions[i].img4 == 'empty') {var noImage = 1;}%>
+    <%var noImage = 0;if (pics.img0 == 'empty' && pics.img1 == 'empty' && pics.img2 == 'empty' && pics.img3 == 'empty' && pics.img4 == 'empty') {var noImage = 1;}%>
     <%if (skip == 0) {%>
     <div class="suggestionsUserDiv" style="margin: auto; margin-top: 15px; box-shadow: 0 10px 6px -6px #777; width: 12vw;"><% if (typeof suggestions && suggestions[i]) {%>
       <div class="overlay" style="display: flex; justify-content: center; align-items: center;"></div>

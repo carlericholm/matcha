@@ -52,7 +52,10 @@ router.get("/", function(req, res) {
 														var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 0;";
 														con.query(sql, [users[0].id], function(err, result) {
 															var notifs = tools.getNotifsMessages(result).reverse();
-															res.render("notifs", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages, connectedUsers: connectedUsers, notifs: notifs});
+															var sql = "SELECT * from pics WHERE login = ?";
+															con.query(sql, [users[0].login], function(err, result) {
+																res.render("notifs", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages, connectedUsers: connectedUsers, notifs: notifs, myPics: result[0]});
+															})
 														})
 													})
 												})
@@ -98,7 +101,10 @@ router.get("/", function(req, res) {
 														var sql = "SELECT * from notifs WHERE receiver_id = ? AND SEEN = 0;";
 														con.query(sql, [users[0].id], function(err, result) {
 															var notifs = tools.getNotifsMessages(result).reverse();
-															res.render("notifs", {info: users[0], geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages, connectedUsers: connectedUsers, notifs: notifs});
+															var sql = "SELECT * from pics WHERE login = ?";
+															con.query(sql, [users[0].login], function(err, result) {
+																res.render("notifs", {info: users[0], geopoint: geopoint, likes: likes, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages, connectedUsers: connectedUsers, notifs: notifs, myPics: result[0]});
+															})
 														})
 													})
 												})

@@ -64,7 +64,22 @@ app.use(require('./Middlewares/user'))
 //routes
 
 app.get('/', function(req, res) {
-	if (req.session.log !== undefined)
+	if (req.session.log == 'admin')
+	{
+		var sql = "SELECT * FROM report";
+		con.query(sql, [req.session.log], function(err, result) {
+			if (result.length > 0)
+			{
+				console.log(result);
+				res.render("admin", {result: result});
+			}
+			else
+			{
+				res.render("admin", {result: 0});	
+			}
+		})
+	}
+	else if (req.session.log !== undefined)
 	{
 		var sql = "SELECT * FROM pics WHERE login = ?";
 		con.query(sql, [req.session.log], function(err, result) {
