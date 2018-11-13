@@ -22,6 +22,11 @@ router.get("/", function(req, res) {
 					var sql = "SELECT * FROM users WHERE id IN (?)";
 					con.query(sql, [tabList], function(err, result) {
 						var suggestions = result.reverse();
+						Object.keys(suggestions[0]).map(function(key) {
+							if (typeof suggestions[0][key] === "string") {
+								suggestions[0][key] = tools.casseCouilles(suggestions[0][key]);
+							}
+						});
 						var sql = "SELECT * FROM likes WHERE liker_id = ?";
 						con.query(sql, [users[0].id], function(err, result) {
 							var likes = result;
@@ -46,6 +51,13 @@ router.get("/", function(req, res) {
 												var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
 												con.query(sql, [picsLoginVisits], function (err, result) {
 													var visitersInfoDates = result;
+													for (var i = 0; i < visitersInfoDates.length; i++) {
+														Object.keys(visitersInfoDates[i]).map(function(key) {
+															if (typeof visitersInfoDates[i][key] === "string") {
+																visitersInfoDates[i][key] = tools.casseCouilles(visitersInfoDates[i][key]);
+															}
+														})
+													}
 													var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
 													con.query(sql, [users[0].id], function(err, result) {
 														var notifs_messages = tools.getNotifsMessages(result);
@@ -95,6 +107,13 @@ router.get("/", function(req, res) {
 												var sql = "SELECT users.*, visited_id, visiter_id, date, pics.* FROM users INNER JOIN visits on users.id = visits.visiter_id INNER JOIN pics on pics.login = users.login WHERE users.login IN (?) ORDER BY date DESC";
 												con.query(sql, [picsLoginVisits], function (err, result) {
 													var visitersInfoDates = result;
+													for (var i = 0; i < visitersInfoDates.length; i++) {
+														Object.keys(visitersInfoDates[i]).map(function(key) {
+															if (typeof visitersInfoDates[i][key] === "string") {
+																visitersInfoDates[i][key] = tools.casseCouilles(visitersInfoDates[i][key]);
+															}
+														})
+													}
 													var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
 													con.query(sql, [users[0].id], function(err, result) {
 														var notifs_messages = tools.getNotifsMessages(result);

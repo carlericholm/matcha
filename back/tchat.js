@@ -52,6 +52,11 @@ router.get("/", function(req, res) {
 							var sql = "SELECT * FROM users WHERE id IN (?)";
 							con.query(sql, [matchs], function(err, result) {
 								var suggestions = result;
+								Object.keys(suggestions[0]).map(function(key) {
+									if (typeof suggestions[0][key] === "string") {
+										suggestions[0][key] = tools.casseCouilles(suggestions[0][key]);
+									}
+								});
 								var sql = "SELECT * FROM chat WHERE receiver_id IN (?) OR receiver_id = ?";
 								con.query(sql, [matchs, users[0].id], function(err, result) {
 									var messages = new Array();
@@ -83,6 +88,14 @@ router.get("/", function(req, res) {
 																var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 0";
 																con.query(sql, [users[0].id], function(err, result) {
 																	var notifs = tools.getNotifsMessages(result).reverse();
+																	console.log(messages);
+																	for (var i = 0; i < messages.length; i++) {
+																		Object.keys(messages[i]).map(function(key) {
+																			if (typeof messages[i][key] === "string") {
+																				messages[i][key] = tools.casseCouilles(messages[i][key]);
+																			}
+																		})
+																	}
 																	res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, messages: messages, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages, connectedUsers: connectedUsers, notifs: notifs});
 																})
 															})	

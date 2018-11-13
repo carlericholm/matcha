@@ -42,7 +42,7 @@
 			if (connectedUsers.indexOf(checkOnline[i].id) !== -1)
 			{
 				checkOnline[i].children[0].textContent = "En ligne";
-				checkOnline[i].children[0].style.color = "green";
+				checkOnline[i].children[0].style.cyolor = "green";
 				checkOnline[i].children[0].style.textAlign = "center";
 				checkOnline[i].children[0].style.marginTop = "15px";
 			}
@@ -108,10 +108,9 @@
 				notifBox.prepend(p);
 				
 			}
-			// console.log(document.getElementById('notifBox').children[0]);
-		// console.log("broadcast: " + data.login + " ce message est pour vous :" + data.notif);
 	}
-})
+		
+	})
 
 
 

@@ -35,6 +35,6 @@
     "parser": "^0.1.4",
     "password-hash": "^1.2.2",
     "save": "^2.3.2",
-    "socket.io": "^2.1.1"
+    "socket.io": "2.0.3"
   }
 }

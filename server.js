@@ -95,6 +95,13 @@ app.get('/', function(req, res) {
 							users[0][key] = tools.casseCouilles(users[0][key]);
 						}
 					});
+					for (var i = 0; i < tags.length; i++) {
+						Object.keys(tags[i]).map(function(key) {
+							if (typeof tags[i][key] === "string") {
+								tags[i][key] = tools.casseCouilles(tags[i][key]);
+							}
+						})
+					}
 					var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
 					con.query(sql, [users[0].id], function(err, result) {
 						var notifs_messages = tools.getNotifsMessages(result);
