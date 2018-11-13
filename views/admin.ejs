@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Matcha</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+
+</head>
+<body>
+  <div id="blackBanner">
+   <h1>MATCHA</h1>
+ </div>
+ <div id="blueBanner">
+  <div style="display: flex;">
+   <p id="loginWelcome">Bonjour <% if (locals.log) { %><%= locals.log %><%}%></p>
+ </div>
+ <div class="topnavBis">
+ <a href="/signout"><img src="img/logout_icon.png" style="width: 30px"></a>
+</div>
+</div>
+<div style="width: 80%; margin: auto;">
+ <h1 style="text-align: center; margin-top: 25px;  color: rgb(22, 79, 159);">Reports</h1>
+ <div>
+  <%if (typeof result !== 'undefined') {%>
+  <% if (result == 0) {%>
+  <p style="text-align: center; color: red; margin-top: 15px;">Aucun utilisateur reporte</p>
+  <%} else {%>
+   <% for (var i = 0; i < result.length ; i++) { %>
+   <p style="text-align: center; color: red;">L'utilisateur comportant l'id [<%=result[i].reporter_id%>] à reporté l'utilisateur comportant l'id [<%=result[i].reported_id%>]</p>
+   <%}%>
+   <%}%>
+   <%}%>
+ </div>
+</div>
+
+
+
+
+
+
+<div id="footer" style="position: fixed; bottom: 0px;">© Cholm & Mimhoff</div>
+
+</body>
+</html>
