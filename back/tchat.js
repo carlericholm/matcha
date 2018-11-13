@@ -88,7 +88,6 @@ router.get("/", function(req, res) {
 																var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 0";
 																con.query(sql, [users[0].id], function(err, result) {
 																	var notifs = tools.getNotifsMessages(result).reverse();
-																	console.log(messages);
 																	for (var i = 0; i < messages.length; i++) {
 																		Object.keys(messages[i]).map(function(key) {
 																			if (typeof messages[i][key] === "string") {
@@ -98,7 +97,7 @@ router.get("/", function(req, res) {
 																	}
 																	res.render("tchat", {info: users[0], suggestions: suggestions, geopoint: geopoint, likes: likes, messages: messages, block: block, report: report, pics: pics, visiters: visitersInfoDates, moment: moment, notif: notifs_messages, connectedUsers: connectedUsers, notifs: notifs});
 																})
-															})	
+															})
 														})
 													})
 												})
@@ -130,21 +129,3 @@ router.get("/", function(req, res) {
 
 
 module.exports = router
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

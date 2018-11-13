@@ -347,6 +347,8 @@ span.psw {
 .name_user {
 	font-size: 1.3em;
 	font-family: 'impact';
+	display: flex;
+	width: 100%;
 }
 
 @media screen and (max-width: 640px) {

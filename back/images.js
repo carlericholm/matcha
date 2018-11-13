@@ -41,13 +41,12 @@ router.post("/", function(req, res) {
 			var png = ".png";
 			var result = str + png;
 			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv(__dirname+'/../public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
+			req.files.file_profil.mv(__dirname+'/../public/img/users/'+result, function(err) {if (err) return res.status(500).send(err);
 				var sql = "SELECT * FROM pics WHERE login = ?";
 				con.query(sql, [req.session.log], function(err, result) {
 					var pics = result;
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
-						console.log(result);
 						res.redirect('/');
 					})
 				})
@@ -59,68 +58,36 @@ router.post("/", function(req, res) {
 			var jpg = ".jpg";
 			var result = str + jpg;
 			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv(__dirname+'/../public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
+			req.files.file_profil.mv(__dirname+'/../public/img/users/'+result, function(err) {if (err) return res.status(500).send(err);
 				var sql = "SELECT * FROM pics WHERE login = ?";
 				con.query(sql, [req.session.log], function(err, result) {
 					var pics = result;
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
-						console.log(result);
 						res.redirect('/');
 					})
 				})
-			});	
+			});
 		}
 		else if (req.files && req.files.file_profil.mimetype === 'image/jpeg')
 		{
 			var jpg = ".jpeg";
 			var result = str + jpg;
 			con.query('UPDATE pics SET img'+id+' = ? WHERE login = ? ', [result, req.session.log]);
-			req.files.file_profil.mv(__dirname+'/../public/img/users/'+result, function(err) {if (err) return res.status(500).send(err); console.log("file fileUploaded");
+			req.files.file_profil.mv(__dirname+'/../public/img/users/'+result, function(err) {if (err) return res.status(500).send(err);
 				var sql = "SELECT * FROM pics WHERE login = ?";
 				con.query(sql, [req.session.log], function(err, result) {
 					var pics = result;
 					var sql = "SELECT * FROM users WHERE login = ?";
 					con.query(sql, [req.session.log], function(err, result) {
-						console.log(result);
 						res.redirect('/');
 					})
 				})
-			});	
+			});
 		}
-		
+
 	}
 })
 
 
 module.exports = router
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -168,27 +168,29 @@
         </div>
         <img src="img/users/<% if (typeof pics !== 'undefined' && pics[i].img0 !== 'empty') {%><%= pics[i].img0 %> <%} else {%>profile_image.png<%}%>" class="img-thumbnail" style="width: 75vw; height: 15vh; margin-top: 15px;">
         <div style=" margin-top: 15px; display: flex; justify-content: center; ">
-          <div>
-            <img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'">
-          </div>
           <div class="name_user">
+						<div>
+						<img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'">
+					</div>
+
             <%= suggestions[i].login %>
+						<div style="position: relative;">
+	            <img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;" onclick="test(this);document.getElementById('chat<%= i %>').style.display='block'" id="<%= suggestions[i].id %>" class="chatRoom">
+	            <%var nb = 0;if (typeof notif !== 'undefined') {%>
+	            <% for (var n = 0; n < notif.length ; n++) { %>
+	            <% if (notif[n].sender_id == suggestions[i].id){%>
+	            <% nb++;%>
+	            <%}%>
+	            <%}%>
+	            <% if (nb > 0) {%>
+	            <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: block;" class="notifDiv"><%=nb%></div>
+	            <%} else {%>
+	            <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: none;" class="notifDiv">0</div>
+	            <%}%>
+	            <%}%>
+	          </div>
           </div>
-          <div style="position: relative;">
-            <img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;" onclick="test(this);document.getElementById('chat<%= i %>').style.display='block'" id="<%= suggestions[i].id %>" class="chatRoom">
-            <%var nb = 0;if (typeof notif !== 'undefined') {%>
-            <% for (var n = 0; n < notif.length ; n++) { %>
-            <% if (notif[n].sender_id == suggestions[i].id){%>
-            <% nb++;%>
-            <%}%>
-            <%}%>
-            <% if (nb > 0) {%>
-            <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: block;" class="notifDiv"><%=nb%></div>
-            <%} else {%>
-            <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: none;" class="notifDiv">0</div>
-            <%}%>
-            <%}%>
-          </div>
+
         </div>
       </div>
 

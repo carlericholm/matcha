@@ -230,7 +230,6 @@
  	var i = 0;
  	var j = 0;
  	var temp = new Array();
- 	console.log(users[0]);
  	while (result[i])
  	{
  		while (result[i].tags[j])

@@ -128,8 +128,3 @@ con.query('SELECT login FROM users where login = ?', ['FakeUser42'], function (e
   sql = 'INSERT INTO `users` (`login`, `name`, `firstname`, `email`, `password`, `cle`, `active`, `age`, `sexe`, `orientation`, `bio`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   con.query(sql, ["admin", "admin", "admin", "admin@admin.com", hash.generate("admin"), 1, 1, 25, "", "", "", 0, 0], function (err, result) { if (err) throw err });
 });
-
-
-console.log(makefirstname());
-console.log(makename());
-console.log(maketag());
