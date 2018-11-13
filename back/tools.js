@@ -226,30 +226,28 @@
  }
 
  function getGoodTags(users, result, callback)
-  {
-   con.query('SELECT * FROM tags', function(err, tag){
-     var i = 0;
-     var j = 0;
+ {
+ 	var i = 0;
+ 	var j = 0;
+ 	var temp = new Array();
+ 	console.log(users[0]);
+ 	while (result[i])
+ 	{
+ 		while (result[i].tags[j])
+ 		{
+ 			if (users[0].tags.indexOf(result[i].tags[j]) >= 0)
+ 			{
+ 				temp.push(result[i]);
+ 				break;
+ 			}
+ 			j++;
+ 		}
+ 		j = 0;
+ 		i++;
+ 	}
+ 	return callback(temp);
 
-     console.log(result);
-     while (result[i])
-     {
-       while (result[i].tags[j])
-       {
-         if (users[0].tags.indexOf(result[i].tags[j]) === -1)
-         {
-           result.splice(i, 1);
-           break;
-         }
-         j++;
-       }
-       j = 0; 
-       i++;
-     }
-   
-     return callback(result);
-   });
-  }
+ }
 
 
 
@@ -357,20 +355,20 @@
  		getPicsUsersJoin(sex, orientation, function(result) {
  			getSortedMatchingScoreList(users, users[0].latitude, users[0].longitude, result, function (matchList) {
  				getGoodTags(users, matchList, function (goodTags) {
- 				getFilteredResults(age[0], age[2], popularite[0], popularite[2], sort, goodTags, function(suggestions) {
- 					getLikes(users[0].id, function(likes) {
- 						getBlock(users[0].id, function (block) {
- 							getReport(users[0].id, function (report) {
- 								var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
- 								con.query(sql, [users[0].id], function(err, result) {
- 									var notifs_messages = getNotifsMessages(result);
- 									var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 60";
+ 					getFilteredResults(age[0], age[2], popularite[0], popularite[2], sort, goodTags, function(suggestions) {
+ 						getLikes(users[0].id, function(likes) {
+ 							getBlock(users[0].id, function (block) {
+ 								getReport(users[0].id, function (report) {
+ 									var sql = "SELECT * from notifs_messages WHERE receiver_id = ?";
  									con.query(sql, [users[0].id], function(err, result) {
- 										var notifs = getNotifsMessages(result).reverse();
- 										var sql = "SELECT * from pics WHERE login = ?";
- 										con.query(sql, [users[0].login], function(err, result) {
- 											res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages, notifs: notifs, pics: result[0]});
- 										})
+ 										var notifs_messages = getNotifsMessages(result);
+ 										var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 60";
+ 										con.query(sql, [users[0].id], function(err, result) {
+ 											var notifs = getNotifsMessages(result).reverse();
+ 											var sql = "SELECT * from pics WHERE login = ?";
+ 											con.query(sql, [users[0].login], function(err, result) {
+ 												res.render("match", {info: users[0], tags: tags, suggestions: suggestions, geopoint: geopoint, likes: likes, block: block, report: report, ageValues: age, distanceValue: distance, popularite: popularite, sort: sort, connectedUsers: connectedUsers, moment: moment, notif: notifs_messages, notifs: notifs, pics: result[0]});
+ 											})
  										})
  									})
  								})
