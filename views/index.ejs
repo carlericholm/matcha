@@ -165,6 +165,7 @@
 <div class="form-group" style="margin-top: 25px;">
   <label for="comment">Bio</label>
   <textarea class="form-control" rows="5" placeholder="Votre bio" id="comment" name="bio" style="border: none; border-bottom: 1px solid grey; border-radius: 0px; height: 50px;"><% if (info.bio !== 'NULL') {%><%= info.bio %><%}%></textarea>
+  <p class="error"><% if (locals.flash && locals.flash.bioProblem) { %><%= flash.bioProblem %><%}%></p>
 </div>
 <div class="row">
  <div class="col">
@@ -206,7 +207,7 @@
           <input type="text" class="form-control" name="localisation" value="<% if (info.showFakeLocation == 0) {%><%= info.trueLocation %><%} else {%><%= info.fakeLocation%><%} %>" style=" border: none; border-bottom: 1px solid grey; border-radius: 0px;">
           <input type="submit" name="fakeLocation" value="Changer ma localisation" class="btn btn-primary btn-block"  style="margin-top: 15px;">
           <input type="submit" name="trueLocation" value="Me géolocaliser" class="btn btn-primary btn-block" style="background-color: rgb(251, 189, 8); border: 1px solid rgb(251, 189, 8);">
-          <p class="error"><% if (locals.flash && locals.flash.emptyName) { %><%= flash.emptyName %><%}%></p>
+          <p class="error"><% if (locals.flash && locals.flash.locTooLong) { %><%= flash.locTooLong %><%}%></p>
         </div>
       </form>
     </div>

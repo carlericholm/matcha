@@ -30,6 +30,10 @@ router.post("/", function(req, res) {
 				{
 					req.flash("exists", "Tag existant");
 				}
+				else if (noSpace.length > 50)
+                {
+                    req.flash("exists", "Tag Trop long");
+                }
 				else
 				{				
 					con.query("INSERT into tags SET login = ?, tag = ?", [req.session.log, noSpace]);

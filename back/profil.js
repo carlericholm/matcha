@@ -45,6 +45,10 @@ router.post("/", function(req, res) {
 						{
 							req.flash("mailUsed", "Désolé, cette adresse email est déja prise par un autre utilisateur");
 						}
+						else if (email.length > 100)
+						{
+							req.flash("mailUsed", "Désolé, cette adresse email est trop longue");
+						}
 						else
 						{
 							con.query('UPDATE users SET email = ? WHERE login = ? ', [email, req.session.log]);
@@ -54,12 +58,11 @@ router.post("/", function(req, res) {
 				else
 				{
 					req.flash("mail", "Veuillez entrer une adresse mail valide");
-					// res.redirect('/');
 				}
 			}
 			if (req.body.password !== '' || (req.body.password == '' && req.body.passwordConfirm !== ''))
 			{
-				if (req.body.password == req.body.passwordConfirm)
+				if (req.body.password == req.body.passwordConfirm && req.body.password.length < 30 && req.body.passwordConfirm.length < 30)
 				{
 					if (password.search(regUp) !== -1 && password.search(regLow) !== -1 && password.search(regNumber) !== -1 && password.length > 5)
 					{
@@ -73,22 +76,29 @@ router.post("/", function(req, res) {
 				}
 				else
 				{
-					req.flash("passDiff", "Les mots de passes ne sont pas identiques");
+					req.flash("passDiff", "Les mots de passes ne sont pas identiques ou trop long");
 
 				}
 			}
 			if ((req.body.password == '' && req.body.passwordConfirm == '') || verif == 1)
 			{
-				if (req.body.firstname)
+				if (req.body.firstname && req.body.firstname.length < 30)
 				{
-					if (req.body.name)
+					if (req.body.name && req.body.name.length < 30)
 					{
 
 						if (parseInt(req.body.age) == req.body.age && (req.body.age > 0 && req.body.age < 125))
 						{
-							var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
-							con.query(sql, [name, firstname, req.body.age, req.body.sexe, req.body.orientation, bio, req.session.log]);
-							req.flash("success", "Vos informations ont été mises à jour");
+							if (bio.length < 500)
+							{
+								var sql = "UPDATE users SET name = ?, firstname = ?, age = ?, sexe = ?, orientation = ?, bio = ? WHERE login = ?";
+								con.query(sql, [name, firstname, req.body.age, req.body.sexe, req.body.orientation, bio, req.session.log]);
+								req.flash("success", "Vos informations ont été mises à jour");
+							}
+							else
+							{
+								req.flash("bioProblem", "Bio trop grande");
+							}
 						}
 						else
 						{
@@ -97,35 +107,43 @@ router.post("/", function(req, res) {
 					}
 					else
 					{
-						req.flash("emptyName", "Veuillez ne pas laisser ce champ vide");
+						req.flash("emptyName", "Veuillez entrez un nom correct");
 					}
 				}
 				else
 				{
-					req.flash("emptyFirstname", "Veuillez ne pas laisser ce champ vide");
+					req.flash("emptyFirstname", "Veuillez entrer un prenom correct");
 				}
 			}
 
 			res.redirect('/');
 		})
-					}
-				if (req.body.tableau)
-				{
-					var localisation = JSON.parse(req.body.tableau);
-					con.query("UPDATE users SET trueLocation = ?, latitude = ?, longitude = ? WHERE login = ?", [localisation.city, localisation.latitude, localisation.longitude, req.session.log]);
-					res.redirect('/');
-				}
-				if (req.body.fakeLocation)
-				{
-					con.query("UPDATE users SET fakeLocation = ?, showFakeLocation = ? WHERE login = ?", [req.body.localisation, 1, req.session.log]);
-					res.redirect('/');
-				}
-				if (req.body.trueLocation)
-				{
-					con.query("UPDATE users SET showFakeLocation = ? WHERE login = ?", [0, req.session.log]);
-					res.redirect('/');
-				}
-			})
+	}
+	if (req.body.tableau)
+	{
+		var localisation = JSON.parse(req.body.tableau);
+		con.query("UPDATE users SET trueLocation = ?, latitude = ?, longitude = ? WHERE login = ?", [localisation.city, localisation.latitude, localisation.longitude, req.session.log]);
+		res.redirect('/');
+	}
+	if (req.body.fakeLocation)
+	{
+		if (req.body.localisation.length < 30)
+		{
+			con.query("UPDATE users SET fakeLocation = ?, showFakeLocation = ? WHERE login = ?", [req.body.localisation, 1, req.session.log]);
+			res.redirect('/');
+		}
+		else
+		{
+			req.flash("locTooLong", "Lol, bien essayé");
+			res.redirect('/');
+		}
+	}
+	if (req.body.trueLocation)
+	{
+		con.query("UPDATE users SET showFakeLocation = ? WHERE login = ?", [0, req.session.log]);
+		res.redirect('/');
+	}
+})
 
 
-		module.exports = router
+module.exports = router
