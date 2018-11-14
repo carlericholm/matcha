@@ -27,7 +27,7 @@
      <a href="/"><img src="img/profile_icon.png" style="width: 30px"></a>
    </div>
    <div style="position: relative;" id="chatNav">
-     <a href="/tchat"><img src="img/tchat_icon.png" style="width: 30px" onclick="test();"></a>
+     <a href="/tchat"><img src="img/tchat_icon.png" style="width: 30px"></a>
      <%var nb = 0; var temp = new Array();if (typeof notif !== 'undefined') {%>
      <% for (var n = 0; n < notif.length ; n++) { %>
      <%temp.push(notif[n].sender_id)%>
@@ -170,12 +170,12 @@
         <div style=" margin-top: 15px; display: flex; justify-content: center; ">
           <div class="name_user">
 						<div>
-						<img src="img/infos.png" style="width: 30px; cursor: pointer; margin-right: 15px;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'">
+						<img src="img/infos.png" style="width: 30px; cursor: pointer;" class="text" id="<%= suggestions[i].id%>" onclick="document.getElementById('user<%= i %>').style.display='block'">
 					</div>
 
             <%= suggestions[i].login %>
 						<div style="position: relative;">
-	            <img src="img/chat.png" style="width: 30px; cursor: pointer; margin-left: 15px;" onclick="test(this);document.getElementById('chat<%= i %>').style.display='block'" id="<%= suggestions[i].id %>" class="chatRoom">
+	            <img src="img/chat.png" style="width: 30px; cursor: pointer;" onclick="test(this);document.getElementById('chat<%= i %>').style.display='block'" id="<%= suggestions[i].id %>" class="chatRoom">
 	            <%var nb = 0;if (typeof notif !== 'undefined') {%>
 	            <% for (var n = 0; n < notif.length ; n++) { %>
 	            <% if (notif[n].sender_id == suggestions[i].id){%>
@@ -183,9 +183,9 @@
 	            <%}%>
 	            <%}%>
 	            <% if (nb > 0) {%>
-	            <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: block;" class="notifDiv"><%=nb%></div>
+	            <div style=" position: absolute; right: 40px; bottom: 17px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.7em; display: block;" class="notifDiv"><%=nb%></div>
 	            <%} else {%>
-	            <div style=" position: absolute; right: -10px; bottom: 20px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.9em; display: none;" class="notifDiv">0</div>
+	            <div style=" position: absolute; right: 40px; bottom: 17px; width: 20px; height: 20px; background-color: red; border-radius: 100%; color: white; text-align: center; font-size: 0.7em; display: none;" class="notifDiv">0</div>
 	            <%}%>
 	            <%}%>
 	          </div>
@@ -256,8 +256,11 @@
   notifsHover.addEventListener("mouseover", function (){
     document.getElementById('notifBox').style.display = 'block';
     var redBubble = document.getElementById("notifsNav");
-    redBubble.children[1].style.display = 'none';
-    redBubble.children[1].textContent = '0';
+    if (redBubble.children[1])
+    {
+      redBubble.children[1].style.display = 'none';
+      redBubble.children[1].textContent = '0';
+    }
     socket.emit("seen");
   })
 

@@ -109,21 +109,29 @@ router.get("/", function(req, res) {
 						}
 						else
 						{
-							res.render("tchat");
+							var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 0";
+							con.query(sql, [users[0].id], function(err, result) {
+								var notifs = tools.getNotifsMessages(result).reverse();
+								res.render("tchat", {notifs: notifs});
+							})
 						}
 					})
 				}
 				else
 				{
-					res.render("tchat");
+					var sql = "SELECT * from notifs WHERE receiver_id = ? AND seen = 0";
+					con.query(sql, [users[0].id], function(err, result) {
+						var notifs = tools.getNotifsMessages(result).reverse();
+						res.render("tchat");
+					})
 				}
 			})
-		})
-	}
-	else
-	{
-		res.redirect('/');
-	}
+})
+}
+else
+{
+	res.redirect('/');
+}
 })
 
 
